@@ -1,6 +1,9 @@
 # runteq_graduation_productio-
 ランテック卒業制作
 
+画面遷移図
+Figma：https://www.figma.com/design/ClIZj47qdaE634Cv9l0m9S/%E5%8D%92%E6%A5%AD%E5%88%B6%E4%BD%9C?node-id=0-1&t=lrfHd7wBgmEMntfZ-1
+
 ■サービス概要
 ペットの情報を共有し管理するアプリ
 ペットのご飯や散歩の種類・量・時間を記録する、必要ならアラーム（通知）も付けられる。
