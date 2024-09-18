@@ -3,6 +3,8 @@
 
 画面遷移図
 Figma：https://www.figma.com/design/ClIZj47qdaE634Cv9l0m9S/%E5%8D%92%E6%A5%AD%E5%88%B6%E4%BD%9C?node-id=0-1&t=lrfHd7wBgmEMntfZ-1
+ER図
+drawio：https://drive.google.com/file/d/1NZudP_8ALw7vGoZ_nPsv8s40xURr988p/view?usp=sharing
 
 ■サービス概要
 ペットの情報を共有し管理するアプリ
