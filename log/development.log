@@ -1,0 +1,23 @@
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE DATABASE `runteq_graduation_development` DEFAULT CHARACTER SET `utf8`[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE DATABASE `runteq_graduation_test` DEFAULT CHARACTER SET `utf8`[0m
+Started GET "/tasks" for 172.20.0.1 at 2024-10-04 22:32:23 +0900
+Cannot render console from 172.20.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+  
+ActionController::RoutingError (No route matches [GET] "/tasks"):
+  
+Started GET "/" for 172.20.0.1 at 2024-10-04 22:32:27 +0900
+Cannot render console from 172.20.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/local/bundle/gems/railties-7.0.8.4/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/local/bundle/gems/railties-7.0.8.4/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.9ms | Allocations: 281)
+Completed 200 OK in 9ms (Views: 2.7ms | ActiveRecord: 0.0ms | Allocations: 2852)
+
+
+Started GET "/" for 172.20.0.1 at 2024-10-04 22:34:48 +0900
+Cannot render console from 172.20.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/local/bundle/gems/railties-7.0.8.4/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/local/bundle/gems/railties-7.0.8.4/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.8ms | Allocations: 272)
+Completed 200 OK in 3ms (Views: 1.9ms | ActiveRecord: 0.0ms | Allocations: 920)
+
+

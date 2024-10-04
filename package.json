@@ -1,0 +1,9 @@
+{
+    "name": "runteq_graduation_production",
+    "private": true,
+    "dependencies": {
+      "@hotwired/stimulus": "^3.0.0",
+      "@hotwired/turbo-rails": "^7.0.0",
+      "esbuild": "^0.12.0"
+    }
+  }
