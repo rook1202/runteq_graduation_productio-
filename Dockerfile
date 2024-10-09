@@ -34,6 +34,7 @@ WORKDIR /runteq_graduation_productio-
 RUN gem install bundler
 COPY Gemfile /runteq_graduation_productio-/Gemfile
 COPY Gemfile.lock /runteq_graduation_productio-/Gemfile.lock
+COPY Procfile /runteq_graduation_productio-/Procfile
 COPY yarn.lock /runteq_graduation_productio-/yarn.lock
 RUN bundle install
 RUN yarn install
