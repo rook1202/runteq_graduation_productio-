@@ -18,7 +18,7 @@ services:
     volumes:
       - .:/runteq_graduation_productio-
       - bundle_data:/usr/local/bundle:cached
-      - node_modules:/app/node_modules
+      - node_modules:/runteq_graduation_productio-/node_modules
     environment:
       TZ: Asia/Tokyo
     ports:
