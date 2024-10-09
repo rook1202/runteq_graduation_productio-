@@ -20,4 +20,4 @@ test:
 
 production:
   <<: *default
-  database: runteq_graduation_production
+  url: <%= ENV['DATABASE_URL'] %>
