@@ -5,9 +5,9 @@ FROM $RUBY_VERSION
 ARG RUBY_VERSION
 ARG NODE_VERSION
 
-ENV LANG C.UTF-8
-ENV TZ Asia/Tokyo
-ENV BUNDLE_APP_CONFIG /runteq_graduation_productio-/.bundle
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Tokyo
+ENV BUNDLE_APP_CONFIG=/runteq_graduation_productio-/.bundle
 #bundleの設定ファイルを特定の場所に保存
 
 # セキュリティ強化のため、ca-certificatesとgnupgをインストール
@@ -39,4 +39,4 @@ COPY yarn.lock /runteq_graduation_productio-/yarn.lock
 RUN bundle install
 RUN yarn install
 COPY . /runteq_graduation_productio-
-CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0", "-p", "${PORT}"]
+CMD ["bash", "-c", "bundle exec rails s -b '0.0.0.0' -p ${PORT:-3000}"]
