@@ -39,4 +39,4 @@ COPY yarn.lock /runteq_graduation_productio-/yarn.lock
 RUN bundle install
 RUN yarn install
 COPY . /runteq_graduation_productio-
-CMD ["bash", "-c", "bundle exec rails s -b '0.0.0.0' -p ${PORT:-3000}"]
+CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p ${PORT:-3000}"]
