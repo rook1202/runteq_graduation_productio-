@@ -5,9 +5,9 @@ FROM $RUBY_VERSION
 ARG RUBY_VERSION
 ARG NODE_VERSION
 
-ENV LANG C.UTF-8
-ENV TZ Asia/Tokyo
-ENV BUNDLE_APP_CONFIG /myapp/.bundle
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Tokyo
+ENV BUNDLE_APP_CONFIG=/runteq_graduation_productio-/.bundle
 #bundleの設定ファイルを特定の場所に保存
 
 # セキュリティ強化のため、ca-certificatesとgnupgをインストール
@@ -34,7 +34,9 @@ WORKDIR /runteq_graduation_productio-
 RUN gem install bundler
 COPY Gemfile /runteq_graduation_productio-/Gemfile
 COPY Gemfile.lock /runteq_graduation_productio-/Gemfile.lock
+COPY Procfile /runteq_graduation_productio-/Procfile
 COPY yarn.lock /runteq_graduation_productio-/yarn.lock
 RUN bundle install
 RUN yarn install
 COPY . /runteq_graduation_productio-
+CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p ${PORT:-3000}"]
