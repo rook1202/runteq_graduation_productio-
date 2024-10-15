@@ -94,4 +94,12 @@ Rails.application.configure do
   
   #Heroku上で public フォルダ内の静的ファイルを提供できるようにする
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || true
+
+  #認証
+  if Rails.env.production?
+    config.middleware.use Rack::Auth::Basic, "Restricted Area" do |username, password|
+      username == ENV['ADMIN_USER'] && password == ENV['ADMIN_PASSWORD']
+    end
+  end
+  
 end

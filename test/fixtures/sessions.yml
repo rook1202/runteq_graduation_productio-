@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  activity_type: MyString
+  login_time: 2024-10-14 16:19:44
+  ip_address: MyString
+
+two:
+  activity_type: MyString
+  login_time: 2024-10-14 16:19:44
+  ip_address: MyString
