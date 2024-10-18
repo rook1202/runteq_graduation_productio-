@@ -1,0 +1,13 @@
+/* ボタンの色変更 */
+.btn-custom {
+    background-color: #E5DFC6;
+    color: #444444;
+}
+
+/* リンク色変更 */
+.link-custom {
+  color: #1E1E1E;
+}
+.link-custom:hover {
+  color: #444444;
+}
