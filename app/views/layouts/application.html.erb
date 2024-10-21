@@ -11,12 +11,13 @@
   </head>
 
   <body>
-  <% flash.each do |message_type, message| %>
-    <div class="alert alert-<%= message_type %>">
-      <%= message %>
-    </div>
+    <% unless controller_name == 'user_sessions' && action_name == 'new' %>
+      <%= render 'shared/header' %>
     <% end %>
+
+    <%= render 'shared/flash_message' %>
     
     <%= yield %>
+
   </body>
 </html>
