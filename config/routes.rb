@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # パートナーの一覧ページ
-  resources :partners, only: [:index]
+  resources :partners
   
   # ユーザー登録関連
   resources :users, only: [:new, :create]
