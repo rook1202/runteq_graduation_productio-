@@ -1,0 +1,25 @@
+/* ボタンの色変更 */
+.btn-custom {
+    background-color: #E5DFC6;
+    color: #444444;
+}
+
+/* リンク色変更 */
+.link-custom {
+  color: #1E1E1E;
+}
+.link-custom:hover {
+  color: #444444;
+}
+
+/* headerの色変更 */
+.custom-navbar {
+  background-color: #E5DFC6 ;
+  color: #444444;
+}
+
+@media (max-width: 576px) {
+  .nav-link span {
+      display: none;  /* スマホサイズではテキストを非表示に */
+  }
+}
