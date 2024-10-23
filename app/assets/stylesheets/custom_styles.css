@@ -17,3 +17,9 @@
   background-color: #E5DFC6 ;
   color: #444444;
 }
+
+@media (max-width: 576px) {
+  .nav-link span {
+      display: none;  /* スマホサイズではテキストを非表示に */
+  }
+}

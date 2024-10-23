@@ -1,0 +1,21 @@
+<footer>
+    <nav class="navbar fixed-bottom navbar-expand-sm navbar-light custom-navbar d-flex justify-content-center">
+        <ul class="navbar-nav d-flex flex-row justify-content-center">
+            <li class="nav-item">
+                <%= link_to "#", class: 'nav-link mx-3' do %>
+                    <i class="fa-solid fa-gear"></i> <span>設定</span>
+            <% end %>
+        </li>
+            <li class="nav-item">
+                <%= link_to partners_path, class: 'nav-link mx-3' do %>
+                    <i class="fa-solid fa-paw"></i> <span>パートナーリスト</span>
+                <% end %>
+            </li>
+            <li class="nav-item">
+                <%= link_to logout_path, method: :delete, class: 'nav-link mx-3' do %>
+                    <i class="fa-solid fa-door-open"></i> <span>ログアウト</span>
+                <% end %>
+            </li>
+        </ul>
+    </nav>
+</footer>
