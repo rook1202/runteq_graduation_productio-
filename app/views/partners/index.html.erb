@@ -1,5 +1,21 @@
-<% @page_title = "パートナー一覧" %>
+<% @page_title = "パートナーリスト" %>
 
-<h1>ダッシュボード</h1>
-<p>ようこそ</p>
-<%= link_to 'ログアウト', logout_path, method: :delete, class: 'btn btn-primary' %>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-11 col-md-8 mx-auto">
+
+        <%= link_to "partners/new", class: 'link-custom' do %>
+        <i class="fa-solid fa-angles-right"></i> <span>パートナー追加</span>
+        <% end %>
+
+        <div class="row">
+            <div class="col-12 pt-3">
+
+                <%= render 'partner' %>
+
+            </div>
+        </div>
+
+    </div>
+  </div>
+</div>
