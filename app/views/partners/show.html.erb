@@ -1,1 +1,38 @@
-<% @page_title = "Name情報編集" %>
+<% @page_title = @partner.name %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-11 col-md-6 mx-auto">
+        <h4>Main</h4>
+        <div class="row">
+            <div class="col-6 mb-3">
+            <%= image_tag 'pet_omocha_inu.png', class: "custom-show-img", alt: "default_image" %>
+            </div>
+            <div class="col-6 mb-3 custom-show-text">
+            <div class="mb-3"><h4><%= @partner.name %></h4></div>
+            <p><%= @partner.animal_type %>・<%= @partner.breed %></p>
+            <p>性別：<%= @partner.gender_in_japanese %></p>
+            <p>年齢：<%= @partner.age %>歳</p>
+            <p>体重：<%= @partner.weight %></p>
+            <p style="font-size: 0.80em;">最終更新日（<%= @partner.updated_at.strftime('%Y/%m/%d') %>）</p>
+            </div> 
+        </div>
+
+        <h4>ごはん</h4>
+        <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">       
+            <%= render 'food' %>
+        </div>
+
+        <h4>さんぽ</h4>
+        <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
+            <%= render 'walk' %>
+        </div>
+
+        <h4>おくすり</h4>
+        <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
+            <%= render 'medicine' %>
+        <div>
+
+    </div>
+  </div>
+</div>
