@@ -1,6 +1,7 @@
 class PartnersController < ApplicationController
   
   def index
+    @partners = Partner.all
   end
 
   def new
@@ -9,16 +10,21 @@ class PartnersController < ApplicationController
 
   def create
     @partner = Partner.new(partner_params)
+    @partner.owner_id = current_user.id # ここでログインユーザーのIDを設定
     if @partner.save
-      flash[:success] = 'ユーザー登録が完了しました'
-      redirect_to root_path 
+      flash[:success] = '登録が完了しました'
+      redirect_to partners_path 
     else
-      flash.now[:danger] = 'ユーザー登録に失敗しました'
+      flash.now[:danger] = '登録に失敗しました'
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
+    @partner = Partner.find_by(id: params[:id])
+    if @partner.nil?
+      redirect_to partner_path and return
+    end
   end
 
   def edit
@@ -27,7 +33,7 @@ class PartnersController < ApplicationController
   private
 
   def partner_params
-    params.require(:partner).permit(:name, :email, :password, :password_confirmation)
+    params.require(:partner).permit(:name, :animal_type, :breed, :gender, :birthday, :weight, :note)
   end
 
 end
