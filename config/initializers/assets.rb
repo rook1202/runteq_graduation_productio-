@@ -12,4 +12,4 @@ Rails.application.config.assets.version = "1.0"
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
 #bootstrap.min.css をプリコンパイルしないため
-Rails.application.config.assets.precompile = ['application.js', 'application.css', 'custom_styles.css']
+Rails.application.config.assets.precompile = ['application.js', 'application.css', 'custom_styles.css', 'pet_omocha_inu.png']

@@ -23,3 +23,22 @@
       display: none;  /* スマホサイズではテキストを非表示に */
   }
 }
+
+.card-img-top {
+  width: 100%;                  /* カードの横幅いっぱい */
+  aspect-ratio: 3 / 2;          /* 横:縦 = 3:2 の比率を設定 */
+  object-fit: cover;            /* 画像の縦横比を維持しつつ、中央部分を表示 */
+  object-position: center;      /* 画像の中央を表示 */
+}
+
+.custom-show-img {
+  width: 100%;                  /* カードの横幅いっぱい */
+  aspect-ratio: 1 / 1;          /* 横:縦 = 1:1 の比率を設定 */
+  object-fit: cover;            /* 画像の縦横比を維持しつつ、中央部分を表示 */
+  object-position: center;      /* 画像の中央を表示 */  
+}
+
+.custom-show-text p {
+  margin-bottom: 5px;  /* 行間を狭める */
+  line-height: 1.2;    /* 行の高さを調整 */
+}
