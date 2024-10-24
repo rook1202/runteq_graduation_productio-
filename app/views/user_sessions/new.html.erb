@@ -2,7 +2,10 @@
   <div class="row">
     <div class="col-11 col-md-8 mx-auto">
       <h1 class="my-4 text-center">ペット手帳（仮）</h1>
+
+      <div class="row">
       <div class="border col-12 rounded">
+        <div class="row">
         <div class="col-10 mt-3 mb-3 mx-auto">
           <%= form_with url: login_path, local: true do |form| %>
             <div class="mb-3">
@@ -23,8 +26,10 @@
             <div class="mb-5">
               <%= link_to '新規登録', new_user_path, class: 'link-custom' %>
             </div>
-
+            
         </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
