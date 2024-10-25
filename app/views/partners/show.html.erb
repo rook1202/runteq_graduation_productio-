@@ -9,7 +9,13 @@
             <%= image_tag 'pet_omocha_inu.png', class: "custom-show-img", alt: "default_image" %>
             </div>
             <div class="col-6 mb-3 custom-show-text">
-            <div class="mb-3"><h4><%= @partner.name %></h4></div>
+            <div class="mb-3">
+                <h4 style="display: inline;"><%= @partner.name %></h4>
+                <%= link_to edit_partner_path(@partner), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                    <i class="fa-solid fa-pen"></i>
+                <% end %>
+            </div>
+
             <p><%= @partner.animal_type %>・<%= @partner.breed %></p>
             <p>性別：<%= @partner.gender_in_japanese %></p>
             <p>年齢：<%= @partner.age %>歳</p>
