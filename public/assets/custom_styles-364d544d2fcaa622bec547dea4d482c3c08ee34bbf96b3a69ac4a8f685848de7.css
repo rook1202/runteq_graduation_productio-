@@ -1,0 +1,48 @@
+/* ボタンの色変更 */
+.btn-custom {
+    background-color: #E5DFC6;
+    color: #444444;
+}
+
+/* リンク色変更 */
+.link-custom {
+  color: #1E1E1E;
+}
+.link-custom:hover {
+  color: #444444;
+}
+
+/* headerの色変更 */
+.custom-navbar {
+  background-color: #E5DFC6 ;
+  color: #444444;
+}
+
+@media (max-width: 576px) {
+  .nav-link span {
+      display: none;  /* スマホサイズではテキストを非表示に */
+  }
+}
+
+.card-img-top {
+  width: 100%;                  /* カードの横幅いっぱい */
+  aspect-ratio: 3 / 2;          /* 横:縦 = 3:2 の比率を設定 */
+  -o-object-fit: cover;
+     object-fit: cover;            /* 画像の縦横比を維持しつつ、中央部分を表示 */
+  -o-object-position: center;
+     object-position: center;      /* 画像の中央を表示 */
+}
+
+.custom-show-img {
+  width: 100%;                  /* カードの横幅いっぱい */
+  aspect-ratio: 1 / 1;          /* 横:縦 = 1:1 の比率を設定 */
+  -o-object-fit: cover;
+     object-fit: cover;            /* 画像の縦横比を維持しつつ、中央部分を表示 */
+  -o-object-position: center;
+     object-position: center;      /* 画像の中央を表示 */  
+}
+
+.custom-show-text p {
+  margin-bottom: 5px;  /* 行間を狭める */
+  line-height: 1.2;    /* 行の高さを調整 */
+}

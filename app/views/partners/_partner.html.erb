@@ -1,14 +1,13 @@
-<div class="col-6">
-
-    <div class="card">
-        <img class="card-img-top" src="/images/pathToYourImage.png" alt="Card image cap">
+<div class="card">
+        <%= image_tag 'pet_omocha_inu.png', class: "card-img-top", alt: "default_image" %>
             <div class="card-body">
-                <h4 class="card-title">Partner name</h4>
-                <h6 class="card-subtitle mb-2 text-muted">owner: </h6>
+                <h4 class="card-title">
+                <%= link_to partner.name, partner_path(partner), class: 'link-custom' %>
+                </h4>
+
+                <h6 class="card-subtitle mb-2 text-muted">owner: <%= partner.user.name %></h6>
                 <p class="card-text">
-                    dog
+                    <%= partner.animal_type %>
                 </p>
             </div>
-    </div>
-
 </div>
