@@ -1,7 +1,8 @@
 class PartnersController < ApplicationController
+  before_action :set_partner, only: %i[edit update destroy]
   
   def index
-    @partners = Partner.all
+    @partners = current_user.partners
   end
 
   def new
@@ -27,13 +28,29 @@ class PartnersController < ApplicationController
     end
   end
 
-  def edit
+  def edit; end
+
+  def update
+    if @partner.update(partner_params)
+      flash[:success] = '更新が完了しました'
+      redirect_to partner_path
+    else
+      flash.now[:danger] = '更新が失敗しました'
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
   end
 
   private
 
   def partner_params
-    params.require(:partner).permit(:name, :animal_type, :breed, :gender, :birthday, :weight, :note)
+    params.require(:partner).permit(:name, :animal_type, :breed, :gender, :birthday, :weight)
+  end
+
+  def set_partner
+    @partner = current_user.partners.find(params[:id])
   end
 
 end
