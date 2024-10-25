@@ -1,5 +1,5 @@
 class Partner < ApplicationRecord
-  belongs_to :owner, class_name: 'User'
+  belongs_to :user, foreign_key: :owner_id
   has_many :foods
   has_many :walks
   has_many :medications

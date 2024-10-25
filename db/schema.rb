@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_24_030024) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_25_061844) do
   create_table "foods", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "partner_id"
     t.string "manufacturer"
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_24_030024) do
     t.string "place"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "note"
     t.index ["partner_id"], name: "index_foods_on_partner_id"
   end
 
@@ -29,6 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_24_030024) do
     t.string "clinic"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "note"
     t.index ["partner_id"], name: "index_medications_on_partner_id"
   end
 
@@ -38,7 +40,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_24_030024) do
     t.integer "gender", default: 0, null: false
     t.date "birthday"
     t.string "weight"
-    t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "animal_type", null: false
@@ -81,6 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_24_030024) do
     t.integer "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "note"
     t.index ["partner_id"], name: "index_walks_on_partner_id"
   end
 
