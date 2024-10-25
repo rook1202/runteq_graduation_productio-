@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_25_061844) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_25_131150) do
   create_table "foods", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "partner_id"
     t.string "manufacturer"
