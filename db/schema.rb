@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_25_131150) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_29_040218) do
   create_table "foods", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "partner_id"
     t.string "manufacturer"
@@ -31,6 +31,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_25_131150) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "note"
+    t.string "amount"
     t.index ["partner_id"], name: "index_medications_on_partner_id"
   end
 
@@ -49,11 +50,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_25_131150) do
 
   create_table "remainders", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "partner_id"
-    t.string "activity_type"
-    t.datetime "time"
+    t.string "time"
     t.boolean "notification_status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "activity_type"
+    t.bigint "activity_id"
+    t.index ["activity_type", "activity_id"], name: "index_remainders_on_activity_type_and_activity_id"
     t.index ["partner_id"], name: "index_remainders_on_partner_id"
   end
 
@@ -79,7 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_25_131150) do
 
   create_table "walks", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "partner_id"
-    t.integer "time"
+    t.string "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "note"
