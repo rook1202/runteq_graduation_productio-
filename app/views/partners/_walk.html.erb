@@ -1,26 +1,38 @@
+<% pet_walks = [walk.time, walk.note] %>
+<% labels = ["1日のさんぽ時間", "メモ"] %>
 
-    <div class="row">
+<% if pet_walks.any?(&:present?) %>
+  <% pet_walks.each_with_index do |pet_walk, index| %>
+    <% if pet_walk.present? %>
+      <div class="row">
         <div class="col-4">
-            <p>1日のさんぽ時間</p>
+          <p><%= labels[index] %>：</p>
         </div>
-        
         <div class="col-8">
-            <p>2時間</p>
+          <p><%= pet_walk %></p>
         </div>
+      </div>
+      <hr>
 
-    </div>
-    
-    <hr>
+      <% if index == 0 %>
+        <% if remainders.any? %>
+          <div class="row">
+            <div class="col-4">
+              <p>さんぽの時間：</p>
+            </div>
+            <div class="col-8">
+              <% remainders.each do |remainder| %>
+                <p><%= remainder.time %></p>
+              <% end %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+      <% end %>
 
-    <div class="row">
-        <div class="col-4">
-            <p>さんぽの時間帯</p>
-        </div>
-        
-        <div class="col-8">
-            <p>時間帯</p>
-        </div>
-        
-    </div>
-
-    <hr>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>まださんぽに関する登録はありません。</p>
+  <hr>
+<% end %>

@@ -1,52 +1,41 @@
+<% pet_foods = [food.manufacturer, food.category, food.amount, food.place, food.note] %>
+<% labels = ["ごはんのメーカー", "さらに詳しい区分", "ごはんの量", "置き場所", "メモ"] %>
 
-    <div class="row">
+<% if pet_foods.any?(&:present?) %>
+  <% pet_foods.each_with_index do |pet_food, index| %>
+    <% if pet_food.present? %>
+      <div class="row">
         <div class="col-4">
-            <p>ごはんの種類</p>
+          <p><%= labels[index] %>：</p>
         </div>
-        
         <div class="col-8">
-            <p>ごはんの種類</p>
+          <p><%= pet_food %></p>
         </div>
+      </div>
+      <hr>
 
-    </div>
-    
-    <hr>
+      <% if index == 2 %> <!-- ごはんの量のインデックスは2 -->
+        <% if remainders.any? %>
+          <div class="row">
+            <div class="col-4">
+              <p>ごはんの時間：</p>
+            </div>
+            <div class="col-8">
+              <% remainders.each do |remainder| %>
+                <p><%= remainder.time %></p>
+              <% end %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+      <% end %>
 
-    <div class="row">
-        <div class="col-4">
-            <p>ごはんの量</p>
-        </div>
-        
-        <div class="col-8">
-            <p>量を書く</p>
-        </div>
 
-    </div>
-    
-    <hr>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>まだごはんに関する登録はありません。</p>
+  <hr>
+<% end %>
 
-    <div class="row">
-        <div class="col-4">
-            <p>ごはんの時間</p>
-        </div>
-        
-        <div class="col-8">
-            <p>時間</p>
-        </div>
-        
-    </div>
 
-    <hr>
-
-    <div class="row">
-        <div class="col-4">
-           <p>ごはんの場所</p>
-        </div>
-       
-        <div class="col-8">
-            <p>どこにあるか</p>
-        </div>
-   
-    </div>
-
-    <hr>
