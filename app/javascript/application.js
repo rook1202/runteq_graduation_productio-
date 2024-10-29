@@ -5,3 +5,24 @@ import "bootstrap"
 import Rails from "@rails/ujs";
 
 Rails.start();
+
+
+function addRemainderFields(activityType) {
+  const remainderFields = document.getElementById(`new_${activityType}_remainder_fields`);
+  const template = document.getElementById(`${activityType}_remainder_template`).innerHTML;
+  
+  const newField = document.createElement('div');
+  newField.innerHTML = template;
+
+  // フォーム内のネームスペースを一意に設定
+  remainderFields.appendChild(newField);
+}
+
+function removeRemainderField(button) {
+  const field = button.closest('div');  // ボタンの親要素を削除
+  field.remove();
+}
+
+// `addRemainderFields`をグローバルに設定
+window.addRemainderFields = addRemainderFields;
+window.removeRemainderField = removeRemainderField;
