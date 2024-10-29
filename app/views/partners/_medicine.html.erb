@@ -1,54 +1,39 @@
+<% pet_medications = [medication.name, medication.amount, medication.place, medication.note] %>
+<% labels = ["おくすりの名前", "おくすりの量", "置き場所", "メモ"] %>
 
-    <div class="row">
+<% if pet_medications.any?(&:present?) %>
+  <% pet_medications.each_with_index do |pet_medication, index| %>
+    <% if pet_medication.present? %>
+      <div class="row">
         <div class="col-4">
-            <p>おくすりの種類</p>
+          <p><%= labels[index] %>：</p>
         </div>
-        
         <div class="col-8">
-            <p>種類</p>
+          <p><%= pet_medication %></p>
         </div>
+      </div>
+      <hr>
 
-    </div>
-    
-    <hr>
+      <% if index == 1 %>
+        <% if remainders.any? %>
+          <div class="row">
+            <div class="col-4">
+              <p>おくすりの時間：</p>
+            </div>
+            <div class="col-8">
+              <% remainders.each do |remainder| %>
+                <p><%= remainder.time %></p>
+              <% end %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+      <% end %>
 
-    <div class="row">
-        <div class="col-4">
-            <p>おくすりの量</p>
-        </div>
-        
-        <div class="col-8">
-            <p>量を書く</p>
-        </div>
 
-    </div>
-    
-    <hr>
-
-    <div class="row">
-        <div class="col-4">
-            <p>おくすりの時間</p>
-        </div>
-        
-        <div class="col-8">
-            <p>時間</p>
-        </div>
-        
-    </div>
-
-    <hr>
-
-    <div class="row">
-        <div class="col-4">
-           <p>おくすりの場所</p>
-        </div>
-       
-        <div class="col-8">
-            <p>場所</p>
-        </div>
-   
-    </div>
-
-    <hr>
-
-</div>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>まだおくすりに関する登録はありません。</p>
+  <hr>
+<% end %>

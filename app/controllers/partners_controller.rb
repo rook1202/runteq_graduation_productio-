@@ -1,5 +1,5 @@
 class PartnersController < ApplicationController
-  before_action :set_partner, only: %i[edit update destroy]
+  before_action :set_partner, only: %i[edit update destroy show]
   
   def index
     @partners = current_user.partners
@@ -22,10 +22,10 @@ class PartnersController < ApplicationController
   end
 
   def show
-    @partner = Partner.find_by(id: params[:id])
-    if @partner.nil?
-      redirect_to partner_path and return
-    end
+    set_food
+    set_walk
+    set_medication
+    set_remainders
   end
 
   def edit; end
@@ -51,6 +51,33 @@ class PartnersController < ApplicationController
 
   def set_partner
     @partner = current_user.partners.find(params[:id])
+  end
+
+  def set_food
+    @food = @partner.foods.find_by(partner_id: params[:id])
+    if @food.nil?
+      redirect_to partner_path and return
+    end
+  end
+
+  def set_walk
+    @walk = @partner.walks.find_by(partner_id: params[:id])
+    if @walk.nil?
+      redirect_to partner_path and return
+    end
+  end
+
+  def set_medication
+    @medication = @partner.medications.find_by(partner_id: params[:id])
+    if @medication.nil?
+      redirect_to partner_path and return
+    end
+  end
+
+  def set_remainders
+    @food_remainders = @partner.remainders.where(activity_type: 'Food')
+    @walk_remainders = @partner.remainders.where(activity_type: 'Walk')
+    @medication_remainders = @partner.remainders.where(activity_type: 'Medication')
   end
 
 end

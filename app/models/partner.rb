@@ -1,11 +1,18 @@
 class Partner < ApplicationRecord
   belongs_to :user, foreign_key: :owner_id
-  has_many :foods
-  has_many :walks
-  has_many :medications
-  has_many :remainders
+  has_many :medications, dependent: :destroy
+  has_many :foods, dependent: :destroy
+  has_many :walks, dependent: :destroy
+  has_many :remainders, dependent: :destroy
+
+  validates :name, presence: true
+  validates :gender, presence: true
+  validates :animal_type, presence: true
 
   enum gender: { male: 0, female: 1, unknown: 2 }
+
+  # medications、foods、walksの空レコードを生成する
+  after_create :initialize_associated_records
 
   def self.gender_options
     {
@@ -27,9 +34,15 @@ class Partner < ApplicationRecord
     age -= 1 if today < birthday + age.years # 誕生日がまだ来ていない場合
     age
   end
-  
-  validates :name, presence: true
-  validates :gender, presence: true
-  validates :animal_type, presence: true
+
+  private
+
+  def initialize_associated_records
+    # 各モデルのインスタンス作成
+    food = self.foods.create!(manufacturer: "", category: "", amount: "", place: "", note: "")
+    walk = self.walks.create!(time: "", note: "")
+    medication = self.medications.create!(name: "", place: "", clinic: "",amount:"", note: "")
+  end
+
 
 end
