@@ -1,0 +1,9 @@
+<%= f.hidden_field :partner_id, value: partner_id %>
+<div>
+  <%= f.label :time, "おくすりの時間 #{index}" %>
+  <%= f.select :time, options_for_select(
+    (0..23).map { |h| ["#{format('%02d', h)}:00", "#{format('%02d', h)}:00"] } + 
+    (0..23).map { |h| ["#{format('%02d', h)}:30", "#{format('%02d', h)}:30"] },
+    f.object.time
+  ), { prompt: "時刻を選択" }, class: "form-control" %>
+</div>

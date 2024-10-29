@@ -1,0 +1,70 @@
+<!-- partnerIdをJavaScriptに渡すためのデータ属性を設定 -->
+<%= content_tag :div, "", id: "app-data", data: { partner_id: @partner.id } %>
+
+<% @page_title = "#{@partner.name} のおくすり" %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-11 col-md-6 mx-auto">
+        <h4>おくすり情報</h4>
+        <p>一番下の編集ボタンを押すと内容が確定します。
+
+          <%= form_with model: [@partner, @medication], url: partner_medication_path(@partner, @medication), local: true do |f| %>
+            <div class="mb-3">
+            <%= f.label :name, "おくすりの名前", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+            <%= f.label :amount, "おくすりの量", class: "form-label" %>
+            <%= f.text_field :amount, class: "form-control", placeholder: '例：1回2錠など' %>
+            </div>
+
+            <div id="existing_medication_remainder_fields">
+                <% @medication.remainders.each_with_index  do |remainder, index| %>
+                  <%= f.fields_for :remainders, remainder do |r| %>
+                    <%= render partial: "time_medication", locals: { f: r, partner_id: @partner.id, index: index + 1 } %>
+                  <% end %>
+                <% end %>
+              </div>
+
+              <!-- 空のフィールドテンプレート -->
+              <div id="medication_remainder_template" style="display: none;">
+                <%= f.fields_for :remainders, @medication.remainders.build do |r| %>
+                <%= render partial: "add_time_medication", locals: { f: r } %>
+                <% end %>
+              </div>
+
+              <!-- 追加用の空のフォームスペース -->
+              <div id="new_medication_remainder_fields"></div>
+
+            <div class="mb-3">
+            <%= link_to ">> おくすりの時間追加", "#", class: "link-custom", onclick: "addRemainderFields('medication'); return false;" %>
+            </div>
+  
+            <div class="mb-3">
+            <%= f.label :place, "置き場所", class: "form-label" %>
+            <%= f.text_field :place, class: "form-control" %>
+            </div>
+
+            <button type="button" class="btn btn-dark mb-4">画像</button>
+
+            <div class="mb-3">
+            <%= f.label :clinic, "病院名", class: "form-label" %>
+            <%= f.text_field :clinic, class: "form-control" %>
+            </div>
+  
+            <div class="mb-3">
+            <%= f.label :note, "メモ", class: "form-label" %>
+            <%= f.text_area :note, class: "form-control", placeholder: '自由記入' %>
+            </div>
+
+            <div class="mb-5 text-end">
+            <%= f.submit '編集', class: 'btn btn-dark' %>
+            </div>
+          <% end %>
+
+    </div>
+  </div>
+</div>
+

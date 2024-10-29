@@ -1,0 +1,71 @@
+<!-- partnerIdをJavaScriptに渡すためのデータ属性を設定 -->
+<%= content_tag :div, "", id: "app-data", data: { partner_id: @partner.id } %>
+
+
+<% @page_title = "#{@partner.name} のごはん" %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-11 col-md-6 mx-auto">
+        <h4>ごはん情報</h4>
+        <p>一番下の編集ボタンを押すと内容が確定します。
+
+          <%= form_with model: [@partner, @food], url: partner_food_path(@partner, @food), local: true do |f| %>
+            <div class="mb-3">
+            <%= f.label :manufacturer, "メーカー", class: "form-label" %>
+            <%= f.text_field :manufacturer, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+            <%= f.label :category, "さらに詳しい区分", class: "form-label" %>
+            <%= f.text_field :category, class: "form-control", placeholder: '例：子猫用、成犬用など' %>
+            </div>
+  
+            <div class="mb-3">
+            <%= f.label :amount, "ごはんの量", class: "form-label" %>
+            <%= f.text_field :amount, class: "form-control", placeholder: '例：10g、スプーン2杯など' %>
+            </div>
+
+              <div id="existing_food_remainder_fields">
+                <% @food.remainders.each_with_index  do |remainder, index| %>
+                  <%= f.fields_for :remainders, remainder do |r| %>
+                    <%= render partial: "time_food", locals: { f: r, partner_id: @partner.id, index: index + 1 } %>
+                  <% end %>
+                <% end %>
+              </div>
+
+              <!-- 空のフィールドテンプレート -->
+              <div id="food_remainder_template" style="display: none;">
+                <%= f.fields_for :remainders, @food.remainders.build do |r| %>
+                <%= render partial: "add_time_food", locals: { f: r } %>
+                <% end %>
+              </div>
+
+              <!-- 追加用の空のフォームスペース -->
+              <div id="new_food_remainder_fields"></div>
+
+
+            <div class="mb-3">
+            <%= link_to ">> ごはんの時間追加", "#", class: "link-custom", onclick: "addRemainderFields('food'); return false;" %>
+            </div>
+  
+            <div class="mb-3">
+            <%= f.label :place, "置き場所", class: "form-label" %>
+            <%= f.text_field :place, class: "form-control" %>
+            </div>
+
+            <button type="button" class="btn btn-dark mb-4">画像</button>
+  
+            <div class="mb-3">
+            <%= f.label :note, "メモ", class: "form-label" %>
+            <%= f.text_area :note, class: "form-control", placeholder: '自由記入' %>
+            </div>
+
+            <div class="mb-5 text-end">
+            <%= f.submit '編集', class: 'btn btn-dark' %>
+            </div>
+          <% end %>
+
+    </div>
+  </div>
+</div>
