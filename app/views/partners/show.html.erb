@@ -24,19 +24,28 @@
             </div> 
         </div>
 
-        <h4>ごはん</h4>
+        <h4 style="display: inline;">ごはん</h4>
+                <%= link_to edit_partner_food_path(@partner, @food), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                    <i class="fa-solid fa-pen"></i>
+                <% end %>
         <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">       
-            <%= render 'food' %>
+            <%= render 'food', food: @food, remainders: @food_remainders  %>
         </div>
 
-        <h4>さんぽ</h4>
+        <h4 style="display: inline;">さんぽ</h4>
+                <%= link_to edit_partner_walk_path(@partner, @walk), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                    <i class="fa-solid fa-pen"></i>
+                <% end %>
         <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
-            <%= render 'walk' %>
+            <%= render 'walk', walk: @walk, remainders: @walk_remainders %>
         </div>
 
-        <h4>おくすり</h4>
+        <h4 style="display: inline;">おくすり</h4>
+                <%= link_to edit_partner_medication_path(@partner, @medication), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                    <i class="fa-solid fa-pen"></i>
+                <% end %>
         <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
-            <%= render 'medicine' %>
+            <%= render 'medicine', medication: @medication, remainders: @medication_remainders  %>            
         <div>
 
     </div>
