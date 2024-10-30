@@ -1,41 +1,16 @@
-<% pet_foods = [food.manufacturer, food.category, food.amount, food.place, food.note] %>
-<% labels = ["ごはんのメーカー", "さらに詳しい区分", "ごはんの量", "置き場所", "メモ"] %>
-
-<% if pet_foods.any?(&:present?) %>
-  <% pet_foods.each_with_index do |pet_food, index| %>
-    <% if pet_food.present? %>
-      <div class="row">
-        <div class="col-4">
-          <p><%= labels[index] %>：</p>
-        </div>
-        <div class="col-8">
-          <p><%= pet_food %></p>
-        </div>
+<% if @pet_foods.any? %>
+  <% @pet_foods.each do |item| %>
+    <div class="row">
+      <div class="col-5">
+        <p><%= item[:label] %>：</p>
       </div>
-      <hr>
-
-      <% if index == 2 %> <!-- ごはんの量のインデックスは2 -->
-        <% if remainders.any? %>
-          <div class="row">
-            <div class="col-4">
-              <p>ごはんの時間：</p>
-            </div>
-            <div class="col-8">
-              <% remainders.each do |remainder| %>
-                <p><%= remainder.time %></p>
-              <% end %>
-            </div>
-          </div>
-          <hr>
-        <% end %>
-      <% end %>
-
-
-    <% end %>
+      <div class="col-7">
+        <p><%= item[:content] %></p>
+      </div>
+    </div>
+    <hr>
   <% end %>
 <% else %>
   <p>まだごはんに関する登録はありません。</p>
   <hr>
 <% end %>
-
-

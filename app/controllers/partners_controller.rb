@@ -2,7 +2,7 @@ class PartnersController < ApplicationController
   before_action :set_partner, only: %i[edit update destroy show]
   
   def index
-    @partners = current_user.partners
+    @partners = current_user.partners.includes(:user)
   end
 
   def new
@@ -22,10 +22,10 @@ class PartnersController < ApplicationController
   end
 
   def show
-    set_food
-    set_walk
-    set_medication
-    set_remainders
+    food_walk_medication_set
+    food_array
+    walk_array
+    medication_array
   end
 
   def edit; end
@@ -41,6 +41,9 @@ class PartnersController < ApplicationController
   end
 
   def destroy
+    @partner.destroy!
+    flash[:success] = 'パートナー情報を削除しました'
+    redirect_to partners_path, status: :see_other
   end
 
   private
@@ -54,30 +57,65 @@ class PartnersController < ApplicationController
   end
 
   def set_food
-    @food = @partner.foods.find_by(partner_id: params[:id])
-    if @food.nil?
-      redirect_to partner_path and return
-    end
+    @food = @partner.foods.find_by(id: params[:id])
+    @food_remainders = @partner.remainders.where(activity_type: 'Food')
+    redirect_to partner_path unless @food
   end
 
   def set_walk
     @walk = @partner.walks.find_by(partner_id: params[:id])
-    if @walk.nil?
-      redirect_to partner_path and return
-    end
+    @walk_remainders = @partner.remainders.where(activity_type: 'Walk')
+    redirect_to partner_path unless @walk
   end
 
   def set_medication
     @medication = @partner.medications.find_by(partner_id: params[:id])
-    if @medication.nil?
-      redirect_to partner_path and return
-    end
+    @medication_remainders = @partner.remainders.where(activity_type: 'Medication')
+    redirect_to partner_path unless @medication
   end
 
-  def set_remainders
-    @food_remainders = @partner.remainders.where(activity_type: 'Food')
-    @walk_remainders = @partner.remainders.where(activity_type: 'Walk')
-    @medication_remainders = @partner.remainders.where(activity_type: 'Medication')
+  def food_walk_medication_set
+    set_food
+    set_walk
+    set_medication
   end
+
+  def food_array
+    @pet_foods = [
+    { label: "ごはんのメーカー", content: @food.manufacturer },
+    { label: "さらに詳しい区分", content: @food.category },
+    { label: "ごはんの量", content: @food.amount },
+    { label: "ごはんの時間", content: @food_remainders.map(&:time).join(", ") }, # @food_remaindersから時間を取得
+    { label: "置き場所", content: @food.place },
+    { label: "メモ", content: @food.note }
+    ]
+
+    @pet_foods.reject! { |item| item[:content].blank? }
+  end
+
+  def walk_array
+    @pet_walks = [
+    { label: "1日のさんぽ時間", content: @walk.time },
+    { label: "さんぽの時間", content: @walk_remainders.map(&:time).join(", ") },
+    { label: "メモ", content: @walk.note }
+    ]
+
+    @pet_walks.reject! { |item| item[:content].blank? }
+  end
+
+  def medication_array
+    @pet_medications = [
+    { label: "おくすりの名前", content: @medication.name },
+    { label: "おくすりの量", content: @medication.amount },
+    { label: "おくすりの時間", content: @medication_remainders.map(&:time).join(", ") }, # @food_remaindersから時間を取得
+    { label: "置き場所", content: @medication.place },
+    { label: "メモ", content: @medication.note }
+    ]
+
+    @pet_medications.reject! { |item| item[:content].blank? }
+  end
+
+  
+
 
 end
