@@ -6,11 +6,6 @@ class MedicationsController < ApplicationController
     @medication.remainders.build if @medication.remainders.blank?
   end
 
-  def add_remainder_field
-    @remainder = @partner.medications.build.remainders.build  # 新しいRemainderインスタンスを作成
-    render partial: "time_medication", locals: { remainder: @remainder, partner_id: @partner.id }  # remainderオブジェクトを渡す
-  end
-
   def update
     # 空のtimeを持つremainderを除外する
     filtered_remainders = params[:medication][:remainders_attributes].reject do |_, r|

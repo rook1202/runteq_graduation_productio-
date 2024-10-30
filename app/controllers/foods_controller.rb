@@ -7,11 +7,6 @@ class FoodsController < ApplicationController
     @food.remainders.build if @food.remainders.blank?
   end
 
-  def add_remainder_field
-    @remainder = @partner.foods.build.remainders.build
-    render partial: "add_time_food", locals: { remainder: @remainder, partner_id: @partner.id }
-  end
-
   def update
       # 空のtimeを持つremainderを除外する
       filtered_remainders = params[:food][:remainders_attributes].reject do |_, r|
