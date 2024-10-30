@@ -6,11 +6,6 @@ class WalksController < ApplicationController
     @walk.remainders.build if @walk.remainders.blank?
   end
 
-  def add_remainder_field
-    @remainder = @partner.walks.build.remainders.build  # 新しいRemainderインスタンスを作成
-    render partial: "time_walk", locals: { remainder: @remainder, partner_id: @partner.id }  # remainderオブジェクトを渡す
-  end
-
   def update
     # 空のtimeを持つremainderを除外する
     filtered_remainders = params[:walk][:remainders_attributes].reject do |_, r|

@@ -1,5 +1,5 @@
-<% if @pet_walks.any? %>
-  <% @pet_walks.each do |item| %>
+<% if @pet_medications.any? %>
+  <% @pet_medications.each do |item| %>
     <div class="row">
       <div class="col-5">
         <p><%= item[:label] %>：</p>
@@ -11,6 +11,6 @@
     <hr>
   <% end %>
 <% else %>
-  <p>まださんぽに関する登録はありません。</p>
+  <p>まだおくすりに関する登録はありません。</p>
   <hr>
 <% end %>

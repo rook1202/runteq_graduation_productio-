@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-11 col-md-6 mx-auto">
         <h4>ごはん情報</h4>
-        <p>一番下の編集ボタンを押すと内容が確定します。
+        <p>一番下の編集ボタンを押すと内容が確定します。</p>
 
           <%= form_with model: [@partner, @food], url: partner_food_path(@partner, @food), local: true do |f| %>
             <div class="mb-3">
@@ -33,6 +33,7 @@
                   <% end %>
                 <% end %>
               </div>
+            
 
               <!-- 空のフィールドテンプレート -->
               <div id="food_remainder_template" style="display: none;">
