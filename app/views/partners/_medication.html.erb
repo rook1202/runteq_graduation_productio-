@@ -1,0 +1,16 @@
+<% if @pet_medications.any? %>
+  <% @pet_medications.each do |item| %>
+    <div class="row">
+      <div class="col-5">
+        <p><%= item[:label] %>：</p>
+      </div>
+      <div class="col-7">
+        <p><%= item[:content] %></p>
+      </div>
+    </div>
+    <hr>
+  <% end %>
+<% else %>
+  <p>まだおくすりに関する登録はありません。</p>
+  <hr>
+<% end %>
