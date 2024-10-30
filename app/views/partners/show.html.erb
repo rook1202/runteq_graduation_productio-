@@ -14,13 +14,21 @@
                 <%= link_to edit_partner_path(@partner), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                     <i class="fa-solid fa-pen"></i>
                 <% end %>
+                <%= link_to partner_path(@partner), class: 'link-custom', data: {turbo_method: :delete, turbo_confirm: 'このページを削除しますか？'},style: "display: inline; margin-left: 4px;" do %>
+                    <i class="fa-solid fa-trash"></i>
+                <% end %>
             </div>
 
-            <p><%= @partner.animal_type %>・<%= @partner.breed %></p>
+            <p><%= @partner.animal_type %>
+            <% if @partner.breed.present? %>・<% end %>
+            <%= @partner.breed %></p>
             <p>性別：<%= @partner.gender_in_japanese %></p>
+            <% if @partner.age.present? %>
             <p>年齢：<%= @partner.age %>歳</p>
+            <% end %>
+            <% if @partner.weight.present? %>
             <p>体重：<%= @partner.weight %></p>
-            <p style="font-size: 0.80em;">最終更新日（<%= @partner.updated_at.strftime('%Y/%m/%d') %>）</p>
+            <% end %>
             </div> 
         </div>
 
@@ -28,7 +36,7 @@
                 <%= link_to edit_partner_food_path(@partner, @food), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                     <i class="fa-solid fa-pen"></i>
                 <% end %>
-        <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">       
+        <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
             <%= render 'food', food: @food, remainders: @food_remainders  %>
         </div>
 
@@ -42,10 +50,18 @@
 
         <h4 style="display: inline;">おくすり</h4>
                 <%= link_to edit_partner_medication_path(@partner, @medication), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
-                    <i class="fa-solid fa-pen"></i>
-                <% end %>
-        <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
-            <%= render 'medicine', medication: @medication, remainders: @medication_remainders  %>            
+                <i class="fa-solid fa-pen"></i>
+                <% end %>    
+
+            <!-- 病院名を右揃えにし、下のボーダーにくっつける -->
+            <% if @medication.clinic.present? %>
+            <p style="font-size: 0.80em; text-align: right; margin: 0;"><%= "病院名：#{@medication.clinic}" %></p>
+            <% else %>
+            <p></p>
+            <% end %>
+
+        <div class="border col-12 rounded px-3 pt-3 pb-2 mb-3 mx-auto">
+            <%= render 'medication', medication: @medication, remainders: @medication_remainders  %>            
         <div>
 
     </div>
