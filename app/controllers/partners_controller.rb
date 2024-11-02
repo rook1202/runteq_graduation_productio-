@@ -1,5 +1,5 @@
 class PartnersController < ApplicationController
-  before_action :set_partner, only: %i[edit update destroy show]
+  before_action :set_partner, only: %i[edit update destroy show remove_image]
   
   def index
     @partners = current_user.partners.includes(:user)
@@ -46,10 +46,20 @@ class PartnersController < ApplicationController
     redirect_to partners_path, status: :see_other
   end
 
+  def remove_image
+    @image = @partner.image
+    @image.purge # 画像を削除
+  
+    respond_to do |format|
+      format.html { redirect_to edit_partner_path(@partner), notice: '画像が削除されました' }
+      format.js   # JavaScriptのリクエストに対応
+    end
+  end
+
   private
 
   def partner_params
-    params.require(:partner).permit(:name, :animal_type, :breed, :gender, :birthday, :weight)
+    params.require(:partner).permit(:name, :animal_type, :breed, :gender, :birthday, :weight, :image)
   end
 
   def set_partner

@@ -102,4 +102,7 @@ Rails.application.configure do
     end
   end
   
+  #本番環境でActive StorageがAWS S3を利用する
+  config.active_storage.service = :amazon
+  
 end

@@ -7,12 +7,7 @@ class WalksController < ApplicationController
   end
 
   def update
-    # 空のtimeを持つremainderを除外する
-    filtered_remainders = params[:walk][:remainders_attributes].reject do |_, r|
-      r[:time].blank?
-    end
-    # フィルタリングしたremaindersを再構築
-    params[:walk][:remainders_attributes] = filtered_remainders
+    remainder_blank_check
 
     if @walk.update(walk_params)
       flash[:success] = 'さんぽの情報が更新されました。'
@@ -39,6 +34,15 @@ class WalksController < ApplicationController
       :time, :note,
       remainders_attributes: [:id, :time, :notification_status, :partner_id, :_destroy]
     )
+  end
+
+  def remainder_blank_check
+    # 空のtimeを持つremainderを除外する
+    filtered_remainders = params[:walk][:remainders_attributes].reject do |_, r|
+      r[:time].blank?
+    end
+    # フィルタリングしたremaindersを再構築
+    params[:walk][:remainders_attributes] = filtered_remainders
   end
 
 end
