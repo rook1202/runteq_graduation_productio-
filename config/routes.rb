@@ -2,8 +2,19 @@ Rails.application.routes.draw do
 
   # パートナーの一覧ページとネスト
   resources :partners do
-    resources :medications, only: [:edit, :update]
-    resources :foods, only: [:edit, :update]
+    member do
+      delete :remove_image
+    end
+    resources :medications do
+      member do
+        delete :remove_image
+      end
+    end
+    resources :foods do
+      member do
+        delete :remove_image
+      end
+    end
     resources :walks, only: [:edit, :update]
   end
   
