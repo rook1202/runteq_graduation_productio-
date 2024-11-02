@@ -12,7 +12,10 @@
             <%= f.text_field :name, class: "form-control" %>
             </div>
 
-            <button type="button" class="btn btn-dark mb-4">画像</button>
+            <div class="mb-3">
+            <%= f.label :パートナーの画像を選択, class: "form-label" %>
+            <%= f.file_field :image, class: "form-control" %>
+            </div>
 
             <div class="mb-3">
             <%= f.label :animal_type, "*動物の種類", class: "form-label" %>
