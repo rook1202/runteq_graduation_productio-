@@ -12,7 +12,26 @@
             <%= f.text_field :name, class: "form-control" %>
             </div>
 
-            <button type="button" class="btn btn-dark mb-4">画像</button>
+            <div class="mb-1">
+            <%= f.label :パートナーの画像を選択, class: "form-label" %>
+            <%= f.file_field :image, class: "form-control" %>
+            </div>
+            
+            <!-- プレビュー -->
+            <% if @partner.image.attached? %>
+            <div class="row g-1"> 
+              <div class="mb-3 col-2 position-relative" id="image-partner">
+                <%= image_tag @partner.image, class: "custom-show-img  img-thumbnail", alt: @partner.name %>
+
+                    <!-- 削除ボタン -->
+                    <%= link_to "", remove_image_partner_path(@partner),
+                      method: :delete,
+                      data: { confirm: "この画像を削除しますか？", remote: true },
+                      class: "btn-close position-absolute",
+                      style: "top: 0; right: 0; color: red; text-decoration: none; font-size: 1.5em;" %>
+              </div>
+            </div>
+            <% end %>
 
             <div class="mb-3">
             <%= f.label :animal_type, "*動物の種類", class: "form-label" %>

@@ -42,12 +42,33 @@
             <%= link_to ">> おくすりの時間追加", "#", class: "link-custom", onclick: "addRemainderFields('medication'); return false;" %>
             </div>
   
-            <div class="mb-3">
+            <div class="mb-1">
             <%= f.label :place, "置き場所", class: "form-label" %>
             <%= f.text_field :place, class: "form-control" %>
             </div>
 
-            <button type="button" class="btn btn-dark mb-4">画像</button>
+            <div class="mb-1">
+            <%= f.label :images, "∟画像で保存", class: "form-label" %>
+            <%= f.file_field :images, multiple: true, accept: "image/*" %>
+            </div>
+
+            <!-- プレビュー -->
+            <div class="row g-1">              
+              <% if @medication.images.attached? %>
+                <% @medication.images.each do |image| %>
+                  <div class="mb-3 col-2 position-relative" id="image-medication-<%= image.id %>">
+                    <%= image_tag image, class: "custom-show-img img-thumbnail", alt: "おくすりの置き場所" %>
+
+                    <!-- 削除ボタン -->
+                    <%= link_to "", remove_image_partner_medication_path(@partner, @medication, image_id: image.id),
+                      method: :delete,
+                      data: { confirm: "この画像を削除しますか？", remote: true },
+                      class: "btn-close position-absolute",
+                      style: "top: 0; right: 0; color: red; text-decoration: none; font-size: 1.5em;" %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
 
             <div class="mb-3">
             <%= f.label :clinic, "病院名", class: "form-label" %>
