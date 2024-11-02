@@ -37,7 +37,7 @@
 
               <!-- 空のフィールドテンプレート -->
               <div id="food_remainder_template" style="display: none;">
-                <%= f.fields_for :remainders, @food.remainders.build do |r| %>
+                <%= f.fields_for :remainders, @food.remainders.build, child_index: "NEW_RECORD" do |r| %>
                 <%= render partial: "add_time_food", locals: { f: r } %>
                 <% end %>
               </div>
