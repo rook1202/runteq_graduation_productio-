@@ -1,11 +1,17 @@
-<% if @pet_medications.any? %>
-  <% @pet_medications.each do |item| %>
+<% if pet_medications.any? %>
+  <% pet_medications.each do |item| %>
     <div class="row">
       <div class="col-5">
         <p><%= item[:label] %>：</p>
       </div>
+
       <div class="col-7">
-        <p><%= item[:content] %></p>
+        <p style="margin: 0;"><%= item[:content] %></p>
+
+        <% if item[:label] == "置き場所" && medication.images.attached? %>
+          <%= render "partners/carousel", medication: medication %>
+        <% end %>
+
       </div>
     </div>
     <hr>
