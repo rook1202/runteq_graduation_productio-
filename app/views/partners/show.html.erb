@@ -6,29 +6,33 @@
         <h4>Main</h4>
         <div class="row">
             <div class="col-6 mb-3">
-            <%= image_tag 'pet_omocha_inu.png', class: "custom-show-img", alt: "default_image" %>
+                <% if @partner.image.attached? %>
+                    <%= image_tag @partner.image, class: "custom-show-img", alt: @partner.name %>
+                <% else %>
+                    <%= image_tag 'pet_omocha_inu.png', class: "custom-show-img", alt: "default_image" %>
+                <% end %>
             </div>
             <div class="col-6 mb-3 custom-show-text">
-            <div class="mb-3">
-                <h4 style="display: inline;"><%= @partner.name %></h4>
-                <%= link_to edit_partner_path(@partner), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
-                    <i class="fa-solid fa-pen"></i>
-                <% end %>
-                <%= link_to partner_path(@partner), class: 'link-custom', data: {turbo_method: :delete, turbo_confirm: 'このページを削除しますか？'},style: "display: inline; margin-left: 4px;" do %>
-                    <i class="fa-solid fa-trash"></i>
-                <% end %>
-            </div>
+                <div class="mb-3">
+                    <h4 style="display: inline;"><%= @partner.name %></h4>
+                    <%= link_to edit_partner_path(@partner), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                        <i class="fa-solid fa-pen"></i>
+                    <% end %>
+                    <%= link_to partner_path(@partner), class: 'link-custom', data: {turbo_method: :delete, turbo_confirm: 'このページを削除しますか？'},style: "display: inline; margin-left: 4px;" do %>
+                        <i class="fa-solid fa-trash"></i>
+                    <% end %>
+                </div>
 
-            <p><%= @partner.animal_type %>
-            <% if @partner.breed.present? %>・<% end %>
-            <%= @partner.breed %></p>
-            <p>性別：<%= @partner.gender_in_japanese %></p>
-            <% if @partner.age.present? %>
-            <p>年齢：<%= @partner.age %>歳</p>
-            <% end %>
-            <% if @partner.weight.present? %>
-            <p>体重：<%= @partner.weight %></p>
-            <% end %>
+                <p><%= @partner.animal_type %>
+                <% if @partner.breed.present? %>・<% end %>
+                <%= @partner.breed %></p>
+                <p>性別：<%= @partner.gender_in_japanese %></p>
+                <% if @partner.age.present? %>
+                    <p>年齢：<%= @partner.age %>歳</p>
+                <% end %>
+                <% if @partner.weight.present? %>
+                    <p>体重：<%= @partner.weight %></p>
+                <% end %>
             </div> 
         </div>
 
@@ -37,7 +41,7 @@
                     <i class="fa-solid fa-pen"></i>
                 <% end %>
         <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
-            <%= render 'food', food: @food, remainders: @food_remainders  %>
+            <%= render 'food', food: @food, remainders: @food_remainders, pet_foods: @pet_foods %>
         </div>
 
         <h4 style="display: inline;">さんぽ</h4>
@@ -45,7 +49,7 @@
                     <i class="fa-solid fa-pen"></i>
                 <% end %>
         <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
-            <%= render 'walk', walk: @walk, remainders: @walk_remainders %>
+            <%= render 'walk', walk: @walk, remainders: @walk_remainders, pet_walks: @pet_walks %>
         </div>
 
         <h4 style="display: inline;">おくすり</h4>
@@ -61,7 +65,7 @@
             <% end %>
 
         <div class="border col-12 rounded px-3 pt-3 pb-2 mb-3 mx-auto">
-            <%= render 'medication', medication: @medication, remainders: @medication_remainders  %>            
+            <%= render 'medication', medication: @medication, remainders: @medication_remainders, pet_medications: @pet_medications  %>            
         <div>
 
     </div>
