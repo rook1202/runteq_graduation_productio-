@@ -25,7 +25,7 @@
 
               <!-- 空のフィールドテンプレート -->
               <div id="walk_remainder_template" style="display: none;">
-                <%= f.fields_for :remainders, @walk.remainders.build do |r| %>
+                <%= f.fields_for :remainders, @walk.remainders.build, child_index: "NEW_RECORD" do |r| %>
                 <%= render partial: "add_time_walk", locals: { f: r } %>
                 <% end %>
               </div>

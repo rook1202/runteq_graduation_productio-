@@ -12,8 +12,11 @@ function addRemainderFields(activityType) {
   const remainderFields = document.getElementById(`new_${activityType}_remainder_fields`);
   const template = document.getElementById(`${activityType}_remainder_template`).innerHTML;
   
-  const newField = document.createElement('div');
-  newField.innerHTML = template;
+   // ユニークなIDを生成
+   const uniqueIndex = new Date().getTime();
+
+   const newField = document.createElement('div');
+   newField.innerHTML = template.replace(/NEW_RECORD/g, uniqueIndex);
 
   // フォーム内のネームスペースを一意に設定
   remainderFields.appendChild(newField);

@@ -15,11 +15,13 @@
             <div class="col-6 mb-3 custom-show-text">
                 <div class="mb-3">
                     <h4 style="display: inline;"><%= @partner.name %></h4>
-                    <%= link_to edit_partner_path(@partner), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
-                        <i class="fa-solid fa-pen"></i>
-                    <% end %>
-                    <%= link_to partner_path(@partner), class: 'link-custom', data: {turbo_method: :delete, turbo_confirm: 'このページを削除しますか？'},style: "display: inline; margin-left: 4px;" do %>
-                        <i class="fa-solid fa-trash"></i>
+                    <% if current_user && current_user.id == @partner.owner_id %>
+                        <%= link_to edit_partner_path(@partner), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                            <i class="fa-solid fa-pen"></i>
+                        <% end %>
+                        <%= link_to partner_path(@partner), class: 'link-custom', data: {turbo_method: :delete, turbo_confirm: 'このページを削除しますか？'},style: "display: inline; margin-left: 4px;" do %>
+                            <i class="fa-solid fa-trash"></i>
+                        <% end %>
                     <% end %>
                 </div>
 
@@ -37,25 +39,31 @@
         </div>
 
         <h4 style="display: inline;">ごはん</h4>
+            <% if current_user && current_user.id == @partner.owner_id %>
                 <%= link_to edit_partner_food_path(@partner, @food), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                     <i class="fa-solid fa-pen"></i>
                 <% end %>
+            <% end %>
         <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
             <%= render 'food', food: @food, remainders: @food_remainders, pet_foods: @pet_foods %>
         </div>
 
         <h4 style="display: inline;">さんぽ</h4>
+            <% if current_user && current_user.id == @partner.owner_id %>
                 <%= link_to edit_partner_walk_path(@partner, @walk), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                     <i class="fa-solid fa-pen"></i>
                 <% end %>
+            <% end %>
         <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
             <%= render 'walk', walk: @walk, remainders: @walk_remainders, pet_walks: @pet_walks %>
         </div>
 
         <h4 style="display: inline;">おくすり</h4>
+            <% if current_user && current_user.id == @partner.owner_id %>
                 <%= link_to edit_partner_medication_path(@partner, @medication), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                 <i class="fa-solid fa-pen"></i>
-                <% end %>    
+                <% end %> 
+            <% end %>   
 
             <!-- 病院名を右揃えにし、下のボーダーにくっつける -->
             <% if @medication.clinic.present? %>
