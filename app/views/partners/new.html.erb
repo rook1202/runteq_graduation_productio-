@@ -6,6 +6,8 @@
         <h4>基本情報</h4>
         <p>一番下の登録ボタンを押すと内容が確定します。<span style="color: red;">*</span>必須項目は必ず記入してください。</p>
 
+        <%= render 'shared/error_messages', object: @partner %>
+
           <%= form_with model: @partner, local: true do |f| %>
             <div class="mb-3">
             <%= f.label :name, "*パートナーの名前", class: "form-label" %>

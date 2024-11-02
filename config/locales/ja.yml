@@ -6,6 +6,10 @@ ja:
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "パスワード確認"
+      partner:
+        name: "パートナーの名前"
+        gender: "性別"
+        animal_type: "動物の種類"
     errors:
       models:
         user:
@@ -14,7 +18,17 @@ ja:
               blank: "を入力してください"
             email:
               blank: "を入力してください"
+              taken: "はすでに登録されています"
             password:
               too_short: "は%{count}文字以上で入力してください"
             password_confirmation:
+              blank: "を入力してください"
+              confirmation: "がパスワードと一致しません"
+        partner:
+          attributes:
+            name:
+              blank: "を入力してください"
+            gender:
+              blank: "を入力してください"
+            animal_type:
               blank: "を入力してください"
