@@ -18,6 +18,12 @@
         <i class="fas fa-chevron-left"></i>
     <% end %>
 
+    <% elsif controller_name == 'partners' && action_name == 'new' %>
+      <!-- partners/new → partners に戻る -->
+      <%= link_to partners_path, class: 'navbar-brand' do %>
+        <i class="fas fa-chevron-left"></i>
+    <% end %>
+
     <% elsif controller_name == 'partners' && action_name == 'index' %>
     <!-- partners の場合はリンクを表示しない -->
 
