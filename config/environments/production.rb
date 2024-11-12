@@ -96,11 +96,11 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || true
 
   #認証
-  if Rails.env.production?
-    config.middleware.use Rack::Auth::Basic, "Restricted Area" do |username, password|
-      username == ENV['ADMIN_USER'] && password == ENV['ADMIN_PASSWORD']
-    end
-  end
+  #if Rails.env.production?
+  #  config.middleware.use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  #    username == ENV['ADMIN_USER'] && password == ENV['ADMIN_PASSWORD']
+  #  end
+  #end
   
   #本番環境でActive StorageがAWS S3を利用する
   config.active_storage.service = :amazon
