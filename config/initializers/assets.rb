@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = "1.0"
+Rails.application.config.assets.version = '1.0'
 
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path
@@ -11,5 +13,13 @@ Rails.application.config.assets.version = "1.0"
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
-#bootstrap.min.css をプリコンパイルしないため
-Rails.application.config.assets.precompile += ['application.js', 'application.css', 'custom_styles.css', 'pet_omocha_inu.png', 'controllers/application.js', 'controllers/hello_controller.js', 'controllers/index.js']
+# bootstrap.min.css をプリコンパイルしないため
+Rails.application.config.assets.precompile += [
+  'application.js',
+  'application.css',
+  'custom_styles.css',
+  'pet_omocha_inu.png',
+  'controllers/application.js',
+  'controllers/hello_controller.js',
+  'controllers/index.js'
+]

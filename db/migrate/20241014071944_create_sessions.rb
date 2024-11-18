@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# ユーザーのログイン状況についてのマイグレーションファイル
 class CreateSessions < ActiveRecord::Migration[7.0]
   def change
     create_table :sessions do |t|

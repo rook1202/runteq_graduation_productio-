@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# ペットのごはんについての情報を管理するコントローラーです。
 class FoodsController < ApplicationController
-  before_action :set_partner, only: [:edit, :update, :remove_image]
-  before_action :set_food, only: [:edit, :update, :remove_image]
+  before_action :set_partner, only: %i[edit update remove_image]
+  before_action :set_food, only: %i[edit update remove_image]
 
   def edit
     # remaindersがnilまたは空の場合、新しいインスタンスを追加
@@ -22,10 +25,10 @@ class FoodsController < ApplicationController
   def remove_image
     @image = @food.image
     @image.purge # 画像を削除
-  
+
     respond_to do |format|
       format.html { redirect_to edit_partner_food_path(@partner, @food), notice: '画像が削除されました' }
-      format.js   # JavaScriptのリクエストに対応
+      format.js # JavaScriptのリクエストに対応
     end
   end
 
@@ -37,16 +40,16 @@ class FoodsController < ApplicationController
 
   def set_food
     @food = @partner.foods.find_by(id: params[:id])
-    raise ActiveRecord::RecordNotFound, "Food not found" if @food.nil?
+    raise ActiveRecord::RecordNotFound, 'Food not found' if @food.nil?
   end
 
   def food_params
     permitted_params = params.require(:food).permit(
-    :manufacturer, :category, :amount, :place, :note, :image,
-    remainders_attributes: [:id, :time, :notification_status, :partner_id, :_destroy]
-  )
-  puts "Permitted Params: #{permitted_params.inspect}" # デバッグ用
-  permitted_params
+      :manufacturer, :category, :amount, :place, :note, :image,
+      remainders_attributes: %i[id time notification_status partner_id _destroy]
+    )
+    Rails.logger.debug "Permitted Params: #{permitted_params.inspect}" # デバッグ用
+    permitted_params
   end
 
   def remainder_blank_check
@@ -57,5 +60,4 @@ class FoodsController < ApplicationController
     # フィルタリングしたremaindersを再構築
     params[:food][:remainders_attributes] = filtered_remainders
   end
-
 end
