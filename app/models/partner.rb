@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# ペットの基本情報に関するモデルです。
 class Partner < ApplicationRecord
-  belongs_to :user, foreign_key: :owner_id
+  belongs_to :user, foreign_key: :owner_id, inverse_of: :partners
   has_many :medications, dependent: :destroy
   has_many :foods, dependent: :destroy
   has_many :walks, dependent: :destroy
