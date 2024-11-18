@@ -1,5 +1,6 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   # パートナーの一覧ページとネスト
   resources :partners do
     member do
@@ -15,18 +16,17 @@ Rails.application.routes.draw do
         delete :remove_image
       end
     end
-    resources :walks, only: [:edit, :update]
+    resources :walks, only: %i[edit update]
   end
-  
+
   # ユーザー登録関連
-  resources :users, only: [:new, :create]
-  
+  resources :users, only: %i[new create]
+
   # ログイン・ログアウト関連
-  resources :user_sessions, only: [:new, :create, :destroy]
+  resources :user_sessions, only: %i[new create destroy]
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
-  
+
   # TOPページ（ログイン画面兼用）
   root to: 'user_sessions#new'
-
 end
