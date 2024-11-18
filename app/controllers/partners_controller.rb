@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# ペットについての基本情報を管理するコントローラーです。
 class PartnersController < ApplicationController
   before_action :set_partner, only: %i[edit update destroy show remove_image]
-  
+
   def index
     @partners = current_user.partners.includes(:user)
   end
@@ -14,7 +17,7 @@ class PartnersController < ApplicationController
     @partner.owner_id = current_user.id # ここでログインユーザーのIDを設定
     if @partner.save
       flash[:success] = '登録が完了しました'
-      redirect_to partners_path 
+      redirect_to partners_path
     else
       flash.now[:danger] = '登録に失敗しました'
       render :new, status: :unprocessable_entity
@@ -49,10 +52,10 @@ class PartnersController < ApplicationController
   def remove_image
     @image = @partner.image
     @image.purge # 画像を削除
-  
+
     respond_to do |format|
       format.html { redirect_to edit_partner_path(@partner), notice: '画像が削除されました' }
-      format.js   # JavaScriptのリクエストに対応
+      format.js # JavaScriptのリクエストに対応
     end
   end
 
@@ -92,12 +95,12 @@ class PartnersController < ApplicationController
 
   def food_array
     @pet_foods = [
-    { label: "ごはんのメーカー", content: @food.manufacturer },
-    { label: "さらに詳しい区分", content: @food.category },
-    { label: "ごはんの量", content: @food.amount },
-    { label: "ごはんの時間", content: @food_remainders.map(&:time).join(", ") }, # @food_remaindersから時間を取得
-    { label: "置き場所", content: @food.place },
-    { label: "メモ", content: @food.note }
+      { label: 'ごはんのメーカー', content: @food.manufacturer },
+      { label: 'さらに詳しい区分', content: @food.category },
+      { label: 'ごはんの量', content: @food.amount },
+      { label: 'ごはんの時間', content: @food_remainders.map(&:time).join(', ') }, # @food_remaindersから時間を取得
+      { label: '置き場所', content: @food.place },
+      { label: 'メモ', content: @food.note }
     ]
 
     @pet_foods.reject! { |item| item[:content].blank? }
@@ -105,9 +108,9 @@ class PartnersController < ApplicationController
 
   def walk_array
     @pet_walks = [
-    { label: "1日のさんぽ時間", content: @walk.time },
-    { label: "さんぽの時間", content: @walk_remainders.map(&:time).join(", ") },
-    { label: "メモ", content: @walk.note }
+      { label: '1日のさんぽ時間', content: @walk.time },
+      { label: 'さんぽの時間', content: @walk_remainders.map(&:time).join(', ') },
+      { label: 'メモ', content: @walk.note }
     ]
 
     @pet_walks.reject! { |item| item[:content].blank? }
@@ -115,17 +118,13 @@ class PartnersController < ApplicationController
 
   def medication_array
     @pet_medications = [
-    { label: "おくすりの名前", content: @medication.name },
-    { label: "おくすりの量", content: @medication.amount },
-    { label: "おくすりの時間", content: @medication_remainders.map(&:time).join(", ") }, # @food_remaindersから時間を取得
-    { label: "置き場所", content: @medication.place },
-    { label: "メモ", content: @medication.note }
+      { label: 'おくすりの名前', content: @medication.name },
+      { label: 'おくすりの量', content: @medication.amount },
+      { label: 'おくすりの時間', content: @medication_remainders.map(&:time).join(', ') }, # @food_remaindersから時間を取得
+      { label: '置き場所', content: @medication.place },
+      { label: 'メモ', content: @medication.note }
     ]
 
     @pet_medications.reject! { |item| item[:content].blank? }
   end
-
-  
-
-
 end

@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# ペットのさんぽについての情報を管理するコントローラーです。
 class WalksController < ApplicationController
-  before_action :set_partner, only: [:edit, :update, :add_remainder_field]
-  before_action :set_walk, only: [:edit, :update]
+  before_action :set_partner, only: %i[edit update add_remainder_field]
+  before_action :set_walk, only: %i[edit update]
 
   def edit
     @walk.remainders.build if @walk.remainders.blank?
@@ -26,13 +29,13 @@ class WalksController < ApplicationController
 
   def set_walk
     @walk = @partner.walks.find_by(id: params[:id])
-    raise ActiveRecord::RecordNotFound, "walk not found" if @walk.nil?
+    raise ActiveRecord::RecordNotFound, 'walk not found' if @walk.nil?
   end
 
   def walk_params
     params.require(:walk).permit(
       :time, :note,
-      remainders_attributes: [:id, :time, :notification_status, :partner_id, :_destroy]
+      remainders_attributes: %i[id time notification_status partner_id _destroy]
     )
   end
 
@@ -44,5 +47,4 @@ class WalksController < ApplicationController
     # フィルタリングしたremaindersを再構築
     params[:walk][:remainders_attributes] = filtered_remainders
   end
-
 end

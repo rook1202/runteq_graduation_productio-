@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# ユーザーの新規登録に関するコントローラーです。
 class UsersController < ApplicationController
   skip_before_action :require_login
 
@@ -9,7 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = 'ユーザー登録が完了しました'
-      redirect_to root_path 
+      redirect_to root_path
     else
       flash.now[:danger] = 'ユーザー登録に失敗しました'
       render :new, status: :unprocessable_entity
@@ -21,5 +24,4 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
-
 end

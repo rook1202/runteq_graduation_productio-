@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# ペットのおくすりについての情報を管理するコントローラーです。
 class MedicationsController < ApplicationController
-  before_action :set_partner, only: [:edit, :update, :remove_image]
-  before_action :set_medication, only: [:edit, :update, :remove_image]
+  before_action :set_partner, only: %i[edit update remove_image]
+  before_action :set_medication, only: %i[edit update remove_image]
 
   def edit
     @medication.remainders.build if @medication.remainders.blank?
@@ -24,11 +27,11 @@ class MedicationsController < ApplicationController
     image.purge # 画像を削除
 
     Rails.logger.debug "画像削除: #{image.id}"
-    @image_id = image.id  # JavaScriptに渡すためのインスタンス変数
-  
+    @image_id = image.id # JavaScriptに渡すためのインスタンス変数
+
     respond_to do |format|
       format.html { redirect_to edit_partner_medication_path(@partner, @medication), notice: '画像が削除されました' }
-      format.js   # JavaScriptのリクエストに対応
+      format.js # JavaScriptのリクエストに対応
     end
   end
 
@@ -40,13 +43,13 @@ class MedicationsController < ApplicationController
 
   def set_medication
     @medication = @partner.medications.find_by(id: params[:id])
-    raise ActiveRecord::RecordNotFound, "Medication not found" if @medication.nil?
+    raise ActiveRecord::RecordNotFound, 'Medication not found' if @medication.nil?
   end
 
   def medication_params
     params.require(:medication).permit(
       :name, :amount, :place, :clinic, :note, images: [],
-      remainders_attributes: [:id, :time, :notification_status, :partner_id, :_destroy]
+                                              remainders_attributes: %i[id time notification_status partner_id _destroy]
     )
   end
 
@@ -62,11 +65,10 @@ class MedicationsController < ApplicationController
   def add_image
     # 既存の画像があるとき新規画像として追加
     @medication = Medication.find(params[:id])
-    if params[:medication][:images]
-      params[:medication][:images].each do |image|
-        @medication.images.attach(image)
-      end
+    return unless params[:medication][:images]
+
+    params[:medication][:images].each do |image|
+      @medication.images.attach(image)
     end
   end
-  
 end
