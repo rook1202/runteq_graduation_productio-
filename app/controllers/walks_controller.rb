@@ -2,7 +2,7 @@
 
 # ペットのさんぽについての情報を管理するコントローラーです。
 class WalksController < ApplicationController
-  before_action :set_partner, only: %i[edit update add_remainder_field]
+  before_action :set_partner, only: %i[edit update]
   before_action :set_walk, only: %i[edit update]
 
   def edit
