@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# ペットのおくすりに関するモデルです。
 class Medication < ApplicationRecord
   belongs_to :partner
   has_many :remainders, as: :activity, dependent: :destroy

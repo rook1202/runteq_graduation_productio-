@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# ペットのごはんに関するモデルです。
 class Food < ApplicationRecord
   belongs_to :partner
   has_many :remainders, as: :activity, dependent: :destroy

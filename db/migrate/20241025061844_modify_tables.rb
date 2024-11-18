@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# walks、foods、medicinesテーブルにnoteカラムを追加するマイグレーションファイル
 class ModifyTables < ActiveRecord::Migration[7.0]
   def change
     # partnersテーブルからnoteカラムを削除（すでに削除済みなのでコメントアウト）

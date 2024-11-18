@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# パートナーの各行動時間についてのマイグレーションファイル
 class CreateRemainders < ActiveRecord::Migration[7.0]
   def change
     create_table :remainders do |t|
