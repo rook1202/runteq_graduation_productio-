@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Partner < ApplicationRecord
   belongs_to :user, foreign_key: :owner_id
   has_many :medications, dependent: :destroy
@@ -18,9 +20,9 @@ class Partner < ApplicationRecord
 
   def self.gender_options
     {
-      "オス" => "male",
-      "メス" => "female",
-      "性別不明" => "unknown"
+      'オス' => 'male',
+      'メス' => 'female',
+      '性別不明' => 'unknown'
     }
   end
 
@@ -31,7 +33,8 @@ class Partner < ApplicationRecord
 
   def age
     return unless birthday
-    today = Date.today
+
+    today = Time.zone.today
     age = today.year - birthday.year
     age -= 1 if today < birthday + age.years # 誕生日がまだ来ていない場合
     age
@@ -41,10 +44,8 @@ class Partner < ApplicationRecord
 
   def initialize_associated_records
     # 各モデルのインスタンス作成
-    food = self.foods.create!(manufacturer: "", category: "", amount: "", place: "", note: "")
-    walk = self.walks.create!(time: "", note: "")
-    medication = self.medications.create!(name: "", place: "", clinic: "",amount:"", note: "")
+    foods.create!(manufacturer: '', category: '', amount: '', place: '', note: '')
+    walks.create!(time: '', note: '')
+    medications.create!(name: '', place: '', clinic: '', amount: '', note: '')
   end
-
-
 end
