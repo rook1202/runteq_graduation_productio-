@@ -14,13 +14,13 @@
 
     <% elsif controller_name == 'partners' && action_name == 'show' %>
       <!-- partners/:id → partners に戻る -->
-      <%= link_to partners_path, class: 'navbar-brand' do %>
+      <%= link_to root_path, class: 'navbar-brand' do %>
         <i class="fas fa-chevron-left"></i>
     <% end %>
 
     <% elsif controller_name == 'partners' && action_name == 'new' %>
       <!-- partners/new → partners に戻る -->
-      <%= link_to partners_path, class: 'navbar-brand' do %>
+      <%= link_to root_path, class: 'navbar-brand' do %>
         <i class="fas fa-chevron-left"></i>
     <% end %>
 
@@ -29,7 +29,7 @@
 
     <% elsif controller_name == 'users' && action_name == 'new' %>
       <!-- users/new → login_path に戻る -->
-      <%= link_to root_path, class: 'navbar-brand' do %>
+      <%= link_to login_path, class: 'navbar-brand' do %>
         <i class="fas fa-chevron-left"></i>
     <% end %>
 <% end %>

@@ -17,7 +17,7 @@ class PartnersController < ApplicationController
     @partner.owner_id = current_user.id # ここでログインユーザーのIDを設定
     if @partner.save
       flash[:success] = '登録が完了しました'
-      redirect_to partners_path
+      redirect_to root_path
     else
       flash.now[:danger] = '登録に失敗しました'
       render :new, status: :unprocessable_entity
@@ -46,7 +46,7 @@ class PartnersController < ApplicationController
   def destroy
     @partner.destroy!
     flash[:success] = 'パートナー情報を削除しました'
-    redirect_to partners_path, status: :see_other
+    redirect_to root_path, status: :see_other
   end
 
   def remove_image

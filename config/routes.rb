@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
-  # TOPページ（ログイン画面兼用）
-  root to: 'user_sessions#new'
+  # TOPページ（partners#indexに設定）
+  root to: 'partners#index'
+
+  # ログインページを明示的に設定
+  get 'login', to: 'user_sessions#new'
+
 end
