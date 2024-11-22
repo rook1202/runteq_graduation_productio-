@@ -2,7 +2,7 @@
 
 # ペットの基本情報に関するモデルです。
 class Partner < ApplicationRecord
-  belongs_to :user, foreign_key: :owner_id, inverse_of: :partners
+  belongs_to :owner, class_name: 'User', inverse_of: :partners
   has_many :medications, dependent: :destroy
   has_many :foods, dependent: :destroy
   has_many :walks, dependent: :destroy
@@ -37,7 +37,8 @@ class Partner < ApplicationRecord
 
     today = Time.zone.today
     age = today.year - birthday.year
-    age -= 1 if today < birthday + age.years # 誕生日がまだ来ていない場合
+    # 誕生日がまだ来ていない場合
+    age -= 1 if today < birthday + age.years
     age
   end
 
