@@ -1,0 +1,24 @@
+<% @page_title = "ユーザー名変更" %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-11 col-md-6 mx-auto">
+
+        <p>新しいユーザー名を入力して変更ボタンを押してください。ユーザー名は何度でも変更できます。
+        <span style="color: red;">共有中のユーザーへの表示名も変更されますのでご注意ください。</span></p>
+
+        <div class="border col-12 rounded p-5 mx-auto">
+
+        <%= form_with model: current_user, url: settings_path, method: :patch, local: true do |f| %>
+            <div class="mb-3">
+            <%= f.label :name, "新しいユーザー名", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control" %>
+            </div>
+
+            <%= f.submit '変更', class: 'btn btn-custom w-100' %>
+
+        <% end %>
+        </div>
+    </div>
+  </div>
+</div>
