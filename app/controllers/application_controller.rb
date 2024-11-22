@@ -8,10 +8,10 @@ class ApplicationController < ActionController::Base
   private
 
   def require_login
-    unless logged_in?
-      flash[:success] = 'ログインしてください。'
-      redirect_to login_path
-    end
+    return if logged_in?
+
+    flash[:success] = 'ログインしてください。'
+    redirect_to login_path
   end
 
   def set_resource(type, partner)

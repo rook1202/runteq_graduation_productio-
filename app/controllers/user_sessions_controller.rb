@@ -9,20 +9,6 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    Rails.logger.debug "Params received: #{params.inspect}"
-
-    user = User.find_by(email: params[:email])
-  if user
-    Rails.logger.debug "User found: #{user.inspect}"
-    if user.authenticate(params[:password])
-      Rails.logger.debug "Password authentication successful"
-    else
-      Rails.logger.debug "Password authentication failed"
-    end
-  else
-    Rails.logger.debug "User not found"
-  end
-  
     @user = login(params[:email], params[:password])
     if @user
       flash[:success] = 'ログインしました'

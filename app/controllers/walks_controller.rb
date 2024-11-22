@@ -6,7 +6,9 @@ class WalksController < ApplicationController
   before_action :set_walk, only: %i[edit update]
 
   def edit
-    @walk.remainders.build if @walk.remainders.blank?
+    return if @walk.remainders.present?
+
+    @walk.remainders.build
   end
 
   def update
@@ -29,7 +31,10 @@ class WalksController < ApplicationController
 
   def set_walk
     @walk = @partner.walks.find_by(id: params[:id])
-    raise ActiveRecord::RecordNotFound, 'walk not found' if @walk.nil?
+    return unless @walk.nil?
+
+    raise ActiveRecord::RecordNotFound,
+          'walk not found'
   end
 
   def walk_params
@@ -45,6 +50,7 @@ class WalksController < ApplicationController
       r[:time].blank?
     end
     # フィルタリングしたremaindersを再構築
-    params[:walk][:remainders_attributes] = filtered_remainders
+    params[:walk][:remainders_attributes] =
+      filtered_remainders
   end
 end

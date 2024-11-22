@@ -5,7 +5,7 @@ class PartnersController < ApplicationController
   before_action :set_partner, only: %i[edit update destroy show remove_image]
 
   def index
-    @partners = current_user.partners.includes(:user)
+    @partners = current_user.partners.includes(:owner)
   end
 
   def new
@@ -54,7 +54,10 @@ class PartnersController < ApplicationController
     @image.purge # 画像を削除
 
     respond_to do |format|
-      format.html { redirect_to edit_partner_path(@partner), notice: '画像が削除されました' }
+      format.html do
+        redirect_to edit_partner_path(@partner),
+                    notice: '画像が削除されました'
+      end
       format.js # JavaScriptのリクエストに対応
     end
   end
