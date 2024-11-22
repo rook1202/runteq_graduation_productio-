@@ -1,12 +1,12 @@
+# frozen_string_literal: true
+
+# 設定ページで行うアクション
 class SettingsController < ApplicationController
-  def show
-  end
+  def show; end
 
-  def name_change
-  end
+  def name_change; end
 
-  def email_change
-  end
+  def email_change; end
 
   def update
     if current_user.update(user_params)
@@ -17,11 +17,10 @@ class SettingsController < ApplicationController
       render :name_change, status: :unprocessable_entity
     end
   end
-
 end
 
 private
 
-  def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end
+def user_params
+  params.require(:user).permit(:name, :email, :password, :password_confirmation)
+end
