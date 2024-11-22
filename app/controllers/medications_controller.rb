@@ -2,11 +2,15 @@
 
 # ペットのおくすりについての情報を管理するコントローラーです。
 class MedicationsController < ApplicationController
-  before_action :set_partner, only: %i[edit update remove_image]
-  before_action :set_medication, only: %i[edit update remove_image]
+  before_action :set_partner,
+                only: %i[edit update remove_image]
+  before_action :set_medication,
+                only: %i[edit update remove_image]
 
   def edit
-    @medication.remainders.build if @medication.remainders.blank?
+    return if @medication.remainders.present?
+
+    @medication.remainders.build
   end
 
   def update
@@ -43,7 +47,10 @@ class MedicationsController < ApplicationController
 
   def set_medication
     @medication = @partner.medications.find_by(id: params[:id])
-    raise ActiveRecord::RecordNotFound, 'Medication not found' if @medication.nil?
+    return unless @medication.nil?
+
+    raise ActiveRecord::RecordNotFound,
+          'Medication not found'
   end
 
   def medication_params
@@ -59,7 +66,8 @@ class MedicationsController < ApplicationController
       r[:time].blank?
     end
     # フィルタリングしたremaindersを再構築
-    params[:medication][:remainders_attributes] = filtered_remainders
+    params[:medication][:remainders_attributes] =
+      filtered_remainders
   end
 
   def add_image

@@ -9,6 +9,8 @@ class ModifyTables < ActiveRecord::Migration[7.0]
     # walks、foods、medicinesテーブルにnoteカラムを追加
     add_column :walks, :note, :text unless column_exists?(:walks, :note)
     add_column :foods, :note, :text unless column_exists?(:foods, :note)
-    add_column :medications, :note, :text unless column_exists?(:medications, :note)
+    return if column_exists?(:medications, :note)
+
+    add_column :medications, :note, :text
   end
 end

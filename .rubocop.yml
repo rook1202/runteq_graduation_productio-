@@ -19,3 +19,4 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/20241031051545_create_active_storage_tables.active_storage.rb'
+

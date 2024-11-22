@@ -16,10 +16,10 @@
                 <div class="mb-3">
                     <h4 style="display: inline;"><%= @partner.name %></h4>
                     <% if current_user && current_user.id == @partner.owner_id %>
-                        <%= link_to edit_partner_path(@partner), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                        <%= link_to edit_partner_path(@partner),id: 'edit_partner', class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                             <i class="fa-solid fa-pen"></i>
                         <% end %>
-                        <%= link_to partner_path(@partner), class: 'link-custom', data: {turbo_method: :delete, turbo_confirm: 'このページを削除しますか？'},style: "display: inline; margin-left: 4px;" do %>
+                        <%= link_to partner_path(@partner),id: 'delete_partner', class: 'link-custom', data: {turbo_method: :delete, turbo_confirm: 'このページを削除しますか？'},style: "display: inline; margin-left: 4px;" do %>
                             <i class="fa-solid fa-trash"></i>
                         <% end %>
                     <% end %>
@@ -40,7 +40,7 @@
 
         <h4 style="display: inline;">ごはん</h4>
             <% if current_user && current_user.id == @partner.owner_id %>
-                <%= link_to edit_partner_food_path(@partner, @food), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                <%= link_to edit_partner_food_path(@partner, @food),id: 'edit_food', class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                     <i class="fa-solid fa-pen"></i>
                 <% end %>
             <% end %>
@@ -50,7 +50,7 @@
 
         <h4 style="display: inline;">さんぽ</h4>
             <% if current_user && current_user.id == @partner.owner_id %>
-                <%= link_to edit_partner_walk_path(@partner, @walk), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                <%= link_to edit_partner_walk_path(@partner, @walk),id: 'edit_walk', class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                     <i class="fa-solid fa-pen"></i>
                 <% end %>
             <% end %>
@@ -60,7 +60,7 @@
 
         <h4 style="display: inline;">おくすり</h4>
             <% if current_user && current_user.id == @partner.owner_id %>
-                <%= link_to edit_partner_medication_path(@partner, @medication), class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+                <%= link_to edit_partner_medication_path(@partner, @medication),id: 'edit_medication', class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
                 <i class="fa-solid fa-pen"></i>
                 <% end %> 
             <% end %>   

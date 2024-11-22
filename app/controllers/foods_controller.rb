@@ -7,7 +7,9 @@ class FoodsController < ApplicationController
 
   def edit
     # remaindersがnilまたは空の場合、新しいインスタンスを追加
-    @food.remainders.build if @food.remainders.blank?
+    return if @food.remainders.present?
+
+    @food.remainders.build
   end
 
   def update
@@ -40,7 +42,10 @@ class FoodsController < ApplicationController
 
   def set_food
     @food = @partner.foods.find_by(id: params[:id])
-    raise ActiveRecord::RecordNotFound, 'Food not found' if @food.nil?
+    return unless @food.nil?
+
+    raise ActiveRecord::RecordNotFound,
+          'Food not found'
   end
 
   def food_params
@@ -58,6 +63,7 @@ class FoodsController < ApplicationController
       r[:time].blank?
     end
     # フィルタリングしたremaindersを再構築
-    params[:food][:remainders_attributes] = filtered_remainders
+    params[:food][:remainders_attributes] =
+      filtered_remainders
   end
 end

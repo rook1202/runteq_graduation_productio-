@@ -5,7 +5,7 @@ class PartnersController < ApplicationController
   before_action :set_partner, only: %i[edit update destroy show remove_image]
 
   def index
-    @partners = current_user.partners.includes(:user)
+    @partners = current_user.partners.includes(:owner)
   end
 
   def new
@@ -17,7 +17,7 @@ class PartnersController < ApplicationController
     @partner.owner_id = current_user.id # ここでログインユーザーのIDを設定
     if @partner.save
       flash[:success] = '登録が完了しました'
-      redirect_to partners_path
+      redirect_to root_path
     else
       flash.now[:danger] = '登録に失敗しました'
       render :new, status: :unprocessable_entity
@@ -46,7 +46,7 @@ class PartnersController < ApplicationController
   def destroy
     @partner.destroy!
     flash[:success] = 'パートナー情報を削除しました'
-    redirect_to partners_path, status: :see_other
+    redirect_to root_path, status: :see_other
   end
 
   def remove_image
@@ -54,7 +54,10 @@ class PartnersController < ApplicationController
     @image.purge # 画像を削除
 
     respond_to do |format|
-      format.html { redirect_to edit_partner_path(@partner), notice: '画像が削除されました' }
+      format.html do
+        redirect_to edit_partner_path(@partner),
+                    notice: '画像が削除されました'
+      end
       format.js # JavaScriptのリクエストに対応
     end
   end

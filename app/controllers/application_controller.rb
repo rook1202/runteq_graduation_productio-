@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def require_login
+    return if logged_in?
+
+    flash[:success] = 'ログインしてください。'
+    redirect_to login_path
+  end
+
   def set_resource(type, partner)
     resource = partner.public_send(type.pluralize).find_by(partner_id: params[:id])
     remainders = partner.remainders.where(activity_type: type.capitalize)

@@ -3,6 +3,8 @@
 # パートナーテーブルにもしnoteカラムが残っていれば削除するマイグレーションファイル
 class RemoveNoteFromPartners < ActiveRecord::Migration[7.0]
   def change
-    remove_column :partners, :note, :text if column_exists?(:partners, :note)
+    return unless column_exists?(:partners, :note)
+
+    remove_column :partners, :note, :text
   end
 end

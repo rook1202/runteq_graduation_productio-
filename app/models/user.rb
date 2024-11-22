@@ -4,7 +4,8 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
 
-  has_many :partners, foreign_key: :owner_id, dependent: :destroy, inverse_of: :user
+  has_many :partners, foreign_key: :owner_id,
+                      dependent: :destroy, inverse_of: :owner
 
   # バリデーションを追加
   validates :name, presence: true
