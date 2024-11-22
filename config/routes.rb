@@ -23,7 +23,8 @@ Rails.application.routes.draw do
   resources :users, only: %i[new create]
 
   # ログイン・ログアウト関連
-  resources :user_sessions, only: %i[new create destroy]
+  resources :user_sessions,
+            only: %i[new create destroy]
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
@@ -32,5 +33,4 @@ Rails.application.routes.draw do
 
   # ログインページを明示的に設定
   get 'login', to: 'user_sessions#new'
-
 end
