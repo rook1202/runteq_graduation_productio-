@@ -1,22 +1,24 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
 # that will avoid rails generators crashing because migrations haven't been run yet
 # return unless Rails.env.test?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
-#system_helper読み込み
+# system_helper読み込み
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |file| require file }
 RSpec.configure do |config|
   config.include SystemHelpers, type: :system
 end
 
-#FactoryBot読み込み
+# FactoryBot読み込み
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
@@ -43,6 +45,8 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+
+# rubocop:disable Metrics/BlockLength
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures')
@@ -77,37 +81,35 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-# Capybaraがサーバーを起動しないように設定
-Capybara.run_server = false 
-Capybara.app_host = "http://web:3000" # Docker Composeの`web`サービスに直接接続
+  # Capybara設定
+  Capybara.configure do |capybara_config|
+    capybara_config.default_driver = :remote_chrome
+    capybara_config.default_max_wait_time = 10
+  end
 
-# Capybaraの設定
-Capybara.configure do |config|
-  config.default_driver = :remote_chrome
-  config.default_max_wait_time = 10 # 必要に応じて調整
-end
+  Capybara.register_driver :remote_chrome do |app|
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument('no-sandbox')
+    options.add_argument('disable-dev-shm-usage')
+    options.add_argument('window-size=1400,1400')
 
-# :remote_chromeドライバの設定
-Capybara.register_driver :remote_chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('headless')
-  options.add_argument('disable-gpu')
-  options.add_argument('no-sandbox')
-  options.add_argument('disable-dev-shm-usage')
-  options.add_argument('window-size=1400,1400')
+    Capybara::Selenium::Driver.new(
+      app,
+      browser: :remote,
+      url: ENV.fetch('SELENIUM_DRIVER_URL', 'http://chrome:4444/wd/hub'),
+      capabilities: options
+    )
+  end
 
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :remote,
-    url: ENV.fetch('SELENIUM_DRIVER_URL', 'http://localhost:4444/wd/hub'),
-    capabilities: options
-  )
-end
-
-RSpec.configure do |config|
   config.before(:each, type: :system) do
     driven_by :remote_chrome
+    ip = Socket.ip_address_list.detect(&:ipv4_private?).ip_address
+    Capybara.server_host = ip
+    Capybara.app_host = "http://#{ip}:#{Capybara.current_session.server.port}"
+    Capybara.run_server = true
+    Capybara.server = :puma, { Silent: true }
   end
 end
-  
-end
+# rubocop:enable Metrics/BlockLength
