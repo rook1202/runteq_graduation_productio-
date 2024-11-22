@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-
   # パートナーの一覧ページとネスト
   resources :partners do
     member do
@@ -39,5 +38,4 @@ Rails.application.routes.draw do
     get :name_change, on: :collection
     get :email_change, on: :collection
   end
-
 end
