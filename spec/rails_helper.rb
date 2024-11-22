@@ -80,7 +80,8 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-
+  
+  if Rails.env.test?
   # Capybara設定
   Capybara.configure do |capybara_config|
     capybara_config.default_driver = :remote_chrome
@@ -110,6 +111,7 @@ RSpec.configure do |config|
     Capybara.app_host = "http://#{ip}:#{Capybara.current_session.server.port}"
     Capybara.run_server = true
     Capybara.server = :puma, { Silent: true }
+  end
   end
 end
 # rubocop:enable Metrics/BlockLength
