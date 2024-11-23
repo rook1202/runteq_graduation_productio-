@@ -14,14 +14,20 @@ require 'rspec/rails'
 
 # system_helper読み込み
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |file| require file }
+
 RSpec.configure do |config|
   config.include SystemHelpers, type: :system
+end
+
+RSpec.configure do |config|
+  config.include Sorcery::TestHelpers::Rails::Request, type: :request
 end
 
 # FactoryBot読み込み
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
+
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
