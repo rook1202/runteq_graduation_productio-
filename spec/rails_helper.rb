@@ -14,14 +14,20 @@ require 'rspec/rails'
 
 # system_helper読み込み
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |file| require file }
+
 RSpec.configure do |config|
   config.include SystemHelpers, type: :system
+end
+
+RSpec.configure do |config|
+  config.include Sorcery::TestHelpers::Rails::Request, type: :request
 end
 
 # FactoryBot読み込み
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
+
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -81,35 +87,37 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  # Capybara設定
-  Capybara.configure do |capybara_config|
-    capybara_config.default_driver = :remote_chrome
-    capybara_config.default_max_wait_time = 10
-  end
+  if Rails.env.test?
+    # Capybara設定
+    Capybara.configure do |capybara_config|
+      capybara_config.default_driver = :remote_chrome
+      capybara_config.default_max_wait_time = 10
+    end
 
-  Capybara.register_driver :remote_chrome do |app|
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('headless')
-    options.add_argument('disable-gpu')
-    options.add_argument('no-sandbox')
-    options.add_argument('disable-dev-shm-usage')
-    options.add_argument('window-size=1400,1400')
+    Capybara.register_driver :remote_chrome do |app|
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.add_argument('headless')
+      options.add_argument('disable-gpu')
+      options.add_argument('no-sandbox')
+      options.add_argument('disable-dev-shm-usage')
+      options.add_argument('window-size=1400,1400')
 
-    Capybara::Selenium::Driver.new(
-      app,
-      browser: :remote,
-      url: ENV.fetch('SELENIUM_DRIVER_URL', 'http://chrome:4444/wd/hub'),
-      capabilities: options
-    )
-  end
+      Capybara::Selenium::Driver.new(
+        app,
+        browser: :remote,
+        url: ENV.fetch('SELENIUM_DRIVER_URL', 'http://chrome:4444/wd/hub'),
+        capabilities: options
+      )
+    end
 
-  config.before(:each, type: :system) do
-    driven_by :remote_chrome
-    ip = Socket.ip_address_list.detect(&:ipv4_private?).ip_address
-    Capybara.server_host = ip
-    Capybara.app_host = "http://#{ip}:#{Capybara.current_session.server.port}"
-    Capybara.run_server = true
-    Capybara.server = :puma, { Silent: true }
+    config.before(:each, type: :system) do
+      driven_by :remote_chrome
+      ip = Socket.ip_address_list.detect(&:ipv4_private?).ip_address
+      Capybara.server_host = ip
+      Capybara.app_host = "http://#{ip}:#{Capybara.current_session.server.port}"
+      Capybara.run_server = true
+      Capybara.server = :puma, { Silent: true }
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength
