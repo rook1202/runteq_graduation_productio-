@@ -2,3 +2,5 @@ tmp/cache/
 tmp/pids/
 log/
 tmp/capybara/
+/storage/*
+!/storage/.keep
