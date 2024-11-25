@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_31_051545) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_24_232719) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -84,7 +84,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_31_051545) do
     t.datetime "updated_at", null: false
     t.string "activity_type"
     t.bigint "activity_id"
-    t.index ["activity_type", "activity_id"], name: "index_remainders_on_activity_model_type_and_activity_model_id"
     t.index ["activity_type", "activity_id"], name: "index_remainders_on_activity_type_and_activity_id"
     t.index ["partner_id"], name: "index_remainders_on_partner_id"
   end
@@ -106,7 +105,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_31_051545) do
     t.string "salt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_token_expires_at", precision: nil
+    t.datetime "reset_password_email_sent_at", precision: nil
+    t.integer "access_count_to_reset_password_page", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "walks", charset: "utf8mb3", force: :cascade do |t|
