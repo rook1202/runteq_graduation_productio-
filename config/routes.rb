@@ -38,4 +38,7 @@ Rails.application.routes.draw do
     get :name_change, on: :collection
     get :email_change, on: :collection
   end
+
+  # 開発環境でのメール設定
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 end
