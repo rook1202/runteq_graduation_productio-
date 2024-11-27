@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-
   # パートナーの一覧ページとネスト
   resources :partners do
     member do
