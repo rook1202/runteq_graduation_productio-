@@ -45,5 +45,7 @@ Rails.application.routes.draw do
 
   resources :password_resets, only: %i[new create edit update]
 
-  resources :email_changes, only: %i[new create edit]
+  resources :email_changes, only: %i[new create update] do
+    get 'confirm', on: :member
+  end
 end
