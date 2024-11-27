@@ -1,0 +1,5 @@
+<p><%= @user.name %> 様</p>
+<p>メールアドレスの変更を受付けました。</p>
+<p>以下のリンクをクリックすると新しいメールアドレスへの変更が完了します！</p>
+<p><%= link_to 'メールアドレスを確認', confirm_email_change_url(@user, token: @user.email_change_token) %></p>
+<p>このメールに心当たりがない場合は、このまま無視してください。</p>
