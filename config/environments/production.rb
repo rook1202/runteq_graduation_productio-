@@ -106,4 +106,25 @@ Rails.application.configure do
 
   # 本番環境でActive StorageがAWS S3を利用する
   config.active_storage.service = :amazon
+
+  # メール設定
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'gmail.com', # 自分のドメインを設定
+    user_name: ENV['SMTP_USER_NAME'], # Gmail アドレス
+    password: ENV['SMTP_PASSWORD'], # アプリパスワード
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+
+  # メール送信のホスト名設定
+  config.action_mailer.default_url_options = { host: 'https://petnote-0a2f00470bc0.herokuapp.com' }
+
+  # メール送信を有効化
+  config.action_mailer.perform_deliveries = false
+
+  # メール送信エラーを無視しない
+  config.action_mailer.raise_delivery_errors = true
 end

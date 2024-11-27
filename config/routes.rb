@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'password_resets/new'
+  get 'password_resets/edit'
   # パートナーの一覧ページとネスト
   resources :partners do
     member do
@@ -38,4 +40,9 @@ Rails.application.routes.draw do
     get :name_change, on: :collection
     get :email_change, on: :collection
   end
+
+  # 開発環境でのメール設定
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+
+  resources :password_resets, only: %i[new create edit update]
 end

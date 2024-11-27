@@ -11,7 +11,7 @@ class SettingsController < ApplicationController
   def update
     if current_user.update(user_params)
       flash[:success] = '変更が完了しました'
-      redirect_to settings_path
+      redirect_to root_path
     else
       flash.now[:danger] = '変更が失敗しました'
       render :name_change, status: :unprocessable_entity

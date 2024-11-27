@@ -23,3 +23,5 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Exclude:
     - "config/routes.rb"
+    - "config/environments/development.rb"
+    - "config/environments/production.rb"

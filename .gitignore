@@ -2,3 +2,8 @@ tmp/cache/
 tmp/pids/
 log/
 tmp/capybara/
+/storage/*
+!/storage/.keep
+
+tmp/letter_opener/
+tmp/screenshots/

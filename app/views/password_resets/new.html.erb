@@ -1,0 +1,23 @@
+<% @page_title = "パスワード再設定" %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-11 col-md-6 mx-auto">
+
+        <p>メール送信ボタンを押すと、入力されたメールアドレス宛に、
+        パスワード再設定用のメールが送られますので、メール本文のURLをクリックして変更を完了してください。</p>
+
+        <div class="border col-12 rounded p-5 mx-auto">
+
+        <%= form_with url: password_resets_path, local: true do |f| %>
+            <div class="mb-3">
+            <%= f.label :email, "メールアドレス", class: "form-label" %>
+            <%= f.email_field :email, class: "form-control" %>
+            </div>
+
+            <%= f.submit 'メール送信', class: 'btn btn-custom w-100' %>
+        <% end %>
+        </div>
+    </div>
+  </div>
+</div>
