@@ -44,5 +44,5 @@ Rails.application.routes.draw do
   # 開発環境でのメール設定
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
-  resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :password_resets, only: %i[new create edit update]
 end
