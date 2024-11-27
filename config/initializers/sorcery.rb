@@ -418,7 +418,7 @@ Rails.application.config.sorcery.configure do |config|
     # manually handle how and when the email is sent
     # Default: `false`
     #
-    # user.reset_password_mailer_disabled =
+    user.reset_password_mailer_disabled = 3600
 
     # How many seconds before the reset request expires. nil for never expires.
     # Default: `nil`
