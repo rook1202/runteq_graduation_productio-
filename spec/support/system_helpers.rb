@@ -9,12 +9,3 @@ module SystemHelpers
     expect(page).to have_current_path(root_path) # ログイン確認
   end
 end
-
-module CapybaraCookieHelper
-  def get_rack_cookie(cookie_name)
-    browser = page.driver.browser
-    browser.manage.all_cookies.find { |c| c[:name] == cookie_name }&.fetch(:value, nil)
-  rescue Selenium::WebDriver::Error::NoSuchCookieError
-    nil
-  end
-end
