@@ -3,6 +3,7 @@
 # パスワードリセット用コントローラー
 class PasswordResetsController < ApplicationController
   skip_before_action :require_login
+  skip_before_action :auto_login_with_remember_me
 
   def new; end
 
