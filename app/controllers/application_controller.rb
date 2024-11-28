@@ -4,8 +4,27 @@
 # 共通のロジックやフィルターを定義します。
 class ApplicationController < ActionController::Base
   before_action :require_login
+  before_action :auto_login_with_remember_me
 
   private
+
+  def auto_login_with_remember_me
+    return if current_user # 既にログイン中なら何もしない
+
+    # Remember Me のクッキーがあれば、セッションを復元
+    session = fetch_valid_session
+    auto_login(session.user) if session
+  end
+
+  def fetch_valid_session
+    return unless cookies.signed[:session_id].present? && cookies[:remember_token].present?
+
+    session = Session.find_by(id: cookies.signed[:session_id])
+    return if session.nil? || session.expired?
+    return unless session.valid_token?(cookies[:remember_token])
+
+    session
+  end
 
   def require_login
     return if logged_in?
