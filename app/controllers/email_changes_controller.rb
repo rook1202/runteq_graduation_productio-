@@ -42,6 +42,7 @@ class EmailChangesController < ApplicationController
     @user.new_email = params[:new_email]
     @user.email_change_token = SecureRandom.urlsafe_base64
     @user.email_change_token_expires_at = 2.hours.from_now
+    @user.email_change_requested_at = Time.current
   end
 
   def user_email_update
