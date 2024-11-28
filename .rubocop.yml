@@ -25,3 +25,5 @@ Metrics/BlockLength:
     - "config/routes.rb"
     - "config/environments/development.rb"
     - "config/environments/production.rb"
+    - "spec/system/user_sessions/login_sessions_spec.rb"
+    - "spec/system/user_sessions/logout_sessions_spec.rb"

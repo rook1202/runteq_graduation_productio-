@@ -14,9 +14,14 @@
               <%= form.email_field :email, class: 'form-control', id: 'email', placeholder: 'メールアドレスを入力' %>
             </div>
             
-            <div class="mb-4">
+            <div class="mb-2">
               <%= form.label :password, 'パスワード', class: 'form-label' %>
               <%= form.password_field :password, class: 'form-control', id: 'password', placeholder: 'パスワードを入力' %>
+            </div>
+
+            <div class="form-check mb-4">
+              <%= form.check_box :remember_me, class: 'form-check-input', id: 'remember_me' %>
+              <%= form.label :remember_me, 'ログイン状態を保持する', class: 'form-check-label' %>
             </div>
             
             <div class="mb-3">

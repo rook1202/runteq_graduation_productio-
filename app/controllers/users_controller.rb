@@ -3,6 +3,7 @@
 # ユーザーの新規登録に関するコントローラーです。
 class UsersController < ApplicationController
   skip_before_action :require_login
+  skip_before_action :auto_login_with_remember_me
 
   def new
     @user = User.new

@@ -17,6 +17,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |file| require file }
 
 RSpec.configure do |config|
   config.include SystemHelpers, type: :system
+  config.include CapybaraCookieHelper, type: :system
 end
 
 RSpec.configure do |config|
