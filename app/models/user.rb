@@ -14,4 +14,6 @@ class User < ApplicationRecord
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
   validates :reset_password_token, uniqueness: true, allow_nil: true
+  validates :new_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_nil: true
+  validates :email_change_token, uniqueness: true, allow_nil: true
 end

@@ -8,11 +8,11 @@ RSpec.describe 'パスワード再設定メール送信ページ', type: :system
   it 'ログイン画面から入る（未ログイン）' do
     visit login_path
     click_on 'パスワードを忘れましたか？'
-    expect(page).to have_current_path(password_resets_new_path)
+    expect(page).to have_current_path(new_password_reset_path)
   end
 
   it 'パスワードが変更できる' do
-    visit password_resets_new_path
+    visit new_password_reset_path
     fill_in 'email', with: user.email
     click_button 'メール送信'
     expect(page).to have_content('パスワード再設定のリンクをメールで送信しました。'), 'フラッシュメッセージ「パスワード再設定のリンクをメールで送信しました。」が表示されていません'
