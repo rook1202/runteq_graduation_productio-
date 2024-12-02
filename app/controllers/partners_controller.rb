@@ -62,6 +62,24 @@ class PartnersController < ApplicationController
     end
   end
 
+  def create_token
+    token = if params[:id] # 個別共有の場合
+              set_partner
+              Token.create_share_for(user: current_user, partner: @partner)
+            else # 一括共有の場合
+              Token.create_share_for(user: current_user)
+            end
+
+    respond_to do |format|
+      if token
+        format.turbo_stream
+      else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('flash-messages', partial: 'shared/error_message', locals: { message: 'トークン作成失敗' }) }
+      end
+    end
+
+  end
+
   private
 
   def partner_params
