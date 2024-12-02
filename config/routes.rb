@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   resources :partners do
     member do
       delete :remove_image
+      post :create_token  # 特定のパートナーに対する追加
+    end
+    collection do
+      post :create_token  # 全てのパートナーに対する追加
     end
     resources :medications do
       member do
