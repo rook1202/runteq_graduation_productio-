@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Partner共有のためのトークン発行・管理するテーブルを作成する
 class CreateTokens < ActiveRecord::Migration[7.0]
   def change

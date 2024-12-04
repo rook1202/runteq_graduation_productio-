@@ -1,19 +1,20 @@
+# frozen_string_literal: true
+
 # Partner共有のためのトークン発行・管理するテーブルのモデル
 class Token < ApplicationRecord
-    # バリデーション
-    validates :token, presence: true, uniqueness: true
-    validates :user_id, presence: true
-    validates :expiration_date, presence: true
-  
-    # 関連付け（オプションで必要に応じて記述）
-    belongs_to :user
-    belongs_to :partner, optional: true
-  
-    # スコープ（有効期限が切れていないトークンを取得）
-    scope :valid_tokens, -> { where('expiration_date > ?', Time.current) }
+  # バリデーション
+  validates :token, presence: true, uniqueness: true
+  validates :user_id, presence: true
+  validates :expiration_date, presence: true
 
+  # 関連付け（オプションで必要に応じて記述）
+  belongs_to :user
+  belongs_to :partner, optional: true
 
-    # トークン生成用メソッド
+  # スコープ（有効期限が切れていないトークンを取得）
+  scope :valid_tokens, -> { where('expiration_date > ?', Time.current) }
+
+  # トークン生成用メソッド
   def self.generate_token
     SecureRandom.urlsafe_base64
   end
@@ -27,6 +28,4 @@ class Token < ApplicationRecord
       expiration_date: 1.hour.from_now
     )
   end
-
 end
-  
