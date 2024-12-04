@@ -32,6 +32,19 @@
       <%= link_to login_path, class: 'navbar-brand' do %>
         <i class="fas fa-chevron-left"></i>
     <% end %>
+
+    <% elsif controller_name == 'settings' && action_name == 'name_change' %>
+      <!-- settings/name_change → settings_path に戻る -->
+      <%= link_to settings_path, class: 'navbar-brand' do %>
+        <i class="fas fa-chevron-left"></i>
+    <% end %>
+
+    <% elsif controller_name == 'email_changes' && action_name == 'new' %>
+      <!-- email_changes/new → settings_path に戻る -->
+      <%= link_to settings_path, class: 'navbar-brand' do %>
+        <i class="fas fa-chevron-left"></i>
+    <% end %>
+
 <% end %>
 
 <!-- ページタイトルを文字列として表示 -->
