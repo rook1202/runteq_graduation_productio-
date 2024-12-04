@@ -1,14 +1,8 @@
-<%= turbo_stream.replace 'flash-messages' do %>
-    <div id="flash-messages">
-      <div class="alert alert-success">トークン作成成功</div>
-    </div>
-  <% end %>
-  
   <% if params[:id].present? %>
     <%= turbo_stream.after "confirmationModal" do %>
       <script>
-        var modal = bootstrap.Modal.getInstance(document.getElementById('confirmationModal'));
-        modal.hide();
+      var modal = bootstrap.Modal.getInstance(document.getElementById('confirmationModal'));
+      modal.hide();
       </script>
     <% end %>
   <% else %>
