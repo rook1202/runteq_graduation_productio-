@@ -65,18 +65,13 @@ class PartnersController < ApplicationController
   def create_token
     partner = params[:id] ? set_partner : nil
     host_url = root_url
-    result = ShareService.new(current_user, partner, host_url).create_share
-  
+    result = ShareService.new(host_url, current_user, partner).create_share
+
     respond_to do |format|
       if result
-        format.json do
-          render json: {success: true, share_url: result[:share_url], share_text: result[:share_text], qr_code_svg: result[:qr_code_svg]}, status: :ok
-        end
-        format.turbo_stream
+        format.json { render_success_response(result) }
       else
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace('flash-messages', partial: 'shared/error_message', locals: { message: 'トークン作成失敗' })
-        end
+        format.turbo_stream { render_error_response }
       end
     end
   end
@@ -107,5 +102,22 @@ class PartnersController < ApplicationController
     set_food
     set_walk
     set_medication
+  end
+
+  def render_success_response(result)
+    render json: {
+      success: true,
+      share_url: result[:share_url],
+      share_text: result[:share_text],
+      qr_code_svg: result[:qr_code_svg]
+    }, status: :ok
+  end
+
+  def render_error_response
+    render turbo_stream: turbo_stream.replace(
+      'flash-messages',
+      partial: 'shared/error_message',
+      locals: { message: 'トークン作成失敗' }
+    )
   end
 end
