@@ -6,6 +6,7 @@ Rails.start();
 import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
+import "share_partner"
 
 
 function addRemainderFields(activityType) {
