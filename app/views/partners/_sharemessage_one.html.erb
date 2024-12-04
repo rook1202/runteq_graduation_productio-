@@ -1,22 +1,13 @@
 <div class="mb-5 text-end">
-<%= button_tag 'このパートナーを共有', class: 'btn btn-custom', data: { bs_toggle: 'modal', bs_target: '#confirmationModal' } %>
+  <%= button_tag 'このパートナーを共有', class: 'btn btn-custom', data: { bs_toggle: 'modal', bs_target: '#confirmationModal' } %>
 </div>
 
-<!-- モーダル構造 -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmationModalLabel">確認</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
-      </div>
-      <div class="modal-body">
-        このパートナーの情報を共有しますか？
-      </div>
-      <div class="modal-footer">
-        <%= button_to '共有する', create_token_partner_path(partner), method: :post, class: 'btn btn-custom' %>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render partial: "shared/share_modal", locals: {
+  modal_id: "confirmationModal",
+  modal_label_id: "confirmationModalLabel",
+  modal_title: "共有方法選択",
+  modal_message: "このパートナーを知り合いに共有しますか？",
+  create_token_path: create_token_partner_path(id: @partner.id)
+} %>
+
+<%= render partial: "shared/qrcode_modal" %>
