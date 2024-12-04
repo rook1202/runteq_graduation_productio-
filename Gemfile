@@ -89,3 +89,4 @@ end
 
 gem 'bootstrap', '~> 5.3'
 gem 'sorcery'
+gem 'rqrcode'
