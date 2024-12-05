@@ -57,12 +57,6 @@
           console.error("エラーが発生しました:", error);
           alert("処理中にエラーが発生しました");
         });
-    } else if (action === "LINE") {
-      // LINE共有処理（既存のコード）
-      const message = encodeURIComponent("このリンクをご覧ください: [リンク]");
-      window.open(`https://line.me/R/msg/text/?${message}`, "_blank");
-    } else if (action === "QRコード") {
-      alert("QRコード生成はまだ実装されていません。");
     }
   }
 
