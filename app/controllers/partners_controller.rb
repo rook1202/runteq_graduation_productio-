@@ -2,10 +2,21 @@
 
 # ペットについての基本情報を管理するコントローラーです。
 class PartnersController < ApplicationController
-  before_action :set_partner, only: %i[edit update destroy show remove_image]
+  before_action :set_partner, only: %i[edit update destroy remove_image]
 
   def index
-    @partners = current_user.partners.includes(:owner)
+    # 自分のペット
+    own_partners = current_user.partners.includes(:owner).with_attached_image
+
+    # 共有されたペット
+    shared_partners = Partner.joins(:partner_shares)
+                             .where(partner_shares: { shared_by: current_user.id })
+                             .includes(:owner).with_attached_image
+
+    # 結合して、自分のペットを優先的に表示
+    @partners = (own_partners + shared_partners).uniq.sort_by do |partner|
+      partner.owner_id == current_user.id ? 0 : 1
+    end
   end
 
   def new
@@ -25,10 +36,22 @@ class PartnersController < ApplicationController
   end
 
   def show
+    @partner = Partner.find(params[:id])
+    unless user_has_access_to_partner?
+      redirect_to partners_path, alert: "このパートナー情報を表示する権限がありません。"
+      return
+    end
     food_walk_medication_set
     @pet_foods = helpers.generate_food_array(@food, @food_remainders)
     @pet_walks = helpers.generate_walk_array(@walk, @walk_remainders)
     @pet_medications = helpers.generate_medication_array(@medication, @medication_remainders)
+
+    if @partner.owner_id == current_user.id
+      @shared_users = User.where(id: PartnerShare.where(partner_id: @partner.id, user_id: current_user.id).select(:shared_by))
+    else
+      # 他人のペットの場合は解除ボタンのみ
+      @shared_users = []
+    end
   end
 
   def edit; end
@@ -76,6 +99,26 @@ class PartnersController < ApplicationController
     end
   end
 
+  def remove_share
+    @partner = Partner.find(params[:id])
+    unless user_has_access_to_partner?
+      redirect_to partners_path, alert: "このパートナー情報を表示する権限がありません。"
+      return
+    end
+
+    user_ids = params[:user_ids]
+    
+    if @partner.owner_id == current_user.id
+      if user_ids.blank?
+        redirect_to partner_path(@partner), alert: "共有を解除する相手を選択してください。"
+        return
+      end
+      remove_share_from_my_partner
+    else
+      remove_share_from_shared_partner
+    end
+  end
+
   private
 
   def partner_params
@@ -119,5 +162,31 @@ class PartnersController < ApplicationController
       partial: 'shared/error_message',
       locals: { message: 'トークン作成失敗' }
     )
+  end
+
+  def user_has_access_to_partner?
+    # ログインユーザーがパートナーのオーナーか
+    return true if @partner.owner_id == current_user.id
+    
+    # partner_shares テーブルに共有されているか
+    PartnerShare.exists?(partner_id: @partner.id, shared_by: current_user.id)
+  end
+
+  def remove_share_from_my_partner  
+    shares = PartnerShare.where(partner_id: @partner.id, user_id: current_user.id, shared_by: user_ids)
+    if shares.destroy_all.any?
+      redirect_to partner_path(@partner), notice: "選択した相手との共有を解除しました。"
+    else
+      redirect_to partner_path(@partner), alert: "解除対象がありませんでした。"
+    end
+  end
+
+  def remove_share_from_shared_partner
+    shares = PartnerShare.where(partner_id: @partner.id, shared_by: current_user.id)
+    if shares.destroy_all.any?
+      redirect_to root_path, notice: "共有を解除しました。"
+    else
+      redirect_to partner_path(@partner), alert: "解除対象がありませんでした。"
+    end
   end
 end
