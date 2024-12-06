@@ -77,5 +77,8 @@
         <div>
     </div>
   </div>
-  <%= render "sharemessage_one", partner: @partner %>
+  <% if current_user && current_user.id == @partner.owner_id %>
+    <%= render "sharemessage_one", partner: @partner %>
+  <% end %>
+    <%= render "unshare_partner_modal", partner: @partner, shared_users: @shared_users %>
 </div>
