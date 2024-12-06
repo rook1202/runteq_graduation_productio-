@@ -1,0 +1,36 @@
+<div class="col-12 px-3 pt-3 pb-2 my-3">
+  <ul class="list-group">
+    <% shared_users.each do |user| %>
+      <li class="d-flex justify-content-between align-items-center">
+        <span><%= user.name %></span>
+        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#unshareModal_<%= user.id %>">
+          共有解除
+        </button>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<% shared_users.each do |user| %>
+    <!-- モーダル -->
+    <div class="modal fade" id="unshareModal_<%= user.id %>" tabindex="-1" aria-labelledby="unshareModalLabel_<%= user.id %>" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="unshareModalLabel_<%= user.id %>">
+              <%= user.name %>との共有を解除
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>以下の操作から選択してください。パートナーごとに解除したい場合はそれぞれのページからすることができます。</p>
+            <div class="d-grid gap-2">
+              <%= button_to "相互共有を解除", mutual_unshare_path(user_id: user.id), method: :delete, class: "btn btn-outline-danger" %>
+              <%= button_to "相手から共有されたすべてのパートナーの共有解除", other_partner_unshare_path(user_id: user.id), method: :delete, class: "btn btn-outline-secondary" %>
+              <%= button_to "相手へ共有した自分のすべてのパートナーの共有解除", my_partner_unshare_path(user_id: user.id), method: :delete, class: "btn btn-outline-secondary" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>

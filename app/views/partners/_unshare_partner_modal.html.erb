@@ -1,0 +1,64 @@
+<!-- ペット詳細ページ -->
+<% if partner.owner_id == current_user.id %>
+  <% if shared_users.any? %>
+  <div class="mb-5 text-end">
+  <%= button_tag '共有解除', class: 'btn btn-outline-danger', data: { bs_toggle: 'modal', bs_target: '#removeShareModal' } %>
+  </div>
+  <% end %>
+
+  <!-- モーダル -->
+  <div class="modal fade" id="removeShareModal" tabindex="-1" aria-labelledby="removeShareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="removeShareModalLabel">共有解除</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>解除する共有相手を選択してください。</p>
+          <form action="<%= remove_share_partner_path(@partner) %>" method="post">
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <div class="form-group">
+              <ul>
+                <% shared_users.each do |user| %>
+                  <li class="list-group-item">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="user_ids[]" value="<%= user.id %>" id="user_<%= user.id %>">
+                      <label class="form-check-label" for="user_<%= user.id %>">
+                        <%= user.name %>
+                      </label>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+            <button type="submit" class="btn btn-danger mt-3">解除する</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="mb-5 text-end">
+  <%= button_tag '共有解除', class: 'btn btn-outline-danger', data: { bs_toggle: 'modal', bs_target: '#removeShareModal' } %>
+  </div>
+
+  <!-- モーダル -->
+  <div class="modal fade" id="removeShareModal" tabindex="-1" aria-labelledby="removeShareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="removeShareModalLabel">共有解除</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>この共有を解除しますか？</p>
+          <form action="<%= remove_share_partner_path(@partner) %>" method="post">
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <button type="submit" class="btn btn-danger">解除する</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
