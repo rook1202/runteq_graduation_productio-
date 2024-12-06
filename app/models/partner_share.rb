@@ -10,6 +10,6 @@ class PartnerShare < ApplicationRecord
 
   # 関連付け（オプションで必要に応じて記述）
   belongs_to :partner
-  belongs_to :user
-  belongs_to :shared_by_user, class_name: 'User', inverse_of: :shared_partner_shares
+  belongs_to :user, inverse_of: :partner_shares
+  belongs_to :shared_by_user, class_name: 'User', foreign_key: :shared_by, inverse_of: :shared_partner_shares
 end
