@@ -28,4 +28,12 @@ class Token < ApplicationRecord
       expiration_date: 1.hour.from_now
     )
   end
+
+  # 認証メソッド
+  def self.authenticate(token_string)
+    token = find_by(token: token_string)
+    return nil if token.nil? || token.expiration_date < Time.current
+    token
+  end
+  
 end

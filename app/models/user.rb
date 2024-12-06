@@ -7,7 +7,8 @@ class User < ApplicationRecord
   has_many :partners, foreign_key: :owner_id,
                       dependent: :destroy, inverse_of: :owner
   has_many :tokens, dependent: :destroy
-  has_many :partner_shares, dependent: :destroy, inverse_of: :shared_by
+  has_many :partner_shares, dependent: :destroy, inverse_of: :user
+  has_many :shared_partner_shares, class_name: 'PartnerShare', foreign_key: :shared_by, inverse_of: :shared_by_user
 
   # バリデーションを追加
   validates :name, presence: true
