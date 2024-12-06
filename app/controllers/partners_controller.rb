@@ -38,7 +38,7 @@ class PartnersController < ApplicationController
   def show
     @partner = Partner.find(params[:id])
     unless user_has_access_to_partner?
-      redirect_to partners_path, alert: "このパートナー情報を表示する権限がありません。"
+      redirect_to partners_path, alert: 'このパートナー情報を表示する権限がありません。'
       return
     end
     food_walk_medication_set
@@ -46,12 +46,7 @@ class PartnersController < ApplicationController
     @pet_walks = helpers.generate_walk_array(@walk, @walk_remainders)
     @pet_medications = helpers.generate_medication_array(@medication, @medication_remainders)
 
-    if @partner.owner_id == current_user.id
-      @shared_users = User.where(id: PartnerShare.where(partner_id: @partner.id, user_id: current_user.id).select(:shared_by))
-    else
-      # 他人のペットの場合は解除ボタンのみ
-      @shared_users = []
-    end
+    set_shared_users
   end
 
   def edit; end
@@ -102,15 +97,15 @@ class PartnersController < ApplicationController
   def remove_share
     @partner = Partner.find(params[:id])
     unless user_has_access_to_partner?
-      redirect_to partners_path, alert: "このパートナー情報を表示する権限がありません。"
+      redirect_to partners_path, alert: 'このパートナー情報を表示する権限がありません。'
       return
     end
 
-    user_ids = params[:user_ids]
-    
+    @user_ids = params[:user_ids]
+
     if @partner.owner_id == current_user.id
-      if user_ids.blank?
-        redirect_to partner_path(@partner), alert: "共有を解除する相手を選択してください。"
+      if @user_ids.blank?
+        redirect_to partner_path(@partner), alert: '共有を解除する相手を選択してください。'
         return
       end
       remove_share_from_my_partner
@@ -167,26 +162,35 @@ class PartnersController < ApplicationController
   def user_has_access_to_partner?
     # ログインユーザーがパートナーのオーナーか
     return true if @partner.owner_id == current_user.id
-    
+
     # partner_shares テーブルに共有されているか
     PartnerShare.exists?(partner_id: @partner.id, shared_by: current_user.id)
   end
 
-  def remove_share_from_my_partner  
-    shares = PartnerShare.where(partner_id: @partner.id, user_id: current_user.id, shared_by: user_ids)
+  def remove_share_from_my_partner
+    shares = PartnerShare.where(partner_id: @partner.id, user_id: current_user.id, shared_by: @user_ids)
     if shares.destroy_all.any?
-      redirect_to partner_path(@partner), notice: "選択した相手との共有を解除しました。"
+      redirect_to partner_path(@partner), notice: '選択した相手との共有を解除しました。'
     else
-      redirect_to partner_path(@partner), alert: "解除対象がありませんでした。"
+      redirect_to partner_path(@partner), alert: '解除対象がありませんでした。'
     end
   end
 
   def remove_share_from_shared_partner
     shares = PartnerShare.where(partner_id: @partner.id, shared_by: current_user.id)
     if shares.destroy_all.any?
-      redirect_to root_path, notice: "共有を解除しました。"
+      redirect_to root_path, notice: '共有を解除しました。'
     else
-      redirect_to partner_path(@partner), alert: "解除対象がありませんでした。"
+      redirect_to partner_path(@partner), alert: '解除対象がありませんでした。'
     end
+  end
+
+  def set_shared_users
+    @shared_users = if @partner.owner_id == current_user.id
+                      User.where(id: PartnerShare.where(partner_id: @partner.id,
+                                                        user_id: current_user.id).select(:shared_by))
+                    else
+                      []
+                    end
   end
 end
