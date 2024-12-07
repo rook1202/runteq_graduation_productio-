@@ -56,7 +56,7 @@ class PartnerSharesController < ApplicationController
   def process_bulk_share(token)
     success_count = PartnerShare.process_bulk_share(token, current_user.id)
     if success_count.positive?
-      redirect_to partners_path, notice: "#{success_count}件の共有が成功しました！"
+      redirect_to partners_path, notice: "#{success_count}件のパートナーを共有しました！"
     else
       redirect_to root_path, alert: '一括共有中にエラーが発生しました。'
     end
@@ -64,7 +64,7 @@ class PartnerSharesController < ApplicationController
 
   def process_individual_share(token)
     if PartnerShare.process_individual_share(token, current_user.id)
-      redirect_to partners_path, notice: '共有が成功しました！'
+      redirect_to partners_path, notice: '共有が完了しました！'
     else
       redirect_to root_path, alert: '共有処理中にエラーが発生しました。'
     end
