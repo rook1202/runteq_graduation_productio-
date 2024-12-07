@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_28_105706) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_02_004942) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -63,6 +63,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_105706) do
     t.index ["partner_id"], name: "index_medications_on_partner_id"
   end
 
+  create_table "partner_shares", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "partner_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "shared_by", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id", "user_id", "shared_by"], name: "index_partner_shares_on_all_ids", unique: true
+    t.index ["partner_id"], name: "index_partner_shares_on_partner_id"
+    t.index ["shared_by"], name: "fk_rails_9969d480b3"
+    t.index ["user_id"], name: "index_partner_shares_on_user_id"
+  end
+
   create_table "partners", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "owner_id"
     t.string "name", null: false
@@ -99,6 +111,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_105706) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "tokens", charset: "utf8mb3", force: :cascade do |t|
+    t.string "token", null: false
+    t.bigint "user_id", null: false
+    t.bigint "partner_id"
+    t.datetime "expiration_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_tokens_on_partner_id"
+    t.index ["token"], name: "index_tokens_on_token", unique: true
+    t.index ["user_id"], name: "index_tokens_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -132,8 +156,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_105706) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "foods", "partners"
   add_foreign_key "medications", "partners"
+  add_foreign_key "partner_shares", "partners"
+  add_foreign_key "partner_shares", "users"
+  add_foreign_key "partner_shares", "users", column: "shared_by"
   add_foreign_key "partners", "users", column: "owner_id"
   add_foreign_key "remainders", "partners"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tokens", "partners"
+  add_foreign_key "tokens", "users"
   add_foreign_key "walks", "partners"
 end

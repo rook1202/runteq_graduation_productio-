@@ -75,7 +75,10 @@
         <div class="border col-12 rounded px-3 pt-3 pb-2 mb-3 mx-auto">
             <%= render 'medication', medication: @medication, remainders: @medication_remainders, pet_medications: @pet_medications  %>            
         <div>
-
     </div>
   </div>
+  <% if current_user && current_user.id == @partner.owner_id %>
+    <%= render "sharemessage_one", partner: @partner %>
+  <% end %>
+    <%= render "unshare_partner_modal", partner: @partner, shared_users: @shared_users %>
 </div>

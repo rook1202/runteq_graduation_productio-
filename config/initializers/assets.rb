@@ -16,6 +16,7 @@ Rails.application.config.assets.version = '1.0'
 # bootstrap.min.css をプリコンパイルしないため
 Rails.application.config.assets.precompile += [
   'application.js',
+  'share_partner.js',
   'application.css',
   'custom_styles.css',
   'pet_omocha_inu.png',

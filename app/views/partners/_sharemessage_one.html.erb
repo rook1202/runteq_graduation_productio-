@@ -1,0 +1,13 @@
+<div class="mb-3 text-end">
+  <%= button_tag 'このパートナーを共有', class: 'btn btn-custom', data: { bs_toggle: 'modal', bs_target: '#confirmationModal' } %>
+</div>
+
+<%= render partial: "shared/share_modal", locals: {
+  modal_id: "confirmationModal",
+  modal_label_id: "confirmationModalLabel",
+  modal_title: "共有方法選択",
+  modal_message: "このパートナーを知り合いに共有しますか？",
+  create_token_path: create_token_partner_path(id: @partner.id)
+} %>
+
+<%= render partial: "shared/qrcode_modal" %>

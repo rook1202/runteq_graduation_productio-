@@ -3,12 +3,13 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-11 col-md-6 mx-auto">
-
         <h4>共有中のユーザー</h4>
         <hr>
-        <div class="col-12 px-3 pt-3 pb-2 my-3 mx-auto">
-        <p>共有中のユーザー名 共有解除</p>
-        </div>
+        <% if @shared_users.any? %>
+        <%= render "unshare_modal", shared_users: @shared_users %>
+        <% else %>
+        <p>共有しているユーザーはいません。</p>
+        <% end %>
 
         <h4>ログイン設定</h4>
         <hr>

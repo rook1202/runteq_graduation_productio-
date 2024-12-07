@@ -1,0 +1,14 @@
+<!-- 一括共有用のモーダル -->
+<div class="mb-5 text-end">
+  <%= button_tag 'すべてのパートナーを共有', class: 'btn btn-custom', data: { bs_toggle: 'modal', bs_target: '#confirmationModalAll' } %>
+</div>
+
+<%= render partial: "shared/share_modal", locals: {
+  modal_id: "confirmationModalAll",
+  modal_label_id: "confirmationModalAllLabel",
+  modal_title: "共有方法選択",
+  modal_message: "すべてのパートナーを知り合いに共有しますか？共有できるのはあなたのパートナーのみです。",
+  create_token_path: create_token_partners_path
+} %>
+
+<%= render partial: "shared/qrcode_modal" %>

@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   resources :partners do
     member do
       delete :remove_image
+      post :create_token  # 特定のパートナーに対する追加
+      post :remove_share
+    end
+    collection do
+      post :create_token  # 全てのパートナーに対する追加
     end
     resources :medications do
       member do
@@ -36,7 +41,6 @@ Rails.application.routes.draw do
   # 設定ページ
   resource :settings, only: %i[show update] do
     get :name_change, on: :collection
-    get :email_change, on: :collection
   end
 
   # 開発環境でのメール設定
@@ -47,4 +51,9 @@ Rails.application.routes.draw do
   resources :email_changes, only: %i[new create update] do
     get 'confirm', on: :member
   end
+
+  get 'share/:token', to: 'partner_shares#confirm', as: :confirm_share
+  delete 'mutual_unshare/:user_id', to: 'partner_shares#mutual_unshare', as: :mutual_unshare
+  delete 'other_partner_unshare/:user_id', to: 'partner_shares#other_partner_unshare', as: :other_partner_unshare
+  delete 'my_partner_unshare/:user_id', to: 'partner_shares#my_partner_unshare', as: :my_partner_unshare
 end
