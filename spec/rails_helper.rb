@@ -18,6 +18,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |file| require file }
 RSpec.configure do |config|
   config.include SystemHelpers, type: :system
   config.include CapybaraCookieHelper, type: :system
+  config.include SharedPartnerSetup, type: :system
 end
 
 RSpec.configure do |config|
@@ -52,7 +53,6 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 
-# rubocop:disable Metrics/BlockLength
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures')
@@ -120,4 +120,3 @@ RSpec.configure do |config|
     end
   end
 end
-# rubocop:enable Metrics/BlockLength
