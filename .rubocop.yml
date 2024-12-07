@@ -22,12 +22,12 @@ Metrics/MethodLength:
     - 'db/migrate/20241031051545_create_active_storage_tables.active_storage.rb'
 
 Metrics/BlockLength:
+  Max: 35
   Exclude:
     - "config/routes.rb"
     - "config/environments/development.rb"
     - "config/environments/production.rb"
-    - "spec/system/user_sessions/login_sessions_spec.rb"
-    - "spec/system/user_sessions/logout_sessions_spec.rb"
+    - "spec/system/partner_shares/partner_unshare_all_spec.rb"
 
 Metrics/ClassLength:
   Exclude:
