@@ -96,6 +96,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_02_004942) do
     t.datetime "updated_at", null: false
     t.string "activity_type"
     t.bigint "activity_id"
+    t.index ["activity_type", "activity_id"], name: "index_remainders_on_activity_model_type_and_activity_model_id"
     t.index ["activity_type", "activity_id"], name: "index_remainders_on_activity_type_and_activity_id"
     t.index ["partner_id"], name: "index_remainders_on_partner_id"
   end
