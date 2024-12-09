@@ -9,7 +9,7 @@
                 <% if @partner.image.attached? %>
                     <%= image_tag @partner.image, class: "custom-show-img", alt: @partner.name %>
                 <% else %>
-                    <%= image_tag 'pet_omocha_inu.png', class: "custom-show-img", alt: "default_image" %>
+                    <%= image_tag 'noimage.png', class: "custom-show-img", alt: "default_image" %>
                 <% end %>
             </div>
             <div class="col-6 mb-3 custom-show-text">
