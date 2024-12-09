@@ -7,6 +7,7 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
 import "share_partner"
+import "service_worker_registration"
 
 
 function addRemainderFields(activityType) {
