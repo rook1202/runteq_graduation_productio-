@@ -1,0 +1,34 @@
+{
+    "name": "Pet Note",
+    "short_name": "PetNote",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1e90ff",
+    "icons": [
+      {
+        "src": "/icons/icon-192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/icons/icon-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "/screenshots/screenshot1.png",
+        "type": "image/png",
+        "sizes": "640x480",
+        "form_factor": "wide"
+      },
+      {
+        "src": "/screenshots/screenshot2.png",
+        "type": "image/png",
+        "sizes": "1280x720",
+        "form_factor": "wide"
+      }
+    ]
+  }
