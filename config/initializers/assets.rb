@@ -17,9 +17,10 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += [
   'application.js',
   'share_partner.js',
+  'service_worker_registration.js',
   'application.css',
   'custom_styles.css',
-  'pet_omocha_inu.png',
+  'noimage.png',
   'controllers/application.js',
   'controllers/hello_controller.js',
   'controllers/index.js'

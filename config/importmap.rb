@@ -4,6 +4,7 @@
 
 pin 'application'
 pin 'share_partner', to: 'share_partner.js'
+pin 'service_worker_registration', to: 'service_worker_registration.js'
 pin '@hotwired/turbo-rails', to: 'turbo.min.js'
 pin '@hotwired/stimulus', to: 'stimulus.min.js'
 pin '@hotwired/stimulus-loading',
