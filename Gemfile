@@ -90,3 +90,5 @@ end
 gem 'bootstrap', '~> 5.3'
 gem 'rqrcode'
 gem 'sorcery'
+gem 'firebase-admin-sdk'
+gem 'sidekiq'
