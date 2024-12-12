@@ -33,8 +33,7 @@ RUN mkdir /runteq_graduation_productio-
 WORKDIR /runteq_graduation_productio-
 RUN gem install bundler
 # Gemfile関連を先にコピーして依存関係をインストール
-COPY Gemfile /runteq_graduation_productio-/Gemfile
-COPY Gemfile.lock /runteq_graduation_productio-/Gemfile.lock
+COPY Gemfile Gemfile.lock /runteq_graduation_productio-/
 RUN bundle install
 # JavaScript依存関係のインストール
 COPY yarn.lock /runteq_graduation_productio-/yarn.lock
