@@ -20,7 +20,6 @@ services:
       - bundle_data:/usr/local/bundle:cached
       - node_modules:/runteq_graduation_productio-/node_modules
     environment:
-      RAILS_ENV: development
       TZ: Asia/Tokyo
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
       PORT: 3000
@@ -29,10 +28,15 @@ services:
     depends_on:
       - db
       - chrome
+      - redis  # Redisサービスを依存関係に追加
   chrome:
     image: seleniarm/standalone-chromium:121.0
     ports:
       - "4444:4444"
+  redis: # Redisサービスを追加
+    image: redis:latest
+    ports:
+      - "6379:6379"
 
 volumes:
   mysql_data:

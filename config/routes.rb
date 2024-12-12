@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  
+  mount Sidekiq::Web => '/sidekiq'
+
   # パートナーの一覧ページとネスト
   resources :partners do
     member do
@@ -50,6 +55,12 @@ Rails.application.routes.draw do
 
   resources :email_changes, only: %i[new create update] do
     get 'confirm', on: :member
+  end
+
+  resources :remainders, only: [:update] # 通知の更新
+
+  namespace :api do
+    resources :device_tokens, only: [:create]
   end
 
   get 'share/:token', to: 'partner_shares#confirm', as: :confirm_share
