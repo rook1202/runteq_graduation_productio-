@@ -57,7 +57,11 @@ Rails.application.routes.draw do
     get 'confirm', on: :member
   end
 
-  resources :remainders, only: [:update] # 通知の更新
+  resources :remainders, only: [:update] do
+    collection do
+      post :enable, to: "remainders#enable", as: :enable_notifications
+    end
+  end
 
   namespace :api do
     resources :device_tokens, only: [:create]
