@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_11_114336) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_12_062059) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -41,10 +41,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_11_114336) do
 
   create_table "device_tokens", charset: "utf8mb3", force: :cascade do |t|
     t.string "token", null: false
-    t.bigint "partner_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["partner_id"], name: "index_device_tokens_on_partner_id"
+    t.index ["user_id"], name: "index_device_tokens_on_user_id"
   end
 
   create_table "foods", charset: "utf8mb3", force: :cascade do |t|
@@ -104,6 +104,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_11_114336) do
     t.datetime "updated_at", null: false
     t.string "activity_type"
     t.bigint "activity_id"
+    t.string "job_id"
     t.index ["activity_type", "activity_id"], name: "index_remainders_on_activity_model_type_and_activity_model_id"
     t.index ["activity_type", "activity_id"], name: "index_remainders_on_activity_type_and_activity_id"
     t.index ["partner_id"], name: "index_remainders_on_partner_id"
@@ -163,7 +164,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_11_114336) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "device_tokens", "partners"
+  add_foreign_key "device_tokens", "users"
   add_foreign_key "foods", "partners"
   add_foreign_key "medications", "partners"
   add_foreign_key "partner_shares", "partners"
