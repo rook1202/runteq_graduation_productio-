@@ -7,3 +7,5 @@ tmp/capybara/
 
 tmp/letter_opener/
 tmp/screenshots/
+
+config/*.json
