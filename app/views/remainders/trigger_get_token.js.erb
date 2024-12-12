@@ -1,0 +1,19 @@
+if (<%= @remainder.notification_status ? 'true' : 'false' %>) {
+    messaging.getToken({ vapidKey: "BAQUOd8wYURmxoQoob-H7Tep2f55q0qJBPS9e0Mc93JTDlrPAtAsBS14XJMRbU2pypn-cGYfGyzm3KlzAeOgGwk" })
+    .then((currentToken) => {
+      if (currentToken) {
+        fetch('/api/device_tokens', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          },
+          body: JSON.stringify({ token: currentToken }),
+        });
+      } else {
+        console.error("No registration token available.");
+      }
+    }).catch((err) => {
+      console.error('トークン取得に失敗しました:', err);
+    });
+}
