@@ -3,9 +3,21 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-11 col-md-6 mx-auto">
-        <h4>Main</h4>
+    <!-- タブメニュー -->
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active link-custom" data-bs-toggle="tab" href="#main-tab">Main</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-custom" data-bs-toggle="tab" href="#notification-tab">通知設定</a>
+      </li>
+    </ul>
+    <!-- タブの内容 -->
+    <div class="tab-content">
+      <!-- Main タブ -->
+      <div class="tab-pane fade show active" id="main-tab">
         <div class="row">
-            <div class="col-6 mb-3">
+            <div class="col-6 mb-3 mt-3">
                 <% if @partner.image.attached? %>
                     <%= image_tag @partner.image, class: "custom-show-img", alt: @partner.name %>
                 <% else %>
@@ -13,7 +25,7 @@
                 <% end %>
             </div>
             <div class="col-6 mb-3 custom-show-text">
-                <div class="mb-3">
+                <div class="mb-3 mt-3">
                     <h4 style="display: inline;"><%= @partner.name %></h4>
                     <% if current_user && current_user.id == @partner.owner_id %>
                         <%= link_to edit_partner_path(@partner),id: 'edit_partner', class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
@@ -73,12 +85,23 @@
             <% end %>
 
         <div class="border col-12 rounded px-3 pt-3 pb-2 mb-3 mx-auto">
-            <%= render 'medication', medication: @medication, remainders: @medication_remainders, pet_medications: @pet_medications  %>            
-        <div>
+            <%= render 'medication', medication: @medication, remainders: @medication_remainders, pet_medications: @pet_medications %>            
+        </div>
+        
+        <% if current_user && current_user.id == @partner.owner_id %>
+            <%= render "sharemessage_one", partner: @partner %>
+        <% end %>
+            <%= render "unshare_partner_modal", partner: @partner, shared_users: @shared_users %>
+      </div>
+      </div>
+      
+
+      <!-- 通知 タブ -->
+      <div class="tab-pane fade" id="notification-tab" role="tabpanel" aria-labelledby="notification-tab-label">
+        <%= render 'remainders/notification', food_remainders: @food_remainders, walk_remainders: @walk_remainders, medication_remainders: @medication_remainders, partner: @partner %>            
+      </div>
+
     </div>
-  </div>
-  <% if current_user && current_user.id == @partner.owner_id %>
-    <%= render "sharemessage_one", partner: @partner %>
-  <% end %>
-    <%= render "unshare_partner_modal", partner: @partner, shared_users: @shared_users %>
+    </div>
+    
 </div>
