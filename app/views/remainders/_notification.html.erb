@@ -4,6 +4,10 @@
   <p>個別に通知のオン・オフを設定できます。</p>
 
   <% if current_user && current_user.id == partner.owner_id %>
+    <!-- 通知を有効にするボタン -->
+    <%= button_to "通知を有効にする", enable_notifications_remainders_path, remote: true, format: :js, class: "btn btn-primary", data: { turbo: false }, id: "enable-notifications-button" %>
+    
+  <hr>
   <!-- ごはん -->
   <h5>ごはん</h5>
   <%= render partial: "remainders/remainder", collection: food_remainders %>
