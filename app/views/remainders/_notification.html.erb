@@ -5,7 +5,7 @@
 
   <% if current_user && current_user.id == partner.owner_id %>
     <!-- 通知を有効にするボタン -->
-    <%= button_to "通知を有効にする", enable_notifications_remainders_path, remote: true, format: :js, class: "btn btn-primary", data: { turbo: false }, id: "enable-notifications-button" %>
+    <%= button_to "通知を有効にする", "#", id: "enable-notifications-button", class: "btn btn-primary" %>
     
   <hr>
   <!-- ごはん -->
