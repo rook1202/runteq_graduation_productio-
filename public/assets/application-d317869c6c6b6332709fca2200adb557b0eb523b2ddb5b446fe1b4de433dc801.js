@@ -8,7 +8,6 @@ import "controllers"
 import "bootstrap"
 import "share_partner"
 import "service_worker_registration"
-import "firebase_token_handler"
 
 
 function addRemainderFields(activityType) {
