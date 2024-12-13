@@ -1,3 +1,4 @@
+console.log("Service Worker が実行されました");
 import { initializeApp } from "firebase/app";
 import { getMessaging } from "firebase/messaging/sw";
 
@@ -15,3 +16,5 @@ const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
 console.log('Firebase Messaging initialized');
+
+window.messaging = messaging;
