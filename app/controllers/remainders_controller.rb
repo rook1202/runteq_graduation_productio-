@@ -35,20 +35,6 @@ class RemaindersController < ApplicationController
     end
   end
 
-  def enable
-    Rails.logger.info("Received parameters: #{params.inspect}") # パラメータをログに出力
-  
-    # デバイストークンを保存
-    device_token = DeviceToken.find_or_initialize_by(user_id: current_user.id)
-    device_token.token = params[:token]
-  
-    if device_token.save
-      render json: { status: "success", message: "通知が有効になりました。" }
-    else
-      render json: { status: "error", errors: device_token.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
-
   private
 
   def render_turbo_stream_error(message, remainder)
