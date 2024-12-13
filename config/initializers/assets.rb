@@ -18,6 +18,7 @@ Rails.application.config.assets.precompile += [
   'application.js',
   'share_partner.js',
   'service_worker_registration.js',
+  'firebase_token_handler.js',
   'application.css',
   'custom_styles.css',
   'noimage.png',
