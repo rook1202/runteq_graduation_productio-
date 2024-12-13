@@ -1,11 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/firebase-sw.js', // サービスワーカー用のエントリポイント
+  entry: './src/service_worker_registration.js', // エントリーポイント
   output: {
     path: path.resolve(__dirname, 'public'), // 出力先ディレクトリ
-    filename: 'service-worker.js', // 出力ファイル名
-    libraryTarget: 'umd', // UMD形式で出力
+    filename: 'service_worker.js', // 出力ファイル名
   },
-  mode: 'production',
+  mode: 'production', // モード
 };
