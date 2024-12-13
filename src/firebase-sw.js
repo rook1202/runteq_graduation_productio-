@@ -1,6 +1,5 @@
-console.log("Service Worker が実行されました");
 import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging/sw";
+import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAAy3hIaWyB9jrz1Ti8wH1zk9kET6EXTpE",
@@ -15,6 +14,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
-console.log('Firebase Messaging initialized');
+console.log("Firebase Messaging Initialized");
 
-window.messaging = messaging;
+// 背景メッセージのハンドラーを追加
+onBackgroundMessage(messaging, (payload) => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+});
