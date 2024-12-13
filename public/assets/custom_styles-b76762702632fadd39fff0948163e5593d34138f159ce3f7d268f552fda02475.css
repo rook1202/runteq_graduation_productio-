@@ -46,3 +46,8 @@
   margin-bottom: 5px;  /* 行間を狭める */
   line-height: 1.2;    /* 行の高さを調整 */
 }
+
+/* タブが非アクティブのときに空間を完全に消す */
+.tab-pane:not(.active) {
+  display: none !important;
+}
