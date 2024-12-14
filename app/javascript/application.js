@@ -25,7 +25,7 @@ function addRemainderFields(activityType) {
 }
 
 function removeRemainderField(button) {
-  const field = button.closest('div');  // ボタンの親要素を削除
+  const field = button.closest('.row');  // ボタンの親要素を削除
   field.remove();
 }
 
