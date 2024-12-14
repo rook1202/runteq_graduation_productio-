@@ -6,7 +6,8 @@ class Remainder < ApplicationRecord
   belongs_to :activity, polymorphic: true # 複数の活動（Food, Walk, Medicationなど）を扱う
 
   def schedule_notification
-    notification_time = DateTime.parse(time).utc # UTCに変換
+    notification_time = Time.zone.parse(time).utc # TZで変換後UTCに変換
+    puts "notification_time: #{notification_time}"
     job = SendNotificationJob.set(wait_until: notification_time).perform_later(id)
     update_column(:job_id, job.job_id)
   end
