@@ -93,3 +93,4 @@ gem 'sorcery'
 gem 'firebase-admin-sdk'
 gem 'sidekiq'
 gem 'sinatra', require: nil
+gem 'onesignal'

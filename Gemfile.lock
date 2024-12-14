@@ -119,6 +119,8 @@ GEM
     declarative (0.0.20)
     diff-lcs (1.5.1)
     erubi (1.13.0)
+    ethon (0.16.0)
+      ffi (>= 1.15.0)
     execjs (2.9.1)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
@@ -243,6 +245,8 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
+    onesignal (1.0.1)
+      typhoeus (~> 1.0, >= 1.0.1)
     os (1.1.4)
     parallel (1.26.3)
     parser (3.3.6.0)
@@ -403,6 +407,8 @@ GEM
     turbo-rails (2.0.10)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
+    typhoeus (1.4.1)
+      ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
@@ -443,6 +449,7 @@ DEPENDENCIES
   letter_opener
   letter_opener_web
   mysql2 (>= 0.4.4)
+  onesignal
   puma (~> 5.0)
   rails (~> 7.0.0)
   rqrcode
