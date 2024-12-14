@@ -15,6 +15,7 @@ class Remainder < ApplicationRecord
   def cancel_notification
     return unless job_id # ジョブIDが存在しない場合は処理しない
   
+    # スケジュールされたジョブを削除
     scheduled_jobs = Sidekiq::ScheduledSet.new
     scheduled_jobs.each do |entry|
       if entry.item['args'].first['job_id'] == job_id
@@ -22,7 +23,15 @@ class Remainder < ApplicationRecord
         puts "Deleted job: #{job_id}"
       end
     end
-  
+
+    # 待機中のジョブを削除
+    waiting_jobs = Sidekiq::Queue.new
+    waiting_jobs.each do |job|
+      if job.args.first['job_id'] == job_id
+        job.delete
+        puts "Deleted waiting job: #{job_id}"
+      end
+    end  
     update_column(:job_id, nil) # キャンセル後にジョブIDをクリア
   end
 end
