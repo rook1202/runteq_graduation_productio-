@@ -25,6 +25,7 @@ module App
     config.time_zone = 'Tokyo'
     config.active_record.default_timezone = :local
 
-    config.active_job.queue_adapter = :sidekiq
+    # キューアダプタを環境ごとに設定
+    config.active_job.queue_adapter = Rails.env.production? ? :async : :sidekiq
   end
 end
