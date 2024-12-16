@@ -10,7 +10,21 @@
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="manifest" href="/manifest.json">
-    <script src="/packs/firebase_bundle.js" defer></script>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        try {
+          await OneSignal.init({
+            appId: "<%= @onesignal_app_id %>", // App ID を適切に設定
+          });
+          console.log("OneSignal initialized successfully.");
+        } catch (error) {
+          console.error("OneSignal initialization failed:", error);
+        }
+      });
+</script>
   </head>
 
   <body class="py-5">
@@ -19,7 +33,7 @@
     <% end %>
 
     <%= render 'shared/flash_message' %>
-    
+
     <%= yield %>
 
     <% if logged_in? %>
