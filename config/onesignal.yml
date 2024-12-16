@@ -1,7 +1,0 @@
-development:
-  app_id: "d2a12838-dab8-44c0-93b3-aef067cec079" # OneSignal App ID
-  app_key: "os_v2_app_2kqsqog2xbcmbe5tv3ygptwapgwxorozatyuvintyvxegmsyrf5uoqhupsaefqbml2tsszwmyppivg36wnohktytkdkoky3pfqcniua"           # REST API Key (Legacy API Key)
-
-production:
-  app_id: "d9c60cac-37d0-4ceb-b866-b3e6cdc1dfa1"
-  app_key: "os_v2_app_3hdazlbx2bgoxodgwptm3qo7ufeslv6bl3zeu5ngkjfrxspvuwdtay4wgzeluw2odmrsmfrz76hkawyw4jb5w4gg4dawyi34deuai7a"
