@@ -4,8 +4,15 @@
   <p>個別に通知のオン・オフを設定できます。</p>
 
   <% if current_user && current_user.id == partner.owner_id %>
-    <!-- 通知を有効にするボタン -->
-    <%= button_to "通知を有効にする", "#", id: "enable-notifications-button", class: "btn btn-primary" %>
+    <div class="form-switch">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <%= check_box_tag :notification_status, "enabled", @notification_enabled, id: "notification-toggle", role: "switch", class: "form-check-input" %>
+      <label for="notification-toggle" class="form-check-label">
+        <span id="notification-status-label">
+          <%= @notification_enabled ? "通知は有効です。" : "通知は無効です。" %>
+        </span>
+      </label>
+    </div>
     
   <hr>
   <!-- ごはん -->
