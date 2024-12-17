@@ -5,6 +5,7 @@
 class ApplicationController < ActionController::Base
   before_action :require_login
   before_action :auto_login_with_remember_me
+  before_action :set_onesignal_app_id
 
   private
 
@@ -29,7 +30,7 @@ class ApplicationController < ActionController::Base
   def require_login
     return if logged_in?
 
-    flash[:success] = 'ログインしてください。'
+    flash[:light] = 'ログインしてください。'
     redirect_to login_path
   end
 
@@ -43,5 +44,9 @@ class ApplicationController < ActionController::Base
     end
 
     [resource, remainders]
+  end
+
+  def set_onesignal_app_id
+    @onesignal_app_id = Rails.application.credentials.onesignal[Rails.env.to_sym][:app_id]
   end
 end
