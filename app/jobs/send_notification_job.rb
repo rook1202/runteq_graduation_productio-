@@ -1,3 +1,5 @@
+require 'onesignal'
+
 class SendNotificationJob < ApplicationJob
   queue_as :default
 
@@ -6,28 +8,31 @@ class SendNotificationJob < ApplicationJob
 
     # リマインダーと関連データの取得
     remainder = Remainder.find(remainder_id)
-    # OneSignal に登録された外部ユーザー ID を取得
-    user_ids = remainder.partner.owner.device_tokens.pluck(:user_id)
+    player_ids = remainder.partner.owner.device_tokens.pluck(:player_id)
 
-    Rails.logger.info("Fetched user_ids: #{user_ids.inspect}")
+    Rails.logger.info("Fetched player_ids: #{player_ids.inspect}")
 
     # 通知内容を定義
     title = "リマインダー通知"
     body = "予定があります。"
 
-    # OneSignal クライアントを使用して通知を送信
-    client = OneSignal::Client.new
-    response = client.notifications.create(
-      app_id: OneSignal::Client.app_id,
-      headings: { en: title },
-      contents: { en: body },
-      include_external_user_ids: user_ids # ユーザーIDを指定
+    api_instance = OneSignal::DefaultApi.new
+
+    notification = OneSignal::Notification.new(
+      app_id: ONE_SIGNAL_CONFIG[:app_id],
+      headings: { en: "初期化確認" },
+      contents: { en: "OneSignal の初期化が成功しました！" },
+      include_player_ids: player_ids
     )
 
-    # レスポンスをログに記録
-    Rails.logger.info("OneSignal response: #{response.inspect}")
-  rescue => e
-    Rails.logger.error("Error in SendNotificationJob: #{e.message}")
-    raise
+    notifcation.isAnyWeb = true
+
+    puts "check: #{notification}"
+
+    begin
+      response = api_instance.create_notification(notification)
+      puts "Notification response: #{response.inspect}"
+    rescue OneSignal::ApiError => e
+      puts "Error when calling OneSignal API: #{e.response_body}"
+    end
   end
-end
