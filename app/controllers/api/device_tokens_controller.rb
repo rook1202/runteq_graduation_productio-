@@ -1,13 +1,23 @@
 class Api::DeviceTokensController < ApplicationController
-    protect_from_forgery with: :null_session
 
-    def create
-      device_token = DeviceToken.find_or_initialize_by(token: params[:token])
-      device_token.user = current_user # 適切な関連付け
-      if device_token.save
-        render json: { status: 'success' }, status: :ok
-      else
-        render json: { status: 'error', errors: device_token.errors.full_messages }, status: :unprocessable_entity
-      end
+  def create
+    @device_token = DeviceToken.find_or_initialize_by(player_id: params[:player_id])
+
+    if @device_token.persisted? || @device_token.update(user_id: current_user.id)
+      flash[:success] = "通知を有効にしました。"
+    else
+      flash[:error] = "通知を有効にできませんでした。"
     end
+  end
+
+  def destroy
+    @device_token = DeviceToken.find_by(player_id: params[:id], user_id: current_user.id)
+
+    if @device_token&.destroy
+      flash[:success] = "通知を無効にしました。"
+    else
+      flash[:error] = "通知を無効にできませんでした。"
+    end
+  end
+
 end

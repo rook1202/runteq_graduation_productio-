@@ -1,42 +1,63 @@
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("Window OneSignal after push:", window.OneSignal);
+document.addEventListener('turbo:load', () => {
+  const toggle = document.getElementById('notification-toggle');
+  if (toggle) {
+    toggle.addEventListener('change', async (event) => {
+      event.preventDefault(); // デフォルト動作をキャンセル
 
-  const button = document.getElementById('enable-notifications-button2');
-  if (button) {
-    button.addEventListener('click', async (event) => {
-      event.preventDefault(); // ボタンのデフォルト動作をキャンセル
+      const isChecked = event.target.checked; // チェック状態を取得
 
       try {
         let playerId = OneSignal.User.onesignalId;
 
+        // Player IDがない場合、通知許可をリクエスト
         if (!playerId) {
           console.log("No Player ID found. Prompting user for notification permissions...");
-          await OneSignal.push(async function() {
+          await OneSignal.push(async function () {
             await OneSignal.registerForPushNotifications();
-            playerId = OneSignal.User.onesignalId;
           });
+          playerId = OneSignal.User.onesignalId; // 再取得
         }
 
-        if (playerId) {
-          console.log("OneSignal Player ID:", playerId);
+        // リクエストURLを明示的に指定
+        const url = isChecked ? '/api/device_tokens' : `/api/device_tokens/${playerId}`;
+        const method = isChecked ? 'POST' : 'DELETE';
 
-          // サーバーにplayer_idを送信（レスポンス処理を無視）
-          await fetch('/api/device_tokens', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'text/vnd.turbo-stream.html', // Turbo Streamを指定
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-            body: JSON.stringify({ player_id: playerId }),
-          });
+        // サーバーにリクエストを送信
+        const response = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('input[name="authenticity_token"]').value,
+          },
+          body: isChecked ? JSON.stringify({ player_id: playerId }) : null,
+        });
+
+        if (!response.ok) {
+          console.error("Server error:", response.status, response.statusText);
+          alert("通知設定の変更に失敗しました。");
         } else {
-          alert("通知の有効化中にエラーが発生しました。");
+
+          // リロード後にタブをクリックするためのフラグを設定
+          sessionStorage.setItem('clickNotificationTab', 'true');
+          console.log("Session Storage:", sessionStorage.getItem('clickNotificationTab'));
+
+          // リロードして最新状態を反映
+          window.location.reload();
         }
       } catch (error) {
-        console.error("Unexpected error during notification registration:", error);
-        alert("通知の有効化中にエラーが発生しました。");
+        console.error("Unexpected error during notification toggle:", error);
+        alert("通知設定の変更中にエラーが発生しました。");
       }
     });
+  }
+
+  // リロード後に特定のタブをクリックする処理
+  if (sessionStorage.getItem('clickNotificationTab') === 'true') {
+    sessionStorage.removeItem('clickNotificationTab'); // フラグを削除
+
+    const notificationTabButton = document.querySelector('a[href="#notification-tab"]'); // 通知タブボタン
+    if (notificationTabButton) {
+      notificationTabButton.click(); // プログラム的にクリックしてタブを切り替える
+    }
   }
 });
