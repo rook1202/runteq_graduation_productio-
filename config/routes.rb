@@ -46,6 +46,9 @@ Rails.application.routes.draw do
   # 設定ページ
   resource :settings, only: %i[show update] do
     get :name_change, on: :collection
+    get :news, on: :collection
+    get :privacy_policy, on: :collection
+    get :terms_of_use, on: :collection
   end
 
   # 開発環境でのメール設定
@@ -60,7 +63,7 @@ Rails.application.routes.draw do
   resources :remainders, only: [:update]
 
   namespace :api do
-    resources :device_tokens, only: [:create]
+    resources :device_tokens, only: %i[create destroy]
   end
 
   get 'share/:token', to: 'partner_shares#confirm', as: :confirm_share
