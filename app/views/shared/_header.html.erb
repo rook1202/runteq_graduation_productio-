@@ -1,53 +1,9 @@
 <header>
   <nav class="navbar fixed-top navbar-light custom-navbar justify-content-center">
-    <% if controller_name == 'partners' && action_name == 'edit' %>
-      <!-- partners/:id/edit → partners/:id に戻る -->
-      <%= link_to partner_path(@partner), class: 'navbar-brand' do %>
-      <i class="fas fa-chevron-left"></i>
+    <% if (link = back_link) %>
+      <%= link %>
     <% end %>
-
-    <% elsif %w(foods walks medications).include?(controller_name) && action_name == 'edit' %>
-      <!-- foods/:id/edit, walks/:id/edit, medications/:id/edit → partners/:id に戻る -->
-      <%= link_to partner_path(@partner), class: 'navbar-brand' do %>
-        <i class="fas fa-chevron-left"></i>
-    <% end %>
-
-    <% elsif controller_name == 'partners' && action_name == 'show' %>
-      <!-- partners/:id → partners に戻る -->
-      <%= link_to root_path, class: 'navbar-brand' do %>
-        <i class="fas fa-chevron-left"></i>
-    <% end %>
-
-    <% elsif controller_name == 'partners' && action_name == 'new' %>
-      <!-- partners/new → partners に戻る -->
-      <%= link_to root_path, class: 'navbar-brand' do %>
-        <i class="fas fa-chevron-left"></i>
-    <% end %>
-
-    <% elsif controller_name == 'partners' && action_name == 'index' %>
-    <!-- partners の場合はリンクを表示しない -->
-
-    <% elsif controller_name == 'users' && action_name == 'new' %>
-      <!-- users/new → login_path に戻る -->
-      <%= link_to login_path, class: 'navbar-brand' do %>
-        <i class="fas fa-chevron-left"></i>
-    <% end %>
-
-    <% elsif controller_name == 'settings' && action_name == 'name_change' %>
-      <!-- settings/name_change → settings_path に戻る -->
-      <%= link_to settings_path, class: 'navbar-brand' do %>
-        <i class="fas fa-chevron-left"></i>
-    <% end %>
-
-    <% elsif controller_name == 'email_changes' && action_name == 'new' %>
-      <!-- email_changes/new → settings_path に戻る -->
-      <%= link_to settings_path, class: 'navbar-brand' do %>
-        <i class="fas fa-chevron-left"></i>
-    <% end %>
-
-<% end %>
-
-<!-- ページタイトルを文字列として表示 -->
-<span class="navbar-brand"><%= @page_title %></span>
-</nav>
+    <!-- ページタイトルを文字列として表示 -->
+    <span class="navbar-brand"><%= @page_title %></span>
+  </nav>
 </header>
