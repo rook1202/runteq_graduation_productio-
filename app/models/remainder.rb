@@ -7,31 +7,41 @@ class Remainder < ApplicationRecord
 
   def schedule_notification
     notification_time = Time.zone.parse(time).utc # TZで変換後UTCに変換
-    puts "notification_time: #{notification_time}"
+    Rails.logger.debug "notification_time: #{notification_time}"
     job = SendNotificationJob.set(wait_until: notification_time).perform_later(id)
-    update_column(:job_id, job.job_id)
+    update!(job_id: job.job_id)
   end
 
   def cancel_notification
-    return unless job_id # ジョブIDが存在しない場合は処理しない
-  
-    # スケジュールされたジョブを削除
-    scheduled_jobs = Sidekiq::ScheduledSet.new
-    scheduled_jobs.each do |entry|
+    return unless job_id
+
+    delete_scheduled_job
+    delete_waiting_job
+    clear_job_id
+  end
+
+  private
+
+  def delete_scheduled_job
+    Sidekiq::ScheduledSet.new.each do |entry|
       if entry.item['args'].first['job_id'] == job_id
         entry.delete
-        puts "Deleted job: #{job_id}"
+        Rails.logger.info "Successfully deleted scheduled job: #{job_id} for Remainder: #{id}"
       end
     end
+  end
 
-    # 待機中のジョブを削除
-    waiting_jobs = Sidekiq::Queue.new
-    waiting_jobs.each do |job|
+  def delete_waiting_job
+    Sidekiq::Queue.new.each do |job|
       if job.args.first['job_id'] == job_id
         job.delete
-        puts "Deleted waiting job: #{job_id}"
+        Rails.logger.info "Successfully deleted waiting job: #{job_id} for Remainder: #{id}"
       end
-    end  
-    update_column(:job_id, nil) # キャンセル後にジョブIDをクリア
+    end
+  end
+
+  def clear_job_id
+    update!(job_id: nil)
+    Rails.logger.debug "Cleared job_id for Remainder: #{id}"
   end
 end
