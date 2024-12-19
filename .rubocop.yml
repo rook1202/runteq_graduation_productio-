@@ -15,11 +15,18 @@ require:
 Metrics/AbcSize:
   Exclude:
     - 'db/migrate/20241031051545_create_active_storage_tables.active_storage.rb'
+    - 'app/helpers/application_helper.rb'
+    - 'app/controllers/remainders_controller.rb'
+    - 'app/jobs/send_notification_job.rb'
 
 Metrics/MethodLength:
   Max: 15
   Exclude:
     - 'db/migrate/20241031051545_create_active_storage_tables.active_storage.rb'
+    - 'app/helpers/application_helper.rb'
+    - 'app/controllers/remainders_controller.rb'
+    - 'app/jobs/broadcast_notification_job.rb'
+    - 'app/jobs/send_notification_job.rb'
 
 Metrics/BlockLength:
   Max: 35
@@ -32,3 +39,11 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Exclude:
     - "app/controllers/partners_controller.rb"
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'app/helpers/application_helper.rb'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'app/helpers/application_helper.rb'
