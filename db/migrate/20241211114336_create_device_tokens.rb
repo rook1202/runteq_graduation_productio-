@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# デバイストークンテーブルの作成マイグレーションファイル
 class CreateDeviceTokens < ActiveRecord::Migration[7.0]
   def change
     create_table :device_tokens do |t|
