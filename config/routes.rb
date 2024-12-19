@@ -66,6 +66,8 @@ Rails.application.routes.draw do
     resources :device_tokens, only: %i[create destroy]
   end
 
+  resources :contacts, only: [:new, :create]
+
   get 'share/:token', to: 'partner_shares#confirm', as: :confirm_share
   delete 'mutual_unshare/:user_id', to: 'partner_shares#mutual_unshare', as: :mutual_unshare
   delete 'other_partner_unshare/:user_id', to: 'partner_shares#other_partner_unshare', as: :other_partner_unshare
