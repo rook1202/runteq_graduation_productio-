@@ -7,10 +7,10 @@ class RemaindersController < ApplicationController
 
     # ユーザー権限を確認
     unless @remainder.partner.owner_id == current_user.id
-      render_turbo_stream_error("編集権限がありません", @remainder)
+      render_turbo_stream_error('編集権限がありません', @remainder)
       return
     end
-  
+
     # `notification_status` の変更処理
     if @remainder.update(notification_status: params.dig(:remainder, :notification_status))
       if @remainder.notification_status
@@ -20,18 +20,18 @@ class RemaindersController < ApplicationController
       end
       respond_to do |format|
         format.turbo_stream do
-          Rails.logger.info("Rendering Turbo Stream response")
+          Rails.logger.info('Rendering Turbo Stream response')
           render turbo_stream: [
             turbo_stream.replace(
               "remainder_#{@remainder.id}",
-              partial: "remainders/remainder",
+              partial: 'remainders/remainder',
               locals: { remainder: @remainder }
-            ),
+            )
           ]
         end
       end
     else
-      render_turbo_stream_error("更新に失敗しました", @remainder)
+      render_turbo_stream_error('更新に失敗しました', @remainder)
     end
   end
 
@@ -43,7 +43,7 @@ class RemaindersController < ApplicationController
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
           id,
-          partial: "remainders/remainder",
+          partial: 'remainders/remainder',
           locals: { remainder: remainder, error_message: message }
         )
       end

@@ -49,5 +49,3 @@ pidfile ENV.fetch('PIDFILE',
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
-
-

@@ -8,7 +8,7 @@ class Partner < ApplicationRecord
   has_many :walks, dependent: :destroy
   has_many :remainders, dependent: :destroy
   has_many :partner_shares, dependent: :destroy
-  has_many :tokens, dependent: :destroy 
+  has_many :tokens, dependent: :destroy
 
   has_one_attached :image
 
