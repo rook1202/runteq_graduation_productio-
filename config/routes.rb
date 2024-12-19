@@ -3,7 +3,6 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  
   mount Sidekiq::Web => '/sidekiq'
 
   # パートナーの一覧ページとネスト
@@ -66,7 +65,7 @@ Rails.application.routes.draw do
     resources :device_tokens, only: %i[create destroy]
   end
 
-  resources :contacts, only: [:new, :create]
+  resources :contacts, only: %i[new create]
 
   get 'share/:token', to: 'partner_shares#confirm', as: :confirm_share
   delete 'mutual_unshare/:user_id', to: 'partner_shares#mutual_unshare', as: :mutual_unshare
