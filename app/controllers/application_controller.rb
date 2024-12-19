@@ -47,6 +47,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_onesignal_app_id
+    return if Rails.env.test? # テスト環境では処理をスキップ
+
     @onesignal_app_id = Rails.application.credentials.onesignal[Rails.env.to_sym][:app_id]
   end
 end
