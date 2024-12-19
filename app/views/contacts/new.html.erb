@@ -1,0 +1,28 @@
+<% @page_title = "お問い合わせ" %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-11 col-md-6 mx-auto">
+
+    <p>問い合わせたい内容があれば、こちらからご連絡ください。回答は登録されたメールアドレスへ返信いたします。</p>
+
+    <div class="border col-12 rounded p-5 mx-auto">
+    <%= form_with url: contacts_path, method: :post, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :title, "件名", class: "form-label" %><br>
+          <%= f.text_field :title, value: @default_title, class: "form-control", required: true %>
+        </div>
+        <div class="mb-3">
+          <%= f.label :body, "お問い合わせ内容", class: "form-label" %><br>
+          <%= f.text_area :body, class: "form-control", required: true %>
+        </div>
+
+          <%= f.submit "送信", class: 'btn btn-custom w-100' %>
+
+    <% end %>
+
+    </div>
+
+    </div>
+  </div>
+</div>

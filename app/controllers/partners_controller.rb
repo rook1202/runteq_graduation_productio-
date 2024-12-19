@@ -35,6 +35,8 @@ class PartnersController < ApplicationController
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # これ以上分けるとは何を渡しているかわからなくなるのでrubocopから除外
   def show
     @partner = Partner.find(params[:id])
     unless user_has_access_to_partner?
@@ -45,9 +47,11 @@ class PartnersController < ApplicationController
     @pet_foods = helpers.generate_food_array(@food, @food_remainders)
     @pet_walks = helpers.generate_walk_array(@walk, @walk_remainders)
     @pet_medications = helpers.generate_medication_array(@medication, @medication_remainders)
+    @notification_enabled = DeviceToken.exists?(user_id: current_user.id)
 
     set_shared_users
   end
+  # rubocop:enable Metrics/AbcSize
 
   def edit; end
 

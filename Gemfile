@@ -88,5 +88,9 @@ group :test do
 end
 
 gem 'bootstrap', '~> 5.3'
+gem 'firebase-admin-sdk'
+gem 'onesignal'
 gem 'rqrcode'
+gem 'sidekiq'
+gem 'sinatra', require: nil
 gem 'sorcery'

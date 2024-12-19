@@ -32,11 +32,12 @@ RUN apt-get update -qq \
 RUN mkdir /runteq_graduation_productio-
 WORKDIR /runteq_graduation_productio-
 RUN gem install bundler
-COPY Gemfile /runteq_graduation_productio-/Gemfile
-COPY Gemfile.lock /runteq_graduation_productio-/Gemfile.lock
-COPY Procfile /runteq_graduation_productio-/Procfile
-COPY yarn.lock /runteq_graduation_productio-/yarn.lock
+# Gemfile関連を先にコピーして依存関係をインストール
+COPY Gemfile Gemfile.lock /runteq_graduation_productio-/
 RUN bundle install
+# JavaScript依存関係のインストール
+COPY yarn.lock /runteq_graduation_productio-/yarn.lock
 RUN yarn install
+# 残りのファイルをコピー（config/certsも含む）
 COPY . /runteq_graduation_productio-
 CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p ${PORT:-3000}"]

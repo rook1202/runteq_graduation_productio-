@@ -1,0 +1,48 @@
+
+<div class="border col-10 rounded p-3 mt-5 mx-auto" style="background-color: #F6F5EE;">
+  <h4>通知設定</h4>
+
+  <%# 実装作業中のメッセージを表示 %>
+  <p>現在、この機能はメンテナンス中です！</p>
+  <p>しばらくお待ちください。</p>
+
+  <%# 以下は一時的に非表示にするコード %>
+  <%# <p>個別に通知のオン・オフを設定できます。</p> %>
+
+  <% if false %>
+    <%# current_user && current_user.id == partner.owner_id %>
+    <div class="form-switch">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <%= check_box_tag :notification_status, "enabled", @notification_enabled, id: "notification-toggle", role: "switch", class: "form-check-input" %>
+      <label for="notification-toggle" class="form-check-label">
+        <span id="notification-status-label">
+          <%= @notification_enabled ? "通知は有効です。" : "通知は無効です。" %>
+        </span>
+      </label>
+    </div>
+    
+    <hr>
+    <!-- ごはん -->
+    <h5>ごはん</h5>
+    <%= render partial: "remainders/remainder", collection: food_remainders %>
+
+    <hr>
+
+    <!-- さんぽ -->
+    <h5>さんぽ</h5>
+    <%= render partial: "remainders/remainder", collection: walk_remainders %>
+
+    <hr>
+
+    <!-- おくすり -->
+    <h5>おくすり</h5>
+    <%= render partial: "remainders/remainder", collection: medication_remainders %>
+
+    <hr>
+
+  <%# else %>
+    <hr>
+    <p>他ユーザーから共有されたパートナーの通知設定は変更できません。</p>
+  <% end %>
+
+</div>

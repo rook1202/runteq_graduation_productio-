@@ -2,7 +2,7 @@
         <% if partner.image.attached? %>
             <%= image_tag partner.image, class: "card-img-top", alt: partner.name %>
         <% else %>
-            <%= image_tag 'pet_omocha_inu.png', class: "card-img-top", alt: "default_image" %>
+            <%= image_tag 'noimage.png', class: "card-img-top", alt: "default_image" %>
         <% end %>
             <div class="card-body">
                 <h4 class="card-title">

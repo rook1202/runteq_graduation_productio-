@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   # パートナーの一覧ページとネスト
   resources :partners do
     member do
@@ -41,6 +45,9 @@ Rails.application.routes.draw do
   # 設定ページ
   resource :settings, only: %i[show update] do
     get :name_change, on: :collection
+    get :news, on: :collection
+    get :privacy_policy, on: :collection
+    get :terms_of_use, on: :collection
   end
 
   # 開発環境でのメール設定
@@ -51,6 +58,14 @@ Rails.application.routes.draw do
   resources :email_changes, only: %i[new create update] do
     get 'confirm', on: :member
   end
+
+  resources :remainders, only: [:update]
+
+  namespace :api do
+    resources :device_tokens, only: %i[create destroy]
+  end
+
+  resources :contacts, only: %i[new create]
 
   get 'share/:token', to: 'partner_shares#confirm', as: :confirm_share
   delete 'mutual_unshare/:user_id', to: 'partner_shares#mutual_unshare', as: :mutual_unshare

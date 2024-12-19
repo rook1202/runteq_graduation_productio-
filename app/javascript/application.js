@@ -7,7 +7,17 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
 import "share_partner"
+import "service_worker_registration"
+import "trigger_get_player_id"
 
+document.addEventListener("turbo:load", () => {
+  const flashMessages = document.getElementById("flash-messages");
+  if (flashMessages) {
+    setTimeout(() => {
+      flashMessages.innerHTML = "";
+    }, 5000); // 5秒後にメッセージを消す
+  }
+});
 
 function addRemainderFields(activityType) {
   const remainderFields = document.getElementById(`new_${activityType}_remainder_fields`);
@@ -24,7 +34,7 @@ function addRemainderFields(activityType) {
 }
 
 function removeRemainderField(button) {
-  const field = button.closest('div');  // ボタンの親要素を削除
+  const field = button.closest('.row');  // ボタンの親要素を削除
   field.remove();
 }
 

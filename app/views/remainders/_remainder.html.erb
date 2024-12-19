@@ -1,0 +1,13 @@
+<div id="<%= dom_id(remainder) %>" class="d-flex justify-content-between align-items-center mb-3">
+  <span><%= remainder.time %></span>
+
+  <%= form_with model: remainder, url: remainder_path(remainder), method: :patch, remote: true, data: { turbo_stream: true }, local: true do |form| %>
+    <% if remainder.notification_status %>
+      <%= form.hidden_field :notification_status, value: false %>
+      <%= form.submit "オン", class: "btn btn-danger btn-sm" %>
+    <% else %>
+      <%= form.hidden_field :notification_status, value: true %>
+      <%= form.submit "オフ", class: "btn btn-success btn-sm" %>
+    <% end %>
+  <% end %>
+</div>
