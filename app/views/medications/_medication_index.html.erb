@@ -1,0 +1,32 @@
+<!-- タブのヘッダー -->
+<ul class="nav nav-tabs" id="medicationTab" role="tablist">
+  <% medications.each_with_index do |medication, index| %>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link <%= 'active' if index == 0 %>" id="medication-tab-<%= medication.id %>" data-bs-toggle="tab" data-bs-target="#medication-<%= medication.id %>" type="button" role="tab" aria-controls="medication-<%= medication.id %>" aria-selected="<%= index == 0 %>">
+        <h4 style="display: inline;">おくすり <%= index + 1 %></h4>
+        <% if current_user && current_user.id == partner.owner_id %>
+          <%= link_to edit_partner_medication_path(partner, medication), id: "edit_medication_#{medication.id}", class: 'link-custom', style: "margin-left: 8px;" do %>
+            <i class="fa-solid fa-pen"></i>
+          <% end %>
+        <% end %>
+      </button>
+    </li>
+  <% end %>
+</ul>
+
+<!-- タブの内容 -->
+<div class="tab-content" id="medicationTabContent">
+  <% medications.each_with_index do |medication, index| %>
+    <div class="tab-pane fade <%= 'show active' if index == 0 %>" id="medication-<%= medication.id %>" role="tabpanel" aria-labelledby="medication-tab-<%= medication.id %>">
+        <!-- 病院名を右揃えにし、下のボーダーにくっつける -->
+          <% if medication.clinic.present? %>
+            <p style="font-size: 0.80em; text-align: right; margin: 0;"><%= "病院名：#{medication.clinic}" %></p>
+          <% else %>
+            <p></p>
+          <% end %>
+      <div class="border col-12 rounded px-3 pt-3 pb-2 mb-3 mx-auto">
+        <%= render 'medications/medication', medication: medication, pet_medications: generate_medication_array(medication, remainders) %>
+      </div>
+    </div>
+  <% end %>
+</div>

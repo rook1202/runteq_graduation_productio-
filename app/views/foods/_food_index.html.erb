@@ -1,0 +1,26 @@
+<!-- タブのヘッダー -->
+<ul class="nav nav-tabs" id="foodTab" role="tablist">
+  <% foods.each_with_index do |food, index| %>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link <%= 'active' if index == 0 %>" id="food-tab-<%= food.id %>" data-bs-toggle="tab" data-bs-target="#food-<%= food.id %>" type="button" role="tab" aria-controls="food-<%= food.id %>" aria-selected="<%= index == 0 %>">
+        <h4 style="display: inline;">ごはん <%= index + 1 %></h4>
+        <% if current_user && current_user.id == partner.owner_id %>
+          <%= link_to edit_partner_food_path(partner, food), id: "edit_food_#{food.id}", class: 'link-custom', style: "margin-left: 8px;" do %>
+            <i class="fa-solid fa-pen"></i>
+          <% end %>
+        <% end %>
+      </button>
+    </li>
+  <% end %>
+</ul>
+
+<!-- タブの内容 -->
+<div class="tab-content" id="foodTabContent">
+  <% foods.each_with_index do |food, index| %>
+    <div class="tab-pane fade <%= 'show active' if index == 0 %>" id="food-<%= food.id %>" role="tabpanel" aria-labelledby="food-tab-<%= food.id %>">
+      <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
+        <%= render 'foods/food', food: food, remainders: remainders, pet_foods: generate_food_array(food, remainders) %>
+      </div>
+    </div>
+  <% end %>
+</div>

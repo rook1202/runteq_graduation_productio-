@@ -1,0 +1,41 @@
+<% if pet_medications.any? %>
+  <% pet_medications.each do |item| %>
+    <div class="row">
+      <div class="col-5">
+        <p><%= item[:label] %>：</p>
+      </div>
+      <div class="col-7">
+        <p style="margin: 0;"><%= item[:content] %></p>
+
+        <% if item[:label] == "置き場所" && medication.image.attached? %>
+          <!-- 画像リンクを追加 -->
+          <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal-medication" class="link-custom" style="font-size: 0.80em; margin: 0;">
+            >>画像で確認する
+          </a>
+
+          <!-- モーダルのHTML -->
+          <div class="modal fade" id="imageModal-medication" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="imageModalLabel">ごはんの置き場所</h5>
+                  <!-- 閉じるボタンの属性を修正 -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <img src="<%= url_for(medication.image) %>" class="img-fluid" alt="おくすりの置き場所">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+    <hr>
+  <% end %>
+<% else %>
+  <p>まだおくすりに関する登録はありません。</p>
+  <hr>
+<% end %>
