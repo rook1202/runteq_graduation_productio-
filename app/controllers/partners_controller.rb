@@ -43,10 +43,7 @@ class PartnersController < ApplicationController
       redirect_to partners_path, alert: 'このパートナー情報を表示する権限がありません。'
       return
     end
-    food_walk_medication_set
-    @pet_foods = helpers.generate_food_array(@food, @food_remainders)
-    @pet_walks = helpers.generate_walk_array(@walk, @walk_remainders)
-    @pet_medications = helpers.generate_medication_array(@medication, @medication_remainders)
+    foods_walk_medications_set
     @notification_enabled = DeviceToken.exists?(user_id: current_user.id)
 
     set_shared_users
@@ -128,22 +125,23 @@ class PartnersController < ApplicationController
     @partner = current_user.partners.find(params[:id])
   end
 
-  def set_food
-    @food, @food_remainders = set_resource('food', @partner)
+  def set_foods
+    @foods, @food_remainders = set_resources('food', @partner)
   end
 
   def set_walk
-    @walk, @walk_remainders = set_resource('walk', @partner)
+    @walk = @partner.walks.first
+    @walk_remainders = @partner.remainders.where(activity_type: 'Walk')
   end
 
-  def set_medication
-    @medication, @medication_remainders = set_resource('medication', @partner)
+  def set_medications
+    @medications, @medication_remainders = set_resources('medication', @partner)
   end
 
-  def food_walk_medication_set
-    set_food
+  def foods_walk_medications_set
+    set_foods
     set_walk
-    set_medication
+    set_medications
   end
 
   def render_success_response(result)

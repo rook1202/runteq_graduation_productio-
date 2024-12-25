@@ -34,16 +34,16 @@ class ApplicationController < ActionController::Base
     redirect_to login_path
   end
 
-  def set_resource(type, partner)
-    resource = partner.public_send(type.pluralize).find_by(partner_id: params[:id])
+  def set_resources(type, partner)
+    resources = partner.public_send(type.pluralize).where(partner_id: params[:id])
     remainders = partner.remainders.where(activity_type: type.capitalize)
 
-    unless resource
+    unless resources
       redirect_to partner_path
       return nil
     end
 
-    [resource, remainders]
+    [resources, remainders]
   end
 
   def set_onesignal_app_id
