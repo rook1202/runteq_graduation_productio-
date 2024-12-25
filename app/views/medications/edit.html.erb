@@ -48,25 +48,23 @@
             </div>
 
             <div class="mb-1">
-            <%= f.label :images, "∟画像で保存", class: "form-label" %>
-            <%= f.file_field :images, multiple: true, accept: "image/*" %>
+            <%= f.label :image, "∟画像で保存", class: "form-label" %>
+            <%= f.file_field :image, accept: "image/*" %>
             </div>
 
             <!-- プレビュー -->
             <div class="row g-1">              
-              <% if @medication.images.attached? %>
-                <% @medication.images.each do |image| %>
-                  <div class="mb-3 col-2 position-relative" id="image-medication-<%= image.id %>">
-                    <%= image_tag image, class: "custom-show-img img-thumbnail", alt: "おくすりの置き場所" %>
+              <% if @medication.image.attached? %>
+                  <div class="mb-3 col-2 position-relative" id="image-medication">
+                    <%= image_tag @medication.image, class: "custom-show-img img-thumbnail", alt: "おくすりの置き場所" %>
 
                     <!-- 削除ボタン -->
-                    <%= link_to "", remove_image_partner_medication_path(@partner, @medication, image_id: image.id),
+                    <%= link_to "", remove_image_partner_medication_path(@partner, @medication),
                       method: :delete,
                       data: { confirm: "この画像を削除しますか？", remote: true },
                       class: "btn-close position-absolute",
                       style: "top: 0; right: 0; color: red; text-decoration: none; font-size: 1.5em;" %>
                   </div>
-                <% end %>
               <% end %>
             </div>
 

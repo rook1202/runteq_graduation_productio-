@@ -15,7 +15,6 @@ class MedicationsController < ApplicationController
 
   def update
     remainder_blank_check
-    add_image
 
     if @medication.update(medication_params.except(:images))
       flash[:success] = 'おくすりの情報が更新されました。'
@@ -27,11 +26,8 @@ class MedicationsController < ApplicationController
   end
 
   def remove_image
-    image = @medication.images.find(params[:image_id])
+    image = @medication.image
     image.purge # 画像を削除
-
-    Rails.logger.debug "画像削除: #{image.id}"
-    @image_id = image.id # JavaScriptに渡すためのインスタンス変数
 
     respond_to do |format|
       format.html { redirect_to edit_partner_medication_path(@partner, @medication), notice: '画像が削除されました' }
@@ -55,7 +51,7 @@ class MedicationsController < ApplicationController
 
   def medication_params
     params.require(:medication).permit(
-      :name, :amount, :place, :clinic, :note, images: [],
+      :name, :amount, :place, :clinic, :note, :image,
                                               remainders_attributes: %i[id time notification_status partner_id _destroy]
     )
   end
