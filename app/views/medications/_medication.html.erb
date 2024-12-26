@@ -9,16 +9,16 @@
 
         <% if item[:label] == "置き場所" && medication.image.attached? %>
           <!-- 画像リンクを追加 -->
-          <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal-medication" class="link-custom" style="font-size: 0.80em; margin: 0;">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal-medication-<%= medication.id %>" class="link-custom" style="font-size: 0.80em; margin: 0;">
             >>画像で確認する
           </a>
 
           <!-- モーダルのHTML -->
-          <div class="modal fade" id="imageModal-medication" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+          <div class="modal fade" id="imageModal-medication-<%= medication.id %>" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel-<%= medication.id %>" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="imageModalLabel">ごはんの置き場所</h5>
+                  <h5 class="modal-title" id="imageModalLabel-<%= medication.id %>">おくすりの置き場所</h5>
                   <!-- 閉じるボタンの属性を修正 -->
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

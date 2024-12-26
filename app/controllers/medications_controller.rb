@@ -3,9 +3,30 @@
 # ペットのおくすりについての情報を管理するコントローラーです。
 class MedicationsController < ApplicationController
   before_action :set_partner,
-                only: %i[edit update remove_image]
+                only: %i[create edit update remove_image destroy]
   before_action :set_medication,
                 only: %i[edit update remove_image]
+
+  def create
+    @medication = Medication.create_empty(@partner.id)
+    @medications = Medication.where(partner_id: @partner.id) # 全てのフードを取得
+
+    if @medication.save
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "medicationTabContainer",
+            partial: "medications/medication_index",
+            locals: { partner: @partner, medications: @medications, remainders: @partner.remainders.where(activity_type: 'Medication') }
+          )
+        end
+        format.html { redirect_to partner_path(@partner), notice: "新しい項目を追加しました。" }
+      end
+    else
+      flash.now[:danger] = 'おくすりページの追加が失敗しました'
+      render :show, status: :unprocessable_entity
+    end
+  end
 
   def edit
     return if @medication.remainders.present?
@@ -21,7 +42,7 @@ class MedicationsController < ApplicationController
       redirect_to partner_path(@partner)
     else
       flash.now[:danger] = '更新が失敗しました'
-      render :edit, status: :unprocessable_entity
+      redirect_to partner_path(partner)
     end
   end
 
@@ -34,6 +55,24 @@ class MedicationsController < ApplicationController
       format.js # JavaScriptのリクエストに対応
     end
   end
+
+  def destroy
+    @medication = Medication.find(params[:id])
+    @medications = Medication.where(partner_id: @partner.id)
+  
+    if destroy_count(@medications, @medication, @partner)  
+      respond_to do |format|
+        format.html { redirect_to partner_path(@partner) }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "medicationTabContainer",
+            partial: "medications/medication_index",
+            locals: { partner: @partner, medications: @medications, remainders: @partner.remainders.where(activity_type: 'medication') }
+          )
+        end
+      end
+    end
+  end  
 
   private
 
@@ -73,6 +112,21 @@ class MedicationsController < ApplicationController
 
     params[:medication][:images].each do |image|
       @medication.images.attach(image)
+    end
+  end
+
+  def destroy_count(medications, medication, partner)
+    if medications.count > 1
+      if medication
+        medication.destroy
+        return true
+      else
+        flash[:danger] = "削除対象が見つかりませんでした。"
+        redirect_to partner_path(partner) and return
+      end
+    else
+      flash[:danger] = "少なくとも1つは残す必要があります。"
+      redirect_to partner_path(partner) and return
     end
   end
 end
