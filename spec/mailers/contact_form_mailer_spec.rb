@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe ContactFormMailer, type: :mailer do
-  
   describe 'お問い合わせ' do
     let(:user) { create(:user) }
     let(:title) { 'お問い合わせ件名' }
@@ -25,5 +24,4 @@ RSpec.describe ContactFormMailer, type: :mailer do
       expect(email.body.to_s).to include('test@example.com') # ユーザーのメールアドレスを確認
     end
   end
-
 end

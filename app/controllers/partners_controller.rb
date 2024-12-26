@@ -35,7 +35,6 @@ class PartnersController < ApplicationController
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   # これ以上分けるとは何を渡しているかわからなくなるのでrubocopから除外
   def show
     @partner = Partner.find(params[:id])
@@ -48,7 +47,6 @@ class PartnersController < ApplicationController
 
     set_shared_users
   end
-  # rubocop:enable Metrics/AbcSize
 
   def edit; end
 

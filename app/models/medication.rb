@@ -13,5 +13,4 @@ class Medication < ApplicationRecord
   def self.create_empty(partner_id)
     create!(partner_id: partner_id, name: '', place: '', clinic: '', amount: '', note: '')
   end
-
 end
