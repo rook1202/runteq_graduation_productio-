@@ -1,0 +1,66 @@
+<div id="foodTabContainer">
+<!-- タブのヘッダー -->
+<ul class="nav nav-tabs" id="foodTab" role="tablist">
+  <% foods.each_with_index do |food, index| %>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link <%= 'active' if index == 0 %> link-custom" id="food-tab-<%= food.id %>" data-bs-toggle="tab" data-bs-target="#food-<%= food.id %>" type="button" role="tab" aria-controls="food-<%= food.id %>" aria-selected="<%= index == 0 %>">
+        <h5 style="display: inline;">ごはん <%= index + 1 %></h5>
+        <% if current_user && current_user.id == partner.owner_id %>
+          <%= link_to edit_partner_food_path(partner, food), id: "edit_food_#{food.id}", class: 'link-custom', style: "margin-left: 8px;" do %>
+            <i class="fa-solid fa-pen"></i>
+          <% end %>
+        <% end %>
+      </button>
+    </li>
+  <% end %>
+
+  <!-- ボタンをタブの右側に追加 -->
+  <% if current_user && current_user.id == partner.owner_id %>
+    <%= link_to partner_foods_path(partner.id), data: { turbo_method: "post" }, class: 'link-custom', style: "margin-left: 8px; margin-top: 10px;" do %>
+      <i class="fa-solid fa-plus"></i>
+    <% end %>
+
+    <%= link_to '#', class: 'link-custom', data: { bs_toggle: "modal", bs_target: "#deleteFoodModal" }, style: "margin-left: 8px; margin-top: 10px;" do %>
+      <i class="fa-solid fa-trash"></i>
+    <% end %>
+
+  <% end %>
+
+</ul>
+
+
+
+<!-- タブの内容 -->
+<div class="tab-content" id="foodTabContent">
+  <% foods.each_with_index do |food, index| %>
+    <div class="tab-pane fade <%= 'show active' if index == 0 %>" id="food-<%= food.id %>" role="tabpanel" aria-labelledby="food-tab-<%= food.id %>">
+      <div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
+        <%= render 'foods/food', food: food, pet_foods: generate_food_array(food, remainders.where(activity_id: food.id)) %>
+      </div>
+    </div>
+  <% end %>
+</div>
+</div>
+
+<!-- 削除モーダル -->
+<div class="modal fade" id="deleteFoodModal" tabindex="-1" aria-labelledby="deleteFoodModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteFoodModalLabel">どれを削除しますか？</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <p>削除するごはんをクリックしてください。</p>
+        <ul>
+          <% foods.each do |food| %>
+            <li>
+              <%= food.manufacturer.presence || "未設定" %>：  
+              <%= link_to "削除", partner_food_path(partner, food), method: :delete, data: { turbo_method: "delete" }, class: 'text-danger' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,8 +2,29 @@
 
 # ペットのごはんについての情報を管理するコントローラーです。
 class FoodsController < ApplicationController
-  before_action :set_partner, only: %i[edit update remove_image]
+  before_action :set_partner, only: %i[create edit update remove_image destroy]
   before_action :set_food, only: %i[edit update remove_image]
+
+  def create
+    @food = Food.create_empty(@partner.id)
+    @foods = Food.where(partner_id: @partner.id) # 全てのフードを取得
+
+    if @food.save
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "foodTabContainer",
+            partial: "foods/food_index",
+            locals: { partner: @partner, foods: @foods, remainders: @partner.remainders.where(activity_type: 'Food') }
+          )
+        end
+        format.html { redirect_to partner_path(@partner), notice: "新しい項目を追加しました。" }
+      end
+    else
+      flash.now[:danger] = 'ごはんページの追加が失敗しました'
+      redirect_to partner_path(partner)
+    end
+  end
 
   def edit
     # remaindersがnilまたは空の場合、新しいインスタンスを追加
@@ -31,6 +52,24 @@ class FoodsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to edit_partner_food_path(@partner, @food), notice: '画像が削除されました' }
       format.js # JavaScriptのリクエストに対応
+    end
+  end
+
+  def destroy
+    @food = Food.find(params[:id])
+    @foods = Food.where(partner_id: @partner.id)
+  
+    if destroy_count(@foods, @food, @partner)
+      respond_to do |format|
+        format.html { redirect_to partner_path(@partner) }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "foodTabContainer",
+            partial: "foods/food_index",
+            locals: { partner: @partner, foods: @foods, remainders: @partner.remainders.where(activity_type: 'Food') }
+          )
+        end
+      end
     end
   end
 
@@ -65,5 +104,20 @@ class FoodsController < ApplicationController
     # フィルタリングしたremaindersを再構築
     params[:food][:remainders_attributes] =
       filtered_remainders
+  end
+
+  def destroy_count(foods, food, partner)
+    if foods.count > 1
+      if food
+        food.destroy
+        return true
+      else
+        flash[:danger] = "削除対象が見つかりませんでした。"
+        redirect_to partner_path(partner) and return
+      end
+    else
+      flash[:danger] = "少なくとも1つは残す必要があります。"
+      redirect_to partner_path(partner) and return
+    end
   end
 end

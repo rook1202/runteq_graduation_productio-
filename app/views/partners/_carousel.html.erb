@@ -22,7 +22,7 @@
           <div class="carousel-inner">
             <% medication.images.each_with_index do |image, index| %>
               <div class="carousel-item <%= "active" if index == 0 %>">
-                <img src="<%= url_for(image) %>" class="d-block w-100" alt="ごはんの置き場所">
+                <img src="<%= url_for(image) %>" class="d-block w-100" alt="おくすりの置き場所">
               </div>
             <% end %>
           </div>

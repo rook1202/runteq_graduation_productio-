@@ -1,0 +1,25 @@
+<h5 style="display: inline;">さんぽ</h5>
+<% if current_user && current_user.id == partner.owner_id %>
+  <%= link_to edit_partner_walk_path(partner, walk), id: 'edit_walk', class: 'link-custom', style: "display: inline; margin-left: 8px;" do %>
+    <i class="fa-solid fa-pen"></i>
+  <% end %>
+<% end %>
+
+<div class="border col-12 rounded px-3 pt-3 pb-2 my-3 mx-auto">
+  <% if pet_walks.any? %>
+    <% pet_walks.each do |item| %>
+      <div class="row mb-2">
+        <div class="col-5">
+          <p><%= item[:label] %>：</p>
+        </div>
+        <div class="col-7">
+          <p><%= item[:content] %></p>
+        </div>
+      </div>
+      <hr>
+    <% end %>
+  <% else %>
+    <p>まださんぽに関する登録はありません。</p>
+    <hr>
+  <% end %>
+</div>

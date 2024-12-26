@@ -1,0 +1,40 @@
+<% if pet_foods.any? %>
+  <% pet_foods.each do |item| %>
+    <div class="row">
+      <div class="col-5">
+        <p><%= item[:label] %>：</p>
+      </div>
+      <div class="col-7 ">
+        <p style="margin: 0;"><%= item[:content] %></p>
+
+        <% if item[:label] == "置き場所" && food.image.attached? %>
+          <!-- 画像リンクを追加 -->
+          <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal-food-<%= food.id %>" class="link-custom" style="font-size: 0.80em; margin: 0;">
+            >>画像で確認する
+          </a>
+
+          <!-- モーダルのHTML -->
+          <div class="modal fade" id="imageModal-food-<%= food.id %>" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel-<%= food.id %>" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="imageModalLabel-<%= food.id %>">ごはんの置き場所</h5>
+                  <!-- 閉じるボタンの属性を修正 -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <img src="<%= url_for(food.image) %>" class="img-fluid" alt="ごはんの置き場所">
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+    <hr>
+  <% end %>
+<% else %>
+  <p>まだごはんに関する登録はありません。</p>
+  <hr>
+<% end %>
