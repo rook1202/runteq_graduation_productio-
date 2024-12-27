@@ -1,6 +1,6 @@
 <!-- 一括共有用のモーダル -->
 <div class="mb-5 text-end">
-  <%= button_tag 'すべてのパートナーを共有', class: 'btn btn-custom', data: { bs_toggle: 'modal', bs_target: '#confirmationModalAll' } %>
+  <%= button_tag 'すべてのパートナーを共有', class: 'btn btn-custom', id: 'share-button', data: { bs_toggle: 'modal', bs_target: '#confirmationModalAll' } %>
 </div>
 
 <%= render partial: "shared/share_modal", locals: {
