@@ -130,7 +130,7 @@ class MedicationsController < ApplicationController
         redirect_to partner_path(partner) and return
       end
     else
-      flash[:danger] = '少なくとも1つは残す必要があります。'
+      flash[:danger] = 'すべてのデータは削除できません。'
       redirect_to partner_path(partner) and return
     end
   end
