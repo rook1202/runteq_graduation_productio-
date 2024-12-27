@@ -28,6 +28,10 @@ Rails.application.routes.draw do
     resources :walks, only: %i[edit update]
   end
 
+  # /complete_tutorial 等を独立したルートとして定義（本来partnersやsettingsと関係ないため）
+  post 'complete_tutorial', to: 'partners#complete_tutorial', as: 'complete_tutorial'
+  post 'reset_tutorial', to: 'settings#reset_tutorial', as: 'reset_tutorial'
+
   # ユーザー登録関連
   resources :users, only: %i[new create]
 
