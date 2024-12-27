@@ -9,6 +9,8 @@ import "bootstrap"
 import "share_partner"
 import "service_worker_registration"
 import "trigger_get_player_id"
+import "image_tutorialmodal"
+import "partners_tooltips"
 
 document.addEventListener("turbo:load", () => {
   const flashMessages = document.getElementById("flash-messages");
