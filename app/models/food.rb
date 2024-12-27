@@ -13,5 +13,4 @@ class Food < ApplicationRecord
   def self.create_empty(partner_id)
     create!(partner_id: partner_id, manufacturer: '', category: '', amount: '', place: '', note: '')
   end
-  
 end

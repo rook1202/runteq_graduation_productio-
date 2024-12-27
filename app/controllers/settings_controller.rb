@@ -29,10 +29,15 @@ class SettingsController < ApplicationController
       render :name_change, status: :unprocessable_entity
     end
   end
-end
 
-private
+  def reset_tutorial
+    current_user.update(showed_tutorial: false)
+    redirect_to root_path
+  end
 
-def user_params
-  params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
 end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 RSpec.describe 'パートナーさんぽ情報', type: :system do
   let(:user) { create(:user) }
 

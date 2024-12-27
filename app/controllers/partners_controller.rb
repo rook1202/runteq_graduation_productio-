@@ -5,18 +5,13 @@ class PartnersController < ApplicationController
   before_action :set_partner, only: %i[edit update destroy remove_image]
 
   def index
-    # 自分のペット
-    own_partners = current_user.partners.includes(:owner).with_attached_image
+    @partners = current_user.partners_with_shared
+    @show_tutorial = current_user.showed_tutorial
+  end
 
-    # 共有されたペット
-    shared_partners = Partner.joins(:partner_shares)
-                             .where(partner_shares: { shared_by: current_user.id })
-                             .includes(:owner).with_attached_image
-
-    # 結合して、自分のペットを優先的に表示
-    @partners = (own_partners + shared_partners).uniq.sort_by do |partner|
-      partner.owner_id == current_user.id ? 0 : 1
-    end
+  def complete_tutorial
+    current_user.update(showed_tutorial: true)
+    head :ok
   end
 
   def new
@@ -35,7 +30,6 @@ class PartnersController < ApplicationController
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   # これ以上分けるとは何を渡しているかわからなくなるのでrubocopから除外
   def show
     @partner = Partner.find(params[:id])
@@ -48,7 +42,6 @@ class PartnersController < ApplicationController
 
     set_shared_users
   end
-  # rubocop:enable Metrics/AbcSize
 
   def edit; end
 

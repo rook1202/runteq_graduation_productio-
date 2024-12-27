@@ -10,19 +10,10 @@ class FoodsController < ApplicationController
     @foods = Food.where(partner_id: @partner.id) # 全てのフードを取得
 
     if @food.save
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "foodTabContainer",
-            partial: "foods/food_index",
-            locals: { partner: @partner, foods: @foods, remainders: @partner.remainders.where(activity_type: 'Food') }
-          )
-        end
-        format.html { redirect_to partner_path(@partner), notice: "新しい項目を追加しました。" }
-      end
+      respond_with_format
     else
       flash.now[:danger] = 'ごはんページの追加が失敗しました'
-      redirect_to partner_path(partner)
+      redirect_to partner_path(@partner)
     end
   end
 
@@ -58,17 +49,17 @@ class FoodsController < ApplicationController
   def destroy
     @food = Food.find(params[:id])
     @foods = Food.where(partner_id: @partner.id)
-  
-    if destroy_count(@foods, @food, @partner)
-      respond_to do |format|
-        format.html { redirect_to partner_path(@partner) }
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "foodTabContainer",
-            partial: "foods/food_index",
-            locals: { partner: @partner, foods: @foods, remainders: @partner.remainders.where(activity_type: 'Food') }
-          )
-        end
+
+    return unless destroy_count(@foods, @food, @partner)
+
+    respond_to do |format|
+      format.html { redirect_to partner_path(@partner) }
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'foodTabContainer',
+          partial: 'foods/food_index',
+          locals: { partner: @partner, foods: @foods, remainders: @partner.remainders.where(activity_type: 'Food') }
+        )
       end
     end
   end
@@ -106,17 +97,30 @@ class FoodsController < ApplicationController
       filtered_remainders
   end
 
+  def respond_with_format
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'foodTabContainer',
+          partial: 'foods/food_index',
+          locals: { partner: @partner, foods: @foods, remainders: @partner.remainders.where(activity_type: 'Food') }
+        )
+      end
+      format.html { redirect_to partner_path(@partner), notice: '新しい項目を追加しました。' }
+    end
+  end
+
   def destroy_count(foods, food, partner)
     if foods.count > 1
       if food
         food.destroy
-        return true
+        true
       else
-        flash[:danger] = "削除対象が見つかりませんでした。"
+        flash[:danger] = '削除対象が見つかりませんでした。'
         redirect_to partner_path(partner) and return
       end
     else
-      flash[:danger] = "少なくとも1つは残す必要があります。"
+      flash[:danger] = 'すべてのデータは削除できません。'
       redirect_to partner_path(partner) and return
     end
   end

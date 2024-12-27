@@ -21,4 +21,16 @@ class User < ApplicationRecord
   validates :reset_password_token, uniqueness: true, allow_nil: true
   validates :new_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_nil: true
   validates :email_change_token, uniqueness: true, allow_nil: true
+
+  def partners_with_shared
+    own_partners = partners.includes(:owner).with_attached_image
+    shared_partners = Partner.joins(:partner_shares)
+                             .where(partner_shares: { shared_by: id })
+                             .includes(:owner).with_attached_image
+
+    # 自分のペットを優先的に表示
+    (own_partners + shared_partners).uniq.sort_by do |partner|
+      partner.owner_id == id ? 0 : 1
+    end
+  end
 end

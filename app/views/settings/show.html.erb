@@ -11,6 +11,13 @@
         <p>共有しているユーザーはいません。</p>
         <% end %>
 
+        <h4>アプリについて</h4>
+        <hr>
+        <div class="col-12 px-3 pt-3 pb-2 my-3 mx-auto">
+        <%= link_to 'チュートリアルを再度確認する', reset_tutorial_path, method: :post, class: 'link-custom d-block pb-2',data: { confirm: 'リストページに移動しチュートリアルを開始します。' } %>
+        <%= render "tutorial_modal", shared_users: @shared_users %>
+        </div>
+
         <h4>ログイン設定</h4>
         <hr>
         <div class="col-12 px-3 pt-3 pb-2 my-3">

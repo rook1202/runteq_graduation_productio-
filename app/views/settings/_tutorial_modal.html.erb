@@ -1,0 +1,27 @@
+<%= link_to '#', class: 'link-custom', data: { bs_toggle: "modal", bs_target: "#tutorialModal" } do %>
+    使い方や注意点を確認する
+<% end %>
+
+<div class="modal" tabindex="-1" id="tutorialModal" data-steps='[
+  {"title": "ステップ 1", "text": "ペット情報の見方・使い方を画像で確認できます！", "image": "<%= asset_path('step1.png') %>"},
+  {"title": "ステップ 2", "text": "ペット情報の見方・注意点はこちらです。", "image": "<%= asset_path('step2.png') %>"},
+  {"title": "ステップ 3", "text": "共有した場合相手からはこう見えます！", "image": "<%= asset_path('step3.png') %>"},
+  {"title": "ステップ 4", "text": "それ以外の質問、疑問については、お手数ですが 設定＞サポート＞お問い合わせ からお問い合わせください。", "image": null}
+]'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ステップ 1</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>ペット情報の見方・使い方を画像で確認できます！</p>
+        <img id="tutorialImage" class="img-fluid" alt="説明画像">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="prevStep" disabled>戻る</button>
+        <button type="button" class="btn btn-custom" id="nextStep">次へ</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,6 +10,13 @@
         <% end %>
       </div>
 
+      <div id="tooltip-container" class="tooltip-container">
+        <div class="tooltip" id="tooltip-1" style="opacity: <%= @show_tutorial ? '0' : '1' %>;">
+          <p>ここではあなたのペットを一覧で表示します！</p>
+          <button id="next-tooltip" class="tooltip-btn">次へ</button>
+        </div>
+      </div>
+
         <div class="row">
         <% @partners.each do |partner| %>
           <div class="col-12 col-md-6 mb-4">

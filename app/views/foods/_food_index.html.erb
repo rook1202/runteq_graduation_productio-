@@ -16,11 +16,11 @@
 
   <!-- ボタンをタブの右側に追加 -->
   <% if current_user && current_user.id == partner.owner_id %>
-    <%= link_to partner_foods_path(partner.id), data: { turbo_method: "post" }, class: 'link-custom', style: "margin-left: 8px; margin-top: 10px;" do %>
+    <%= link_to partner_foods_path(partner.id), id: 'add_food', data: { turbo_method: "post" }, class: 'link-custom', style: "margin-left: 8px; margin-top: 10px;" do %>
       <i class="fa-solid fa-plus"></i>
     <% end %>
 
-    <%= link_to '#', class: 'link-custom', data: { bs_toggle: "modal", bs_target: "#deleteFoodModal" }, style: "margin-left: 8px; margin-top: 10px;" do %>
+    <%= link_to '#', id: 'destroy_food', class: 'link-custom', data: { bs_toggle: "modal", bs_target: "#deleteFoodModal" }, style: "margin-left: 8px; margin-top: 10px;" do %>
       <i class="fa-solid fa-trash"></i>
     <% end %>
 
@@ -56,7 +56,7 @@
           <% foods.each do |food| %>
             <li>
               <%= food.manufacturer.presence || "未設定" %>：  
-              <%= link_to "削除", partner_food_path(partner, food), method: :delete, data: { turbo_method: "delete" }, class: 'text-danger' %>
+              <%= link_to "削除", partner_food_path(partner, food), data: { turbo_method: "delete" }, class: 'text-danger' %>
             </li>
           <% end %>
         </ul>

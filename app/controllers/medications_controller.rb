@@ -12,19 +12,10 @@ class MedicationsController < ApplicationController
     @medications = Medication.where(partner_id: @partner.id) # 全てのフードを取得
 
     if @medication.save
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "medicationTabContainer",
-            partial: "medications/medication_index",
-            locals: { partner: @partner, medications: @medications, remainders: @partner.remainders.where(activity_type: 'Medication') }
-          )
-        end
-        format.html { redirect_to partner_path(@partner), notice: "新しい項目を追加しました。" }
-      end
+      respond_with_format
     else
       flash.now[:danger] = 'おくすりページの追加が失敗しました'
-      render :show, status: :unprocessable_entity
+      redirect_to partner_path(@partner)
     end
   end
 
@@ -39,11 +30,10 @@ class MedicationsController < ApplicationController
 
     if @medication.update(medication_params.except(:images))
       flash[:success] = 'おくすりの情報が更新されました。'
-      redirect_to partner_path(@partner)
     else
       flash.now[:danger] = '更新が失敗しました'
-      redirect_to partner_path(partner)
     end
+    redirect_to partner_path(@partner)
   end
 
   def remove_image
@@ -59,20 +49,21 @@ class MedicationsController < ApplicationController
   def destroy
     @medication = Medication.find(params[:id])
     @medications = Medication.where(partner_id: @partner.id)
-  
-    if destroy_count(@medications, @medication, @partner)  
-      respond_to do |format|
-        format.html { redirect_to partner_path(@partner) }
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "medicationTabContainer",
-            partial: "medications/medication_index",
-            locals: { partner: @partner, medications: @medications, remainders: @partner.remainders.where(activity_type: 'medication') }
-          )
-        end
+
+    return unless destroy_count(@medications, @medication, @partner)
+
+    respond_to do |format|
+      format.html { redirect_to partner_path(@partner) }
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'medicationTabContainer',
+          partial: 'medications/medication_index',
+          locals: { partner: @partner, medications: @medications,
+                    remainders: @partner.remainders.where(activity_type: 'medication') }
+        )
       end
     end
-  end  
+  end
 
   private
 
@@ -91,7 +82,7 @@ class MedicationsController < ApplicationController
   def medication_params
     params.require(:medication).permit(
       :name, :amount, :place, :clinic, :note, :image,
-                                              remainders_attributes: %i[id time notification_status partner_id _destroy]
+      remainders_attributes: %i[id time notification_status partner_id _destroy]
     )
   end
 
@@ -115,17 +106,31 @@ class MedicationsController < ApplicationController
     end
   end
 
+  def respond_with_format
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'medicationTabContainer',
+          partial: 'medications/medication_index',
+          locals: { partner: @partner, medications: @medications,
+                    remainders: @partner.remainders.where(activity_type: 'Medication') }
+        )
+      end
+      format.html { redirect_to partner_path(@partner), notice: '新しい項目を追加しました。' }
+    end
+  end
+
   def destroy_count(medications, medication, partner)
     if medications.count > 1
       if medication
         medication.destroy
-        return true
+        true
       else
-        flash[:danger] = "削除対象が見つかりませんでした。"
+        flash[:danger] = '削除対象が見つかりませんでした。'
         redirect_to partner_path(partner) and return
       end
     else
-      flash[:danger] = "少なくとも1つは残す必要があります。"
+      flash[:danger] = 'すべてのデータは削除できません。'
       redirect_to partner_path(partner) and return
     end
   end
