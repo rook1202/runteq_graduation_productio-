@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_15_075624) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_27_070511) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -152,6 +152,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_15_075624) do
     t.string "email_change_token"
     t.datetime "email_change_token_expires_at"
     t.datetime "email_change_requested_at"
+    t.boolean "showed_tutorial", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["email_change_token"], name: "index_users_on_email_change_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

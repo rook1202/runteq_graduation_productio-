@@ -30,7 +30,7 @@
 
   </head>
 
-  <body class="py-5">
+  <body class="py-5" data-controller="<%= controller_path %>" data-action="<%= action_name %>">
     <% unless controller_name == 'user_sessions' && action_name == 'new' %>
       <%= render 'shared/header' %>
     <% end %>
