@@ -89,6 +89,8 @@ end
 
 gem 'bootstrap', '~> 5.3'
 gem 'firebase-admin-sdk'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
 gem 'onesignal'
 gem 'rqrcode'
 gem 'sidekiq'
