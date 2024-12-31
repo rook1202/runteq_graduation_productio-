@@ -75,4 +75,7 @@ Rails.application.routes.draw do
   delete 'mutual_unshare/:user_id', to: 'partner_shares#mutual_unshare', as: :mutual_unshare
   delete 'other_partner_unshare/:user_id', to: 'partner_shares#other_partner_unshare', as: :other_partner_unshare
   delete 'my_partner_unshare/:user_id', to: 'partner_shares#my_partner_unshare', as: :my_partner_unshare
+
+  # SNSログイン
+  get '/auth/:provider/callback', to: 'sns_logins#create'
 end
