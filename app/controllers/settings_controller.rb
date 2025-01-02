@@ -2,6 +2,9 @@
 
 # 設定ページで行うアクション
 class SettingsController < ApplicationController
+  skip_before_action :require_login, only: %i[privacy_policy terms_of_use]
+  skip_before_action :auto_login_with_remember_me, only: %i[privacy_policy terms_of_use]
+
   def show
     # 自分が共有しているユーザー
     users_shared_by_me = User.joins(:partner_shares)
@@ -19,6 +22,12 @@ class SettingsController < ApplicationController
   def name_change; end
 
   def email_change; end
+
+  def privacy_policy; end
+
+  def terms_of_use; end
+
+  def news; end
 
   def update
     if current_user.update(user_params)
