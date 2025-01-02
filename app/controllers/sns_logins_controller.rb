@@ -74,6 +74,7 @@ class SnsLoginsController < ApplicationController
   end
 
   def login_user(user)
+    Rails.logger.debug "OmniAuth User Info: #{request.env['omniauth.auth'].inspect}"
     auto_login(user)
     flash[:success] = 'ログインしました'
   end
