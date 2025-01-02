@@ -5,7 +5,7 @@
       <h1 class="my-4 text-center" style="color: #444444; font-family: Arial, sans-serif;">ペット手帳</h1>
 
       <div class="row">
-      <div class="border col-12 rounded">
+      <div class="border col-12 rounded mb-5">
         <div class="row">
         <div class="col-10 mt-3 mb-3 mx-auto">
           <%= form_with url: login_path, local: true do |form| %>
@@ -33,10 +33,18 @@
               <%= link_to '新規登録', new_user_path, class: 'link-custom' %>
               <%= link_to 'パスワードを忘れましたか？', new_password_reset_path, class: 'link-custom' %>
             </div>
-            
         </div>
         </div>
       </div>
+
+      <% if Rails.env.development? %>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                <%= link_to '<i class="fa-brands fa-google"></i> Googleアカウントでログイン'.html_safe, '/auth/google_oauth2', class: 'btn btn-outline-secondary', style: 'width: 100%; max-width: 300px;' %>
+                <%= link_to '<i class="fa-brands fa-twitter"></i> Xでログイン'.html_safe, '/auth/twitter', class: 'btn btn-outline-secondary', style: 'width: 100%; max-width: 300px;' %>
+                <%= link_to '<i class="fa-brands fa-facebook-f"></i> Facebookでログイン'.html_safe, '/auth/facebook', class: 'btn btn-outline-secondary', style: 'width: 100%; max-width: 300px;' %>
+              </div>
+      <% end %>
+
       </div>
     </div>
   </div>
