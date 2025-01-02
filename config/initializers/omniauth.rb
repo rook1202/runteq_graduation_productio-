@@ -9,5 +9,14 @@ Rails.application.config.middleware.use OmniAuth::Builder do
              prompt: 'select_account'
            }
 
+  provider :twitter,
+           Rails.application.credentials.dig(:twitter, :api_key),
+           Rails.application.credentials.dig(:twitter, :api_secret)
+
+  provider :facebook,
+           Rails.application.credentials.dig(:facebook, :app_id),
+           Rails.application.credentials.dig(:facebook, :app_secret),
+           scope: 'email,public_profile'
+
   OmniAuth.config.allowed_request_methods = %i[get]
 end
