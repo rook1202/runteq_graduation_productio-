@@ -3,12 +3,23 @@
 # ApplicationControllerは、すべてのコントローラーの基本クラスです。
 # 共通のロジックやフィルターを定義します。
 class ApplicationController < ActionController::Base
+  before_action :redirect_to_custom_domain
   before_action :require_login
   before_action :auto_login_with_remember_me
   before_action :set_onesignal_app_id
 
   private
 
+  def redirect_to_custom_domain  
+    return if request.host == "www.mypetnote-family.com"
+    return if request.path == login_path || request.path == "/favicon.ico"
+  
+    if request.host == "petnote-0a2f00470bc0.herokuapp.com"
+      redirect_to "https://www.mypetnote-family.com#{request.fullpath}", status: :moved_permanently, allow_other_host: true
+      Rails.logger.info "Redirect Debug: Redirected to https://www.mypetnote-family.com#{request.fullpath}"
+    end
+  end
+  
   def auto_login_with_remember_me
     return if current_user # 既にログイン中なら何もしない
 
