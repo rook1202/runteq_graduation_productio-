@@ -33,7 +33,8 @@ Rails.application.routes.draw do
   post 'reset_tutorial', to: 'settings#reset_tutorial', as: 'reset_tutorial'
 
   # ユーザー登録関連
-  resources :users, only: %i[new create]
+  resources :users, only: %i[new create destroy]
+  get 'users/delete', to: 'users#delete', as: :delete_user
 
   # ログイン・ログアウト関連
   resources :user_sessions, only: %i[new create destroy]
