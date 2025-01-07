@@ -120,7 +120,7 @@ Rails.application.configure do
   }
 
   # メール送信のホスト名設定
-  config.action_mailer.default_url_options = { host: 'https://petnote-0a2f00470bc0.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'www.mypetnote-family.com', protocol: 'https' }
 
   # メール送信を有効化
   config.action_mailer.perform_deliveries = false
