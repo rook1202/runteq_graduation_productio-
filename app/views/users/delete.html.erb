@@ -1,0 +1,24 @@
+<% @page_title = "アカウント削除" %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-11 col-md-6 mx-auto">
+
+        <h5>アカウント削除の確認</h5>
+        <hr>
+        <p>本当にアカウントを削除しますか？</p>
+        <p>アカウントを削除するとすべてのデータが消えます。元に戻すことはできません。了承の上、削除ください。</p>
+        <div class="d-flex gap-2">
+        <% if current_user %>
+            <%= button_to '削除する', user_path(current_user), method: :delete, 
+                data: { confirm: '本当に削除しますか？' }, 
+                class: 'btn btn-danger' %>
+        <% else %>
+            <p>ログインするとこのページからアカウントを削除できます。</p>
+        <% end %>
+        <%= link_to 'キャンセル', settings_path, class: 'btn btn-secondary' %>
+        </div>
+        
+    </div>
+  </div>
+</div>
