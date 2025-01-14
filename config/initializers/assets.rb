@@ -27,6 +27,7 @@ Rails.application.config.assets.precompile += [
   'step1.png',
   'step2.png',
   'step3.png',
+  'sample_1250_930.png',
   'controllers/application.js',
   'controllers/hello_controller.js',
   'controllers/index.js'

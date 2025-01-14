@@ -3,7 +3,6 @@
 # 本番環境テスト用の送信メール
 class TestMailer < ApplicationMailer
   layout false # レイアウトを無効化
-  skip_before_action :force_recipient_in_production, only: [:test_email] # before_action をスキップ
 
   def test_email
     mail(
