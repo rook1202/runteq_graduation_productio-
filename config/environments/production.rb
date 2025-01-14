@@ -123,7 +123,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'www.mypetnote-family.com', protocol: 'https' }
 
   # メール送信を有効化
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
 
   # メール送信エラーを無視しない
   config.action_mailer.raise_delivery_errors = true
