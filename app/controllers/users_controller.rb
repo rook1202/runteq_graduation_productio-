@@ -22,20 +22,19 @@ class UsersController < ApplicationController
     end
   end
 
-  def delete
-  end
+  def delete; end
 
   def destroy
     if current_user
       if current_user.destroy
-        flash[:success] = "アカウントを削除しました。"
+        flash[:success] = 'アカウントを削除しました。'
         redirect_to login_path
       else
-        flash[:danger] = "アカウント削除に失敗しました。"
+        flash[:danger] = 'アカウント削除に失敗しました。'
         redirect_to settings_path
       end
     else
-      flash[:alert] = "ログインが必要です。"
+      flash[:alert] = 'ログインが必要です。'
       redirect_to login_path
     end
   end
