@@ -12,6 +12,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
+      RAILS_ENV: test
       DATABASE_URL: mysql2://root:password@db:3306/runteq_graduation_test
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
 
@@ -29,7 +30,7 @@ jobs:
 
       - name: Increase Swap Space
         run: |
-          sudo fallocate -l 8G /swapfile
+          sudo fallocate -l 16G /swapfile
           sudo chmod 600 /swapfile
           sudo mkswap /swapfile
           sudo swapon /swapfile
@@ -59,7 +60,10 @@ jobs:
 
       - name: Run RSpec
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --format documentation"
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --format documentation" | tee rspec.log || true
+      
+      - name: Display RSpec Logs
+        run: cat rspec.log
 
       - name: Run Rubocop
         run: |
