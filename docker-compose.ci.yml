@@ -12,6 +12,8 @@ services:
     command: >
       mysqld
       --innodb-lock-wait-timeout=120
+      --max_connections=200
+      --innodb-thread-concurrency=4
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
