@@ -53,10 +53,6 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 
-# RAILS_MAX_THREADS=1 を設定してテストを1スレッドで実行
-ActiveRecord::Base.connection_pool.disconnect!
-ActiveRecord::Base.establish_connection(pool: ENV.fetch("RAILS_MAX_THREADS", 1))
-
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures')
