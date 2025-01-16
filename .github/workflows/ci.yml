@@ -36,8 +36,11 @@ jobs:
             sleep 1
           done
 
-      - name: Check Full MySQL Logs
-        run: docker-compose logs db
+      - name: Check Web Logs
+        run: docker-compose logs web
+
+      - name: Restart Web Service
+        run: docker-compose restart web
 
       - name: Prepare Database
         run: |
