@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data_ci:/var/lib/mysql
+    command: >
+      mysqld
+      --innodb-lock-wait-timeout=180
+      --max_connections=200
+      --innodb-thread-concurrency=4
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rspec"
+    environment:
+      RAILS_ENV: test
+      DATABASE_URL: mysql2://root:password@db:3306/runteq_graduation_test
+      SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
+    depends_on:  # 正しい記述形式に修正
+      db:
+        condition: service_healthy
+      chrome:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  chrome:
+    image: seleniarm/standalone-chromium:121.0
+    ports:
+      - "4444:4444"
+
+volumes:
+  mysql_data_ci:
