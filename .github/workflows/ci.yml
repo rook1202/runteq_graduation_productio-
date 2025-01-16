@@ -28,6 +28,12 @@ jobs:
       - name: Set up Docker Compose
         run: |
           docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d --build
+      
+      - name: Check Docker Compose Services
+        run: docker-compose ps
+
+      - name: Check MySQL Logs
+        run: docker-compose logs db
 
       - name: Prepare Database
         run: |
