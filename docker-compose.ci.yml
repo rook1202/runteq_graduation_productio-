@@ -9,6 +9,9 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data_ci:/var/lib/mysql
+    command: >
+      mysqld
+      --innodb-lock-wait-timeout=120
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
