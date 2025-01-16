@@ -11,7 +11,7 @@ services:
       - mysql_data_ci:/var/lib/mysql
     command: >
       mysqld
-      --innodb-lock-wait-timeout=120
+      --innodb-lock-wait-timeout=180
       --max_connections=200
       --innodb-thread-concurrency=4
     healthcheck:
