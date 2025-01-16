@@ -9,6 +9,15 @@ services:
       - 3306:3306
     volumes:
       - mysql_data_ci:/var/lib/mysql
+    healthcheck:  # MySQLの準備完了を確認するための設定
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    deploy:  # メモリ制限を設定
+      resources:
+        limits:
+          memory: 512M
 
   web:
     build:
@@ -20,8 +29,13 @@ services:
       DATABASE_URL: mysql2://root:password@db:3306/runteq_graduation_test
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
     depends_on:
-      - db
-      - chrome
+      db:  # MySQLが準備完了してから起動
+        condition: service_healthy
+      chrome
+    deploy:  # メモリ制限を設定
+      resources:
+        limits:
+          memory: 1G
 
   chrome:
     image: seleniarm/standalone-chromium:121.0
