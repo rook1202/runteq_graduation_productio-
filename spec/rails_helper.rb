@@ -118,5 +118,7 @@ RSpec.configure do |config|
       Capybara.run_server = true
       Capybara.server = :puma, { Silent: true }
     end
+
+    Capybara.save_path = Rails.root.join("tmp/capybara")
   end
 end
