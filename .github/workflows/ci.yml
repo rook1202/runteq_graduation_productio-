@@ -65,13 +65,6 @@ jobs:
       - name: Run Other Tests
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag ~type:system --format documentation" | tee rspec.log || true
-      
-      - name: Upload Screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: capybara-screenshots
-          path: tmp/capybara
 
       - name: Run Rubocop
         run: |
