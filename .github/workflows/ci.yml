@@ -54,6 +54,9 @@ jobs:
       - name: Prepare Database
         run: |
           docker-compose exec web bash -c "bundle exec rails db:create db:schema:load"
+
+      - name: Limit Test Threads
+        run: echo "RAILS_MAX_THREADS=1" >> .env.test
       
       - name: Run System Tests
         run: |
