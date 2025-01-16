@@ -54,14 +54,21 @@ jobs:
       - name: Prepare Database
         run: |
           docker-compose exec web bash -c "bundle exec rails db:create db:schema:load"
-
-      - name: Run RSpec
+      
+      - name: Run System Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --format documentation" | tee rspec.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag type:system --format documentation" | tee rspec.log || true
       
-      - name: Display RSpec Logs
-        run: cat rspec.log
-      
+      - name: Run Other Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag ~type:system --format documentation" | tee rspec.log || true
+
+      - name: Display Docker Logs
+        run: |
+          docker-compose logs web
+          docker-compose logs db
+          docker-compose logs chrome
+
       - name: Restart Web Service
         run: docker-compose restart web
 
