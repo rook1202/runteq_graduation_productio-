@@ -66,7 +66,7 @@ jobs:
 
       - name: Run RSpec
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --format documentation"
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --format documentation" | tee rspec.log
       
       - name: Display RSpec Logs
         run: cat rspec.log
