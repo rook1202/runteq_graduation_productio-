@@ -63,15 +63,6 @@ jobs:
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag ~type:system --format documentation" | tee rspec.log || true
 
-      - name: Display Docker Logs
-        run: |
-          docker-compose logs web
-          docker-compose logs db
-          docker-compose logs chrome
-
-      - name: Restart Web Service
-        run: docker-compose restart web
-
       - name: Run Rubocop
         run: |
           docker-compose exec web bash -c "bundle exec rubocop"
