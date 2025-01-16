@@ -62,7 +62,8 @@ jobs:
           docker-compose exec web bash -c "bundle exec rails db:create db:schema:load"
       
       - name: Check Rails Environment
-        run: docker-compose exec web bash -c "echo 'Rails.env: ' && bundle exec rails runner 'puts Rails.env'"
+        run: |
+          docker-compose exec web bash -c "echo 'Rails.env: ' && bundle exec rails runner \'puts Rails.env\'"
 
       - name: Run RSpec
         run: |
