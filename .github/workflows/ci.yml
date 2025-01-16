@@ -12,6 +12,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
+      RAILS_ENV: test
       DATABASE_URL: mysql2://root:password@db:3306/runteq_graduation_test
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
 
