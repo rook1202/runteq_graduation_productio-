@@ -64,7 +64,7 @@ jobs:
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag ~type:system --format documentation" | tee rspec.log || true
       
       - name: Upload Screenshots
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: capybara-screenshots
