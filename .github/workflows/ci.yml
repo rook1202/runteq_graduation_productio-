@@ -24,12 +24,13 @@ jobs:
       - name: Configure database.yml
         run: cp config/database.yml.ci config/database.yml
 
-      - name: Increase Swap
+      - name: Increase Swap Space
         run: |
           sudo fallocate -l 4G /swapfile
           sudo chmod 600 /swapfile
           sudo mkswap /swapfile
           sudo swapon /swapfile
+          free -h
 
       - name: Set up Docker Compose
         run: |
@@ -55,7 +56,10 @@ jobs:
 
       - name: Run RSpec
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec"
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --format documentation"
+      
+      - name: Display RSpec Logs
+        run: cat rspec.log
 
       - name: Run Rubocop
         run: |
