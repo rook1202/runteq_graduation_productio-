@@ -58,8 +58,12 @@ jobs:
       - name: Limit Test Threads
         run: echo "RAILS_MAX_THREADS=1" >> .env.test
 
-      - name: Create logs directory
-        run: mkdir -p logs
+      - name: Check Container Status
+        run: docker-compose ps
+
+      - name: Check MySQL Status
+        run: |
+          docker-compose exec db mysqladmin status
       
       - name: Run System email_changes Tests
         run: |
@@ -87,17 +91,17 @@ jobs:
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation --backtrace" | tee logs/login.log || true
       
-      - name: Collect Docker Logs
+      - name: Show Docker Logs
         run: |
-          docker-compose logs > logs/docker-compose.log
+          echo "=== Docker Logs ==="
+          docker-compose logs
+      
+      - name: Check Container Status
+        run: docker-compose ps
 
-      - name: Collect MySQL Logs
+      - name: Check MySQL Status
         run: |
-          docker-compose exec db cat /var/lib/mysql/general.log > logs/mysql_general.log
-
-      - name: Check Service Status
-        run: |
-          docker-compose ps > logs/services_status.log
+          docker-compose exec db mysqladmin status
 
       - name: Run System partner_shares Tests
         run: |
