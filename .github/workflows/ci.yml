@@ -60,7 +60,11 @@ jobs:
       
       - name: Run System Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag type:system --format documentation" | tee rspec.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation" | tee rspec.log || true
+      
+      - name: Run System Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
       
       - name: Run Other Tests
         run: |
