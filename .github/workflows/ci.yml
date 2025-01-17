@@ -62,9 +62,24 @@ jobs:
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation" | tee rspec.log || true
       
+      - name: Wait Between Groups
+        run: sleep 10
+
       - name: Run System partner_shares Tests
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partner_shares --format documentation" | tee rspec.log || true
+      
+      - name: Restart Service
+        run: |
+          docker-compose restart
+
+      - name: Wait for MySQL to be ready2
+        run: |
+          for i in {1..30}; do
+            docker-compose exec db mysqladmin ping -h db --silent && break
+            echo "Waiting for MySQL to be ready..."
+            sleep 1
+          done
       
       - name: Run System partners Tests
         run: |
