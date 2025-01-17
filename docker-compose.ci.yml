@@ -47,6 +47,12 @@ services:
     image: seleniarm/standalone-chromium:121.0
     ports:
       - "4444:4444"
+    environment:
+    SE_OPTS: "--session-timeout 600 --max-sessions 2"
+
+  redis:
+    deploy:
+      replicas: 0
 
 volumes:
   mysql_data_ci:
