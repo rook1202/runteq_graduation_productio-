@@ -42,6 +42,7 @@ services:
       resources:
         limits:
           memory: 3G
+          cpus: "1.5"
 
   chrome:
     image: seleniarm/standalone-chromium:121.0
@@ -49,6 +50,11 @@ services:
       - "4444:4444"
     environment:
       SE_OPTS: "--session-timeout 600 --max-sessions 2"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1.0"
 
   redis:
     deploy:
