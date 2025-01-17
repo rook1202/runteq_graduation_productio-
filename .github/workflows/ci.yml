@@ -75,10 +75,6 @@ jobs:
         run: |
           echo "=== Docker Logs ==="
           docker-compose logs
-      
-      - name: Show Selenium Logs
-        run: |
-          docker-compose logs chrome
 
       - name: Run Rubocop
         run: |

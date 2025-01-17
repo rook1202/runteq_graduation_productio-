@@ -49,7 +49,7 @@ services:
     ports:
       - "4444:4444"
     environment:
-      SE_OPTS: "--session-timeout 600 --max-sessions 1 --log-level FINE"
+      SE_OPTS: "--session-timeout 600 --max-sessions 1"
     deploy:
       resources:
         limits:
