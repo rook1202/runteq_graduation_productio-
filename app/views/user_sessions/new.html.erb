@@ -43,9 +43,9 @@
 
 
               <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                <%= link_to '<i class="fa-brands fa-google"></i> Googleアカウントでログイン'.html_safe, '/auth/google_oauth2', class: 'btn btn-outline-secondary', style: 'width: 100%; max-width: 300px;' %>
                 <%= link_to '<i class="fa-brands fa-twitter"></i> Xでログイン'.html_safe, '/auth/twitter', class: 'btn btn-outline-secondary', style: 'width: 100%; max-width: 300px;' %>
                 <% if Rails.env.development? %>
+                <%= link_to '<i class="fa-brands fa-google"></i> Googleアカウントでログイン'.html_safe, '/auth/google_oauth2', class: 'btn btn-outline-secondary', style: 'width: 100%; max-width: 300px;' %>
                 <%= link_to '<i class="fa-brands fa-facebook-f"></i> Facebookでログイン'.html_safe, '/auth/facebook', class: 'btn btn-outline-secondary', style: 'width: 100%; max-width: 300px;' %>
                 <% end %>
               </div>
