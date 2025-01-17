@@ -65,14 +65,25 @@ jobs:
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation" | tee rspec.log || true
       
-      - name: Restart Chrome Service
+      - name: Restart All Services
         run: |
-          docker-compose restart chrome
+          docker-compose down
+          docker-compose up -d
+      
+      - name: Reapply database.yml
+        run: cp config/database.yml.ci config/database.yml
 
-      - name: Wait for Chrome to Be Ready
+      - name: Wait for All Services to Be Ready
         run: |
+          # MySQLが準備完了するまで待機
           for i in {1..30}; do
-            curl -s http://localhost:4444/wd/hub/status | grep '"ready":true' && break
+            docker-compose exec db mysqladmin ping -h db --silent && echo "MySQL is ready" && break
+            echo "Waiting for MySQL to be ready..."
+            sleep 2
+          done
+          # Seleniumが準備完了するまで待機
+          for i in {1..30}; do
+            curl -s http://localhost:4444/wd/hub/status | grep '"ready":true' && echo "Chrome is ready" && break
             echo "Waiting for Chrome to be ready..."
             sleep 2
           done
@@ -80,16 +91,7 @@ jobs:
       - name: Run System login Tests
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
-          docker-compose restart chrome
-      
-      - name: Wait for Chrome to Be Ready
-        run: |
-          for i in {1..30}; do
-            curl -s http://localhost:4444/wd/hub/status | grep '"ready":true' && break
-            echo "Waiting for Chrome to be ready..."
-            sleep 2
-          done
-          
+
       - name: Show Docker Logs
         run: |
           echo "=== Docker Logs ==="
