@@ -76,12 +76,9 @@ jobs:
           echo "=== Docker Logs ==="
           docker-compose logs
       
-      - name: Check Container Status
-        run: docker-compose ps
-
-      - name: Show MySQL Logs
+      - name: Show Selenium Logs
         run: |
-          docker-compose logs db
+          docker-compose logs chrome
 
       - name: Run Rubocop
         run: |
