@@ -58,23 +58,19 @@ jobs:
       - name: Check Container Status
         run: docker-compose ps
       
-      - name: Run System email_changes Tests
+      - name: Run System Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation" | tee rspec.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag type:system --format documentation" | tee rspec.log || true
+      
+      - name: Run Other Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag ~type:system --format documentation" | tee rspec.log || true
 
       - name: Show Docker Logs
         run: |
           echo "=== Docker Logs ==="
           docker-compose logs
       
-      - name: Run System password_resets Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/password_resets --format documentation" | tee rspec.log || tru
-
-      - name: Run System login Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
-
       - name: Show Docker Logs
         run: |
           echo "=== Docker Logs ==="
@@ -86,10 +82,6 @@ jobs:
       - name: Show MySQL Logs
         run: |
           docker-compose logs db
-      
-      - name: Run Other Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag ~type:system --format documentation" | tee rspec.log || true
 
       - name: Run Rubocop
         run: |
