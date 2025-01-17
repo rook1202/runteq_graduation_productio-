@@ -60,32 +60,10 @@ jobs:
 
       - name: Check Container Status
         run: docker-compose ps
-
-      - name: Check MySQL Status
-        run: |
-          docker-compose exec db mysqladmin status -u root --password=password
       
       - name: Run System email_changes Tests
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation --backtrace" | tee logs/email_changes.log || true
-      
-      - name: Restart Services
-        run: |
-          docker-compose down
-          docker-compose up -d
-      
-      - name: Wait for All Services to be Ready
-        run: |
-          for i in {1..30}; do
-            docker-compose exec db mysqladmin ping -h db --silent && echo "DB is ready" && break
-            echo "Waiting for DB..."
-            sleep 2
-          done
-          for i in {1..30}; do
-            docker-compose exec web curl -s http://localhost:3000 && echo "Web is ready" && break
-            echo "Waiting for Web..."
-            sleep 2
-          done
       
       - name: Run System login Tests
         run: |
