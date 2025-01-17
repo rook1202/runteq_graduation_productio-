@@ -11,18 +11,18 @@ services:
       - mysql_data_ci:/var/lib/mysql
     command: >
       mysqld
-      --innodb-lock-wait-timeout=180
-      --max_connections=200
-      --innodb-thread-concurrency=4
+      --innodb-lock-wait-timeout=300
+      --max_connections=300
+      --innodb-thread-concurrency=8
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      interval: 20s
+      timeout: 10s
+      retries: 10
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1G
 
   web:
     build:
@@ -41,7 +41,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2G
+          memory: 3G
 
   chrome:
     image: seleniarm/standalone-chromium:121.0
