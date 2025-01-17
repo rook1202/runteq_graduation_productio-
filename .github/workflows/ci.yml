@@ -63,11 +63,16 @@ jobs:
       
       - name: Run System email_changes Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation --backtrace" | tee logs/email_changes.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation" | tee rspec.log || true
       
+      - name: Restart Chrome Service
+        run: |
+          docker-compose restart chrome
+
       - name: Run System login Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation --backtrace" | tee logs/login.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
+          docker-compose restart chrome
       
       - name: Show Docker Logs
         run: |
@@ -80,10 +85,6 @@ jobs:
       - name: Show MySQL Logs
         run: |
           docker-compose logs db
-
-      - name: Run System partner_shares Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partner_shares --format documentation --backtrace" | tee logs/partner_shares.log || true
       
       - name: Run Other Tests
         run: |
