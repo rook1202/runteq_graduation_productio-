@@ -60,17 +60,17 @@ jobs:
       
       - name: Run System Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag type:system --format documentation" | tee rspec.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag type:system --format documentation" || true
+      
+      - name: Monitor Docker Stats
+        run: |
+          echo "=== Docker Stats ==="
+          docker stats --no-stream
       
       - name: Run Other Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag ~type:system --format documentation" | tee rspec.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec --tag ~type:system --format documentation" || true
 
-      - name: Show Docker Logs
-        run: |
-          echo "=== Docker Logs ==="
-          docker-compose logs
-      
       - name: Show Docker Logs
         run: |
           echo "=== Docker Logs ==="
