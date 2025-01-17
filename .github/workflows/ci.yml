@@ -82,6 +82,14 @@ jobs:
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
           docker-compose restart chrome
       
+      - name: Wait for Chrome to Be Ready
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:4444/wd/hub/status | grep '"ready":true' && break
+            echo "Waiting for Chrome to be ready..."
+            sleep 2
+          done
+          
       - name: Show Docker Logs
         run: |
           echo "=== Docker Logs ==="
