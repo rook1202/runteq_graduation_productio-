@@ -57,6 +57,9 @@ jobs:
 
       - name: Limit Test Threads
         run: echo "RAILS_MAX_THREADS=1" >> .env.test
+
+      - name: Create logs directory
+        run: mkdir -p logs
       
       - name: Run System email_changes Tests
         run: |
@@ -66,12 +69,17 @@ jobs:
         run: |
           docker-compose down
           docker-compose up -d
-
-      - name: Wait for Services to Be Ready
+      
+      - name: Wait for All Services to be Ready
         run: |
           for i in {1..30}; do
-            docker-compose exec db mysqladmin ping -h db --silent && break
-            echo "Waiting for DB to be ready..."
+            docker-compose exec db mysqladmin ping -h db --silent && echo "DB is ready" && break
+            echo "Waiting for DB..."
+            sleep 2
+          done
+          for i in {1..30}; do
+            docker-compose exec web curl -s http://localhost:3000 && echo "Web is ready" && break
+            echo "Waiting for Web..."
             sleep 2
           done
       
