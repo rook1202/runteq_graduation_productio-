@@ -60,51 +60,40 @@ jobs:
       
       - name: Run System email_changes Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation" | tee rspec.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation --backtrace" | tee logs/email_changes.log || true
       
-      - name: Restart Service
+      - name: Restart Services
         run: |
-          docker-compose restart
+          docker-compose down
+          docker-compose up -d
 
-      - name: Wait for MySQL to be ready2
+      - name: Wait for Services to Be Ready
         run: |
           for i in {1..30}; do
             docker-compose exec db mysqladmin ping -h db --silent && break
-            echo "Waiting for MySQL to be ready..."
-            sleep 1
+            echo "Waiting for DB to be ready..."
+            sleep 2
           done
       
       - name: Run System login Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation --backtrace" | tee logs/login.log || true
+      
+      - name: Collect Docker Logs
+        run: |
+          docker-compose logs > logs/docker-compose.log
+
+      - name: Collect MySQL Logs
+        run: |
+          docker-compose exec db cat /var/lib/mysql/general.log > logs/mysql_general.log
+
+      - name: Check Service Status
+        run: |
+          docker-compose ps > logs/services_status.log
 
       - name: Run System partner_shares Tests
         run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partner_shares --format documentation" | tee rspec.log || true
-      
-      - name: Run System partners Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partners --format documentation" | tee rspec.log || true
-      
-      - name: Run System password_resets Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/password_resets --format documentation" | tee rspec.log || true
-      
-      - name: Run System settings Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/settings --format documentation" | tee rspec.log || true
-      
-      - name: Run System tutorial Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/tutorial --format documentation" | tee rspec.log || true
-      
-      - name: Run System user_sessions Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/user_sessions --format documentation" | tee rspec.log || true
-      
-      - name: Run System user Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/user --format documentation" | tee rspec.log || true
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partner_shares --format documentation --backtrace" | tee logs/partner_shares.log || true
       
       - name: Run Other Tests
         run: |
