@@ -62,13 +62,6 @@ jobs:
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation" | tee rspec.log || true
       
-      - name: Wait Between Groups
-        run: sleep 10
-
-      - name: Run System partner_shares Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partner_shares --format documentation" | tee rspec.log || true
-      
       - name: Restart Service
         run: |
           docker-compose restart
@@ -80,6 +73,14 @@ jobs:
             echo "Waiting for MySQL to be ready..."
             sleep 1
           done
+      
+      - name: Run System login Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
+
+      - name: Run System partner_shares Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partner_shares --format documentation" | tee rspec.log || true
       
       - name: Run System partners Tests
         run: |
@@ -100,10 +101,6 @@ jobs:
       - name: Run System user_sessions Tests
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/user_sessions --format documentation" | tee rspec.log || true
-      
-      - name: Run System login Tests
-        run: |
-          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
       
       - name: Run System user Tests
         run: |
