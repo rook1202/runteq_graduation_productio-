@@ -63,7 +63,7 @@ jobs:
 
       - name: Check MySQL Status
         run: |
-          docker-compose exec db mysqladmin status
+          docker-compose exec db mysqladmin status -u root --password=password
       
       - name: Run System email_changes Tests
         run: |
@@ -99,9 +99,9 @@ jobs:
       - name: Check Container Status
         run: docker-compose ps
 
-      - name: Check MySQL Status
+      - name: Show MySQL Logs
         run: |
-          docker-compose exec db mysqladmin status
+          docker-compose logs db
 
       - name: Run System partner_shares Tests
         run: |
