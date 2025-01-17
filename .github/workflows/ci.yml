@@ -58,13 +58,41 @@ jobs:
       - name: Limit Test Threads
         run: echo "RAILS_MAX_THREADS=1" >> .env.test
       
-      - name: Run System Tests
+      - name: Run System email_changes Tests
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/email_changes --format documentation" | tee rspec.log || true
       
-      - name: Run System Tests
+      - name: Run System partner_shares Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partner_shares --format documentation" | tee rspec.log || true
+      
+      - name: Run System partners Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/partners --format documentation" | tee rspec.log || true
+      
+      - name: Run System password_resets Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/password_resets --format documentation" | tee rspec.log || true
+      
+      - name: Run System settings Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/settings --format documentation" | tee rspec.log || true
+      
+      - name: Run System tutorial Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/tutorial --format documentation" | tee rspec.log || true
+      
+      - name: Run System user_sessions Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/user_sessions --format documentation" | tee rspec.log || true
+      
+      - name: Run System login Tests
         run: |
           docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/login --format documentation" | tee rspec.log || true
+      
+      - name: Run System user Tests
+        run: |
+          docker-compose exec web bash -c "RAILS_ENV=test bundle exec rspec spec/system/user --format documentation" | tee rspec.log || true
       
       - name: Run Other Tests
         run: |
